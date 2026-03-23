@@ -242,6 +242,327 @@
     <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
     <!-- Mickidum Accessibility Toolbar -->
     <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+
+<style data-zappy-section-v2-css="true">
+/* V2 Regenerated Section CSS */
+.index-hero-section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: visible;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  padding-bottom: 80px;
+}
+
+/* Background image layer */
+.index-hero-section .index-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* Scrim overlay */
+.index-hero-section .index-hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(105deg, rgba(38,58,91,0.88) 0%, rgba(38,58,91,0.72) 45%, rgba(20,30,50,0.38) 100%),
+    linear-gradient(180deg, rgba(20,30,50,0.22) 0%, rgba(38,58,91,0.65) 100%);
+}
+
+/* Decorative grid lines */
+.index-hero-section .index-hero-grid-lines {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+.index-hero-section .grid-line {
+  position: absolute;
+  background: rgba(233,138,61,0.08);
+}
+.index-hero-section .gl-1 {
+  top: 0;
+  bottom: 0;
+  right: 38%;
+  width: 1px;
+}
+.index-hero-section .gl-2 {
+  top: 0;
+  bottom: 0;
+  right: 62%;
+  width: 1px;
+  background: rgba(47,124,138,0.1);
+}
+.index-hero-section .gl-3 {
+  left: 0;
+  right: 0;
+  top: 68%;
+  height: 1px;
+  background: rgba(233,138,61,0.07);
+}
+
+/* Main container */
+.index-hero-section .index-hero-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 160px 48px 60px;
+}
+
+.index-hero-section .index-hero-inner {
+  max-width: 720px;
+  margin-inline-start: 0;
+  margin-inline-end: auto;
+  text-align: right;
+}
+
+/* Badge */
+.index-hero-section .index-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-direction: row;
+  background: rgba(47,124,138,0.18);
+  border: 1px solid rgba(47,124,138,0.45);
+  border-radius: 2px;
+  padding: 6px 14px 6px 12px;
+  margin-bottom: 28px;
+}
+.index-hero-section .badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(233,138,61,0.6);
+}
+.index-hero-section .badge-text {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  opacity: 0.88;
+}
+
+/* H1 */
+.index-hero-section .index-hero-h1 {
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-size: 3rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--text-light);
+  margin: 0 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-shadow: 0 2px 24px rgba(20,30,50,0.55);
+}
+.index-hero-section .h1-name {
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: var(--text-light);
+  opacity: 1;
+}
+.index-hero-section .h1-line2 {
+  font-size: 3rem;
+  color: var(--text-light);
+}
+.index-hero-section .h1-line3 {
+  font-size: 2.1rem;
+  font-weight: 400;
+  font-style: italic;
+  color: rgba(238,241,236,0.75);
+}
+
+/* Decorative rule */
+.index-hero-section .index-hero-rule {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-direction: row;
+  margin-bottom: 20px;
+}
+.index-hero-section .rule-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(233,138,61,0.55), transparent);
+  max-width: 160px;
+}
+
+/* H3 subtitle */
+.index-hero-section .index-hero-h3 {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.7;
+  color: rgba(238,241,236,0.82);
+  margin: 0 0 20px;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 8px rgba(20,30,50,0.4);
+}
+
+/* Body paragraph */
+.index-hero-section .index-hero-body {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(238,241,236,0.72);
+  margin: 0 0 36px;
+  max-width: 560px;
+  text-shadow: 0 1px 6px rgba(20,30,50,0.35);
+}
+
+/* CTAs */
+.index-hero-section .index-hero-ctas {
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.index-hero-section .btn-hero-primary {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  padding: 14px 32px;
+  border-radius: 2px;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 4px 20px rgba(233,138,61,0.35), inset 0 1px 0 rgba(255,255,255,0.12);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+  white-space: nowrap;
+}
+.index-hero-section .btn-hero-primary:hover {
+  background: #d4762e;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(233,138,61,0.45);
+}
+
+.index-hero-section .btn-hero-secondary {
+  display: inline-block;
+  background: transparent;
+  color: var(--text-light);
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  padding: 13px 30px;
+  border-radius: 2px;
+  border: 1px solid rgba(238,241,236,0.35);
+  transition: background 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
+  white-space: nowrap;
+}
+.index-hero-section .btn-hero-secondary:hover {
+  background: rgba(47,124,138,0.22);
+  border-color: var(--secondary);
+  transform: translateY(-2px);
+}
+
+/* Bottom divider wrapper */
+.index-hero-section .index-hero-divider-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  pointer-events: none;
+  z-index: 5;
+}
+.index-hero-section .index-hero-divider-wrapper svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .index-hero-section .index-hero-container {
+    padding: 140px 32px 60px;
+  }
+  .index-hero-section .index-hero-inner {
+    max-width: 100%;
+  }
+  .index-hero-section .index-hero-h1 {
+    font-size: 2.4rem;
+  }
+  .index-hero-section .h1-name {
+    font-size: 2rem;
+  }
+  .index-hero-section .h1-line2 {
+    font-size: 2.4rem;
+  }
+  .index-hero-section .h1-line3 {
+    font-size: 1.7rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .index-hero-section {
+    min-height: 100svh;
+    align-items: flex-start;
+  }
+  .index-hero-section .index-hero-container {
+    padding: 110px 20px 60px;
+  }
+  .index-hero-section .index-hero-inner {
+    max-width: 100%;
+  }
+  .index-hero-section .index-hero-h1 {
+    font-size: 2rem;
+  }
+  .index-hero-section .h1-name {
+    font-size: 1.65rem;
+  }
+  .index-hero-section .h1-line2 {
+    font-size: 2rem;
+  }
+  .index-hero-section .h1-line3 {
+    font-size: 1.45rem;
+  }
+  .index-hero-section .index-hero-h3 {
+    font-size: 0.95rem;
+  }
+  .index-hero-section .index-hero-body {
+    max-width: 100%;
+  }
+  .index-hero-section .index-hero-ctas {
+    gap: 10px;
+  }
+  .index-hero-section .btn-hero-primary,
+  .index-hero-section .btn-hero-secondary {
+    padding: 12px 22px;
+    font-size: 13px;
+  }
+  .index-hero-section .gl-1,
+  .index-hero-section .gl-2,
+  .index-hero-section .gl-3 {
+    display: none;
+  }
+}
+</style>
     <link rel="stylesheet" href="/styles.css">
 
     <style id="zappy-dropdown-submenu-styles">
@@ -783,51 +1104,68 @@
 </script>
   
   <main>
-    <section class="index-hero-section" data-layout-spec="בית-hero" dir="rtl" data-hero-type="fullscreen-scrim" id="zappy-section-1774259429486-5829" style="position: relative; overflow: hidden; background-image: linear-gradient(rgba(20, 28, 48, 0.33), rgba(20, 28, 48, 0.33)), url(&quot;assets/business-general-hero-upload-1774259377526.webp&quot;); background-size: cover; background-position: center; background-repeat: no-repeat; --zappy-bg-overlay: rgba(20, 28, 48, 0.33); --zappy-bg-image: url(&quot;assets/business-general-hero-upload-1774259377526.webp&quot;)" data-zappy-bg-type="image" data-zappy-bg-color="" data-zappy-bg-image="assets/business-general-hero-upload-1774259377526.webp" data-zappy-bg-overlay-color="#141c30" data-zappy-bg-overlay-opacity="33" data-zappy-bg-video-type="" data-zappy-bg-video-url="">
-  <!-- Background Image -->
-  <div class="index-hero-bg" style="display: none" data-zappy-original-bg="hidden">
-    <img data-hero-bg="true" data-placeholder="index-hero-image-1" data-context="Cinematic full-bleed portrait of a distinguished Israeli male physician in his 50s, wearing a dark suit, standing in a dimly lit environment that blends elements of a medical imaging room (subtle radiology scan overlays) and a legal/strategic setting (faint map contour lines, document textures). The mood is authoritative, serious, and editorial. Deep indigo and dark teal color grading. Professional studio lighting with dramatic shadows. The doctor faces slightly toward camera with a calm, commanding presence. Background has subtle topographic map lines and radiology scan ghost imagery merged into the atmosphere." width="1400" height="900" src="/assets/site-index-hero-image-1.webp" alt="ד&quot;ר ערן טלור - מומחה רפואי ומשפטי">
+    <section class="index-hero-section" data-layout-spec="בית-hero" dir="rtl" data-hero-type="fullscreen-scrim" data-zappy-section="true" id="zappy-section-1774259429486-5829">
+  <!-- Background Layer -->
+  <div class="index-hero-bg" style="background-image: url('assets/site-index-hero-image-1.webp'); background-size: cover; background-position: center;"></div>
+
+  <!-- Scrim Overlay -->
+  <div class="index-hero-scrim" aria-hidden="true"></div>
+
+  <!-- Decorative grid lines -->
+  <div class="index-hero-grid-lines" aria-hidden="true">
+    <div class="grid-line gl-1"></div>
+    <div class="grid-line gl-2"></div>
+    <div class="grid-line gl-3"></div>
   </div>
 
-  <!-- Dark Indigo Scrim Overlay -->
-  <div class="index-hero-scrim" aria-hidden="true" style="display: none" data-zappy-original-bg="hidden"></div>
+  <!-- Content -->
+  <div class="index-hero-container">
+    <div class="index-hero-inner">
 
-  <!-- Grain Texture Overlay -->
-  <div class="index-hero-grain" aria-hidden="true"></div>
+      <!-- Top badge -->
+      <div class="index-hero-badge">
+        <span class="badge-dot" aria-hidden="true"></span>
+        <span class="badge-text">רפואה · משפט · חירום</span>
+      </div>
 
-  <!-- Content Overlay Group -->
-  <div class="index-hero-content-wrapper">
-    <div class="index-hero-content">
+      <!-- Main heading -->
+      <h1 class="index-hero-h1">
+        <span class="h1-name">ד"ר ערן טל-אור</span>
+        <span class="h1-line2">חוות דעת מומחה</span>
+        <span class="h1-line3">רפואה דחופה והרדמה</span>
+      </h1>
 
-      <!-- Eyebrow label -->
-      <div class="index-hero-eyebrow">רפואה · משפט · חירום</div>
+      <!-- Divider rule -->
+      <div class="index-hero-rule" aria-hidden="true">
+        <span class="rule-line"></span>
+        <svg data-element-type="icon" data-icon-type="svg" width="18" height="18" viewbox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink:0;">
+          <circle cx="9" cy="9" r="3.5" stroke="var(--accent)" stroke-width="1.5"></circle>
+          <circle cx="9" cy="9" r="7.5" stroke="var(--accent)" stroke-width="0.75" stroke-dasharray="2 2"></circle>
+        </svg>
+        <span class="rule-line"></span>
+      </div>
 
-      <!-- H1 Main Headline -->
-      <h1 class="index-hero-h1">ד"ר ערן טל-אור<br><span class="index-hero-h1-accent">חוות דעת מומחה</span><br>רפואה דחופה והרדמה</h1>
-
-      <!-- H3 Three Pillars -->
+      <!-- Subtitle -->
       <h3 class="index-hero-h3">חוות דעת לבית משפט ברשלנות רפואית · ייעוץ חירום ואסונות · ייעוץ ברפואה דחופה</h3>
 
-      <!-- Supporting Paragraph -->
+      <!-- Body paragraph -->
       <p class="index-hero-body">מומחיות רפואית ברמה הגבוהה ביותר לעורכי דין, בתי משפט, ארגונים ומטופלים הזקוקים לחוות דעת מקצועית, אמינה ומדויקת בצומת שבין רפואה, משפט ומצבי חירום.</p>
 
-      <!-- CTA Buttons -->
+      <!-- CTAs -->
       <div class="index-hero-ctas">
-        <a href="#contact" class="index-hero-btn-primary">צרו קשר</a>
-        <a href="#expert-opinions" class="index-hero-btn-secondary">חוות דעת מומחה</a>
+        <a href="#contact" class="btn-hero-primary">צרו קשר</a>
+        <a href="#expert-opinions" class="btn-hero-secondary">חוות דעת מומחה</a>
       </div>
 
     </div>
   </div>
 
-  <!-- Bottom Topographic Divider -->
+  <!-- Bottom divider -->
   <div class="index-hero-divider-wrapper">
-    <svg aria-hidden="true" viewbox="0 0 1440 90" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,90 L0,52 C80,44 160,58 240,50 C320,42 400,34 480,40 C560,46 640,54 720,48 C800,42 880,30 960,36 C1040,42 1120,56 1200,50 C1280,44 1360,38 1440,44 L1440,90 Z" fill="#F1EBDD"></path>
-      <path d="M0,90 L0,62 C100,56 200,68 300,62 C400,56 500,44 600,50 C700,56 800,66 900,60 C1000,54 1100,42 1200,48 C1300,54 1380,60 1440,56 L1440,90 Z" fill="#F1EBDD" opacity="0.6"></path>
+    <svg data-no-icon-edit="true" aria-hidden="true" viewbox="0 0 1440 80" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,80 L0,48 Q120,32 240,44 T480,36 Q600,28 720,42 T960,34 Q1080,28 1200,40 T1440,36 L1440,80 Z" fill="#F1EBDD"></path>
     </svg>
   </div>
-
 </section>
 
 <section class="index-services-section" data-layout-spec="בית-services" dir="rtl">
