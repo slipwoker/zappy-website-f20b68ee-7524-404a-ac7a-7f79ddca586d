@@ -243,6 +243,8 @@
     <!-- Mickidum Accessibility Toolbar -->
     <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
 
+
+
 <style data-zappy-section-v2-css="true">
 /* V2 Regenerated Section CSS */
 .index-hero-section {
@@ -255,109 +257,94 @@
   display: flex;
   align-items: center;
   padding-bottom: 80px;
+  direction: rtl;
 }
 
-/* Background image layer */
+/* Background layer */
 .index-hero-section .index-hero-bg {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
   z-index: 0;
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  overflow: hidden;
 }
 
-/* Scrim overlay */
+.index-hero-section .index-hero-bg-img {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center top;
+  min-height: 100vh;
+}
+
+/* Scrim overlay — strong gradient from bottom-right (text side) to top-left */
 .index-hero-section .index-hero-scrim {
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
   background-image:
-    linear-gradient(105deg, rgba(38,58,91,0.88) 0%, rgba(38,58,91,0.72) 45%, rgba(20,30,50,0.38) 100%),
-    linear-gradient(180deg, rgba(20,30,50,0.22) 0%, rgba(38,58,91,0.65) 100%);
+    linear-gradient(135deg,
+      rgba(38, 58, 91, 0.92) 0%,
+      rgba(38, 58, 91, 0.80) 40%,
+      rgba(20, 30, 50, 0.55) 70%,
+      rgba(10, 15, 25, 0.25) 100%
+    );
 }
 
-/* Decorative grid lines */
-.index-hero-section .index-hero-grid-lines {
+/* Decorative contour/radiology overlay */
+.index-hero-section .index-hero-contour {
   position: absolute;
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  overflow: hidden;
-}
-.index-hero-section .grid-line {
-  position: absolute;
-  background: rgba(233,138,61,0.08);
-}
-.index-hero-section .gl-1 {
-  top: 0;
-  bottom: 0;
-  right: 38%;
-  width: 1px;
-}
-.index-hero-section .gl-2 {
-  top: 0;
-  bottom: 0;
-  right: 62%;
-  width: 1px;
-  background: rgba(47,124,138,0.1);
-}
-.index-hero-section .gl-3 {
-  left: 0;
-  right: 0;
-  top: 68%;
-  height: 1px;
-  background: rgba(233,138,61,0.07);
+  background-image:
+    radial-gradient(ellipse 60% 50% at 20% 50%, rgba(47, 124, 138, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 80% 20%, rgba(233, 138, 61, 0.07) 0%, transparent 60%);
 }
 
-/* Main container */
+/* Container */
 .index-hero-section .index-hero-container {
   position: relative;
   z-index: 10;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 160px 48px 60px;
+  padding: 140px 48px 40px;
 }
 
-.index-hero-section .index-hero-inner {
-  max-width: 720px;
+/* Content block — sits on the right side */
+.index-hero-section .index-hero-content {
+  max-width: 680px;
   margin-inline-start: 0;
-  margin-inline-end: auto;
   text-align: right;
 }
 
-/* Badge */
-.index-hero-section .index-hero-badge {
-  display: inline-flex;
+/* Eyebrow */
+.index-hero-section .index-hero-eyebrow {
+  display: flex;
   align-items: center;
-  gap: 10px;
-  flex-direction: row;
-  background: rgba(47,124,138,0.18);
-  border: 1px solid rgba(47,124,138,0.45);
-  border-radius: 2px;
-  padding: 6px 14px 6px 12px;
+  gap: 12px;
   margin-bottom: 28px;
+  flex-direction: row;
+  justify-content: flex-start;
 }
-.index-hero-section .badge-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+
+.index-hero-section .index-hero-eyebrow-line {
+  display: block;
+  height: 1px;
+  width: 40px;
   background: var(--accent);
   flex-shrink: 0;
-  box-shadow: 0 0 8px rgba(233,138,61,0.6);
 }
-.index-hero-section .badge-text {
+
+.index-hero-section .index-hero-eyebrow-text {
   font-family: 'Manrope', system-ui, sans-serif;
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text-light);
-  opacity: 0.88;
+  color: var(--accent);
+  white-space: nowrap;
 }
 
 /* H1 */
@@ -368,65 +355,60 @@
   line-height: 1.2;
   letter-spacing: -0.02em;
   color: var(--text-light);
-  margin: 0 0 20px;
+  margin: 0 0 20px 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  text-shadow: 0 2px 24px rgba(20,30,50,0.55);
-}
-.index-hero-section .h1-name {
-  font-size: 2.4rem;
-  font-weight: 600;
-  color: var(--text-light);
-  opacity: 1;
-}
-.index-hero-section .h1-line2 {
-  font-size: 3rem;
-  color: var(--text-light);
-}
-.index-hero-section .h1-line3 {
-  font-size: 2.1rem;
-  font-weight: 400;
-  font-style: italic;
-  color: rgba(238,241,236,0.75);
+  gap: 4px;
 }
 
-/* Decorative rule */
-.index-hero-section .index-hero-rule {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-direction: row;
-  margin-bottom: 20px;
+.index-hero-section .index-hero-name {
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: rgba(238, 241, 236, 0.75);
+  display: block;
+  margin-bottom: 6px;
+  font-family: 'Manrope', system-ui, sans-serif;
 }
-.index-hero-section .rule-line {
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(233,138,61,0.55), transparent);
-  max-width: 160px;
+
+.index-hero-section .index-hero-title-line {
+  display: block;
+  color: var(--text-light);
+}
+
+.index-hero-section .index-hero-title-accent {
+  color: var(--accent);
+}
+
+/* Horizontal rule */
+.index-hero-section .index-hero-rule {
+  width: 64px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent) 0%, var(--secondary) 100%);
+  margin: 0 0 22px auto;
+  border: none;
 }
 
 /* H3 subtitle */
 .index-hero-section .index-hero-h3 {
   font-family: 'Manrope', system-ui, sans-serif;
-  font-size: 1.05rem;
+  font-size: 1.375rem;
   font-weight: 600;
-  line-height: 1.7;
-  color: rgba(238,241,236,0.82);
-  margin: 0 0 20px;
-  letter-spacing: 0.01em;
-  text-shadow: 0 1px 8px rgba(20,30,50,0.4);
+  line-height: 1.4;
+  color: var(--text-light);
+  margin: 0 0 20px 0;
+  opacity: 0.92;
 }
 
-/* Body paragraph */
+/* Body */
 .index-hero-section .index-hero-body {
   font-family: 'Manrope', system-ui, sans-serif;
   font-size: 16px;
   line-height: 1.7;
-  color: rgba(238,241,236,0.72);
-  margin: 0 0 36px;
+  color: rgba(238, 241, 236, 0.80);
+  margin: 0 0 36px 0;
   max-width: 560px;
-  text-shadow: 0 1px 6px rgba(20,30,50,0.35);
+  margin-inline-start: auto;
 }
 
 /* CTAs */
@@ -434,51 +416,93 @@
   display: flex;
   flex-direction: row;
   gap: 14px;
-  align-items: center;
+  margin-bottom: 40px;
+  justify-content: flex-start;
   flex-wrap: wrap;
 }
 
-.index-hero-section .btn-hero-primary {
+.index-hero-section .index-hero-btn-primary {
   display: inline-block;
   background: var(--accent);
-  color: #fff;
+  color: var(--text-light);
   font-family: 'Manrope', system-ui, sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.05em;
-  text-decoration: none;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   padding: 14px 32px;
-  border-radius: 2px;
-  border: 1px solid rgba(255,255,255,0.12);
-  box-shadow: 0 4px 20px rgba(233,138,61,0.35), inset 0 1px 0 rgba(255,255,255,0.12);
-  transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+  border-radius: 0;
+  border: 1px solid rgba(233, 138, 61, 0.4);
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(233, 138, 61, 0.30);
+  transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
   white-space: nowrap;
 }
-.index-hero-section .btn-hero-primary:hover {
-  background: #d4762e;
+
+.index-hero-section .index-hero-btn-primary:hover {
+  background: #d97a2c;
+  box-shadow: 0 12px 32px rgba(233, 138, 61, 0.45);
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(233,138,61,0.45);
 }
 
-.index-hero-section .btn-hero-secondary {
+.index-hero-section .index-hero-btn-secondary {
   display: inline-block;
   background: transparent;
   color: var(--text-light);
   font-family: 'Manrope', system-ui, sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 13px 32px;
+  border-radius: 0;
+  border: 1px solid rgba(238, 241, 236, 0.45);
   text-decoration: none;
-  padding: 13px 30px;
-  border-radius: 2px;
-  border: 1px solid rgba(238,241,236,0.35);
-  transition: background 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
   white-space: nowrap;
 }
-.index-hero-section .btn-hero-secondary:hover {
-  background: rgba(47,124,138,0.22);
-  border-color: var(--secondary);
+
+.index-hero-section .index-hero-btn-secondary:hover {
+  background: rgba(238, 241, 236, 0.10);
+  border-color: rgba(238, 241, 236, 0.80);
   transform: translateY(-2px);
+}
+
+/* Service badges */
+.index-hero-section .index-hero-badges {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.index-hero-section .index-hero-badge {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  background: rgba(38, 58, 91, 0.55);
+  border: 1px solid var(--border-dark);
+  padding: 8px 16px;
+  backdrop-filter: blur(4px);
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  letter-spacing: 0.02em;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.index-hero-section .index-hero-badge:hover {
+  background: rgba(47, 124, 138, 0.25);
+  border-color: var(--secondary);
+}
+
+.index-hero-section .index-hero-badge-icon {
+  color: var(--accent);
+  font-size: 14px;
+  flex-shrink: 0;
 }
 
 /* Bottom divider wrapper */
@@ -491,75 +515,74 @@
   pointer-events: none;
   z-index: 5;
 }
+
 .index-hero-section .index-hero-divider-wrapper svg {
   display: block;
   width: 100%;
   height: 100%;
 }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 900px) {
-  .index-hero-section .index-hero-container {
-    padding: 140px 32px 60px;
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .index-hero-section {
+    min-height: 100vh;
+    padding-bottom: 80px;
   }
-  .index-hero-section .index-hero-inner {
+
+  .index-hero-section .index-hero-container {
+    padding: 110px 20px 40px;
+  }
+
+  .index-hero-section .index-hero-content {
     max-width: 100%;
   }
+
   .index-hero-section .index-hero-h1 {
-    font-size: 2.4rem;
+    font-size: 2.25rem;
   }
-  .index-hero-section .h1-name {
-    font-size: 2rem;
+
+  .index-hero-section .index-hero-name {
+    font-size: 1.1rem;
   }
-  .index-hero-section .h1-line2 {
-    font-size: 2.4rem;
+
+  .index-hero-section .index-hero-h3 {
+    font-size: 1.05rem;
   }
-  .index-hero-section .h1-line3 {
-    font-size: 1.7rem;
+
+  .index-hero-section .index-hero-body {
+    max-width: 100%;
+    margin-inline-start: 0;
+  }
+
+  .index-hero-section .index-hero-ctas {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .index-hero-section .index-hero-btn-primary,
+  .index-hero-section .index-hero-btn-secondary {
+    text-align: center;
+    width: 100%;
+    padding: 14px 20px;
+  }
+
+  .index-hero-section .index-hero-badges {
+    gap: 8px;
+  }
+
+  .index-hero-section .index-hero-badge {
+    padding: 7px 12px;
+    font-size: 12px;
   }
 }
 
-@media (max-width: 768px) {
-  .index-hero-section {
-    min-height: 100svh;
-    align-items: flex-start;
-  }
-  .index-hero-section .index-hero-container {
-    padding: 110px 20px 60px;
-  }
-  .index-hero-section .index-hero-inner {
-    max-width: 100%;
-  }
+@media (min-width: 1024px) {
   .index-hero-section .index-hero-h1 {
-    font-size: 2rem;
+    font-size: 3.5rem;
   }
-  .index-hero-section .h1-name {
-    font-size: 1.65rem;
-  }
-  .index-hero-section .h1-line2 {
-    font-size: 2rem;
-  }
-  .index-hero-section .h1-line3 {
-    font-size: 1.45rem;
-  }
-  .index-hero-section .index-hero-h3 {
-    font-size: 0.95rem;
-  }
-  .index-hero-section .index-hero-body {
-    max-width: 100%;
-  }
-  .index-hero-section .index-hero-ctas {
-    gap: 10px;
-  }
-  .index-hero-section .btn-hero-primary,
-  .index-hero-section .btn-hero-secondary {
-    padding: 12px 22px;
-    font-size: 13px;
-  }
-  .index-hero-section .gl-1,
-  .index-hero-section .gl-2,
-  .index-hero-section .gl-3 {
-    display: none;
+
+  .index-hero-section .index-hero-name {
+    font-size: 1.6rem;
   }
 }
 </style>
@@ -646,16 +669,16 @@
 
   <nav class="navbar" dir="rtl">
   <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
-    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <svg class="hamburger-icon" width="24" height="24" viewbox="0 0 24 24" fill="none">
       <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
     </svg>
-    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;">
+    <svg class="close-icon" width="24" height="24" viewbox="0 0 24 24" fill="none" style="display: none;">
       <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
     </svg>
   </button>
 
   <button class="phone-header-btn" data-phone="+972506267434" aria-label="Call">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+    <svg width="20" height="20" viewbox="0 0 24 24" fill="currentColor">
       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
     </svg>
   </button>
@@ -1104,46 +1127,38 @@
 </script>
   
   <main>
-    <section class="index-hero-section" data-layout-spec="בית-hero" dir="rtl" data-hero-type="fullscreen-scrim" data-zappy-section="true" id="zappy-section-0" style="opacity: 1; --zappy-bg-overlay: rgba(0,0,0,0.13); --zappy-bg-image: url(&quot;assets/business-general-hero-upload-1774261174355.webp&quot;); background-size: cover; background-repeat: no-repeat; position: relative; overflow: hidden; background-image: url(&quot;assets/business-general-hero-upload-1774260225393-lp5tp8.webp?v=1774260227224&quot;) !important; background-position: 50% 50% !important; cursor: url(&quot;data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 50 50' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M29.2344 9.93125L4.87351 34.2922C4.67351 34.4922 4.52976 34.7437 4.46101 35.0203L1.60789 46.4984C1.47664 47.0312 1.63289 47.5922 2.02039 47.9797C2.40945 48.3688 2.97351 48.5219 3.50164 48.3922L14.9798 45.5406C15.2548 45.4719 15.5063 45.3297 15.7079 45.1281L40.0688 20.7672L29.2344 9.93125Z' fill='%23FF0083'/%3E%3Cpath d='M46.1937 3.80781C43.2062 0.820311 38.3468 0.820311 35.3578 3.80781L31.4421 7.72344L42.2781 18.5594L46.1937 14.6437C49.1812 11.6547 49.1812 6.79531 46.1937 3.80781Z' fill='%23FF0083'/%3E%3C/svg%3E&quot;) 2 13, pointer !important;" data-zappy-bg-type="image" data-zappy-bg-color="" data-zappy-bg-image="assets/business-general-hero-upload-1774261080864.webp" data-zappy-bg-overlay-color="#000000" data-zappy-bg-overlay-opacity="13" data-zappy-bg-video-type="" data-zappy-bg-video-url="" data-element-id="zappy-hero-bg-zappy-section-0" data-element-type="background-image" data-zappy-bg-preview-active="true" data-zappy-bg-orig-bgcolor="" data-zappy-bg-orig-bgimage="linear-gradient(rgba(0, 0, 0, 0.13), rgba(0, 0, 0, 0.13)), url(&quot;assets/business-general-hero-upload-1774261080864.webp&quot;)" data-zappy-bg-orig-bgsize="cover" data-zappy-bg-orig-bgposition="center center" data-zappy-bg-orig-bgrepeat="no-repeat" data-zappy-bg-orig-overlay-var="rgba(0, 0, 0, 0.13)" data-zappy-bg-orig-image-var="url(&quot;assets/business-general-hero-upload-1774261080864.webp&quot;)" data-zappy-bg-orig-bgtype="image">
+    <section class="index-hero-section" data-layout-spec="בית-hero" dir="rtl" data-hero-type="fullscreen-card" data-zappy-section="true" id="zappy-section-0">
   <!-- Background Layer -->
-  <div class="index-hero-bg" style="background-image: url('assets/site-index-hero-image-1.webp'); background-size: contain; background-position: center center; background-repeat: no-repeat"></div>
+  <div class="index-hero-bg" aria-hidden="true">
+    <div class="index-hero-bg-img" style="background-image: url('assets/site-index-hero-image-1.webp'); background-size: cover; background-position: center; min-height: 100vh;"></div>
+  </div>
 
   <!-- Scrim Overlay -->
-  <div class="index-hero-scrim" aria-hidden="true" style="display: none;" data-zappy-original-bg="hidden" data-zappy-preview-hidden="none"></div>
+  <div class="index-hero-scrim" aria-hidden="true"></div>
 
-  <!-- Decorative grid lines -->
-  <div class="index-hero-grid-lines" aria-hidden="true">
-    <div class="grid-line gl-1"></div>
-    <div class="grid-line gl-2"></div>
-    <div class="grid-line gl-3"></div>
-  </div>
+  <!-- Decorative map-contour overlay -->
+  <div class="index-hero-contour" aria-hidden="true"></div>
 
   <!-- Content -->
   <div class="index-hero-container">
-    <div class="index-hero-inner">
+    <div class="index-hero-content">
 
-      <!-- Top badge -->
-      <div class="index-hero-badge">
-        <span class="badge-dot" aria-hidden="true"></span>
-        <span class="badge-text">רפואה · משפט · חירום</span>
+      <!-- Eyebrow label -->
+      <div class="index-hero-eyebrow">
+        <span class="index-hero-eyebrow-line" aria-hidden="true"></span>
+        <span class="index-hero-eyebrow-text">רפואה · משפט · חירום</span>
+        <span class="index-hero-eyebrow-line" aria-hidden="true"></span>
       </div>
 
-      <!-- Main heading -->
-      <h1 class="index-hero-h1" style="">
-        <span class="h1-name">ד"ר ערן טל-אור</span>
-        <span class="h1-line2">חוות דעת מומחה</span>
-        <span class="h1-line3">רפואה דחופה והרדמה</span>
+      <!-- Main Heading -->
+      <h1 class="index-hero-h1">
+        <span class="index-hero-name">ד"ר ערן טל-אור</span>
+        <span class="index-hero-title-line">חוות דעת מומחה</span>
+        <span class="index-hero-title-line index-hero-title-accent">רפואה דחופה והרדמה</span>
       </h1>
 
       <!-- Divider rule -->
-      <div class="index-hero-rule" aria-hidden="true">
-        <span class="rule-line"></span>
-        <svg data-element-type="icon" data-icon-type="svg" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink:0;">
-          <circle cx="9" cy="9" r="3.5" stroke="var(--accent)" stroke-width="1.5"></circle>
-          <circle cx="9" cy="9" r="7.5" stroke="var(--accent)" stroke-width="0.75" stroke-dasharray="2 2"></circle>
-        </svg>
-        <span class="rule-line"></span>
-      </div>
+      <div class="index-hero-rule" aria-hidden="true"></div>
 
       <!-- Subtitle -->
       <h3 class="index-hero-h3">חוות דעת לבית משפט ברשלנות רפואית · ייעוץ חירום ואסונות · ייעוץ ברפואה דחופה</h3>
@@ -1153,19 +1168,36 @@
 
       <!-- CTAs -->
       <div class="index-hero-ctas">
-        <a href="#contact" class="btn-hero-primary" data-element-type="button" data-element-id="btn-1774259587928-bzythmdkd" data-native-element="true">צרו קשר</a>
-        <a href="#expert-opinions" class="btn-hero-secondary" data-element-type="button" data-element-id="btn-1774259587928-45bvcgrnr" data-native-element="true">חוות דעת מומחה</a>
+        <a href="#expert-opinions" class="index-hero-btn-primary">חוות דעת מומחה</a>
+        <a href="#contact" class="index-hero-btn-secondary">צרו קשר</a>
+      </div>
+
+      <!-- Service badges -->
+      <div class="index-hero-badges">
+        <div class="index-hero-badge">
+          <i class="fa-solid fa-scale-balanced index-hero-badge-icon" aria-hidden="true"></i>
+          <span>רשלנות רפואית</span>
+        </div>
+        <div class="index-hero-badge">
+          <i class="fa-solid fa-shield-halved index-hero-badge-icon" aria-hidden="true"></i>
+          <span>ייעוץ חירום</span>
+        </div>
+        <div class="index-hero-badge">
+          <i class="fa-solid fa-stethoscope index-hero-badge-icon" aria-hidden="true"></i>
+          <span>רפואה דחופה</span>
+        </div>
       </div>
 
     </div>
   </div>
 
-  <!-- Bottom divider -->
+  <!-- Bottom Divider -->
   <div class="index-hero-divider-wrapper">
-    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,80 L0,48 Q120,32 240,44 T480,36 Q600,28 720,42 T960,34 Q1080,28 1200,40 T1440,36 L1440,80 Z" fill="#F1EBDD"></path>
+    <svg data-no-icon-edit="true" aria-hidden="true" viewbox="0 0 1440 80" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,80 L0,48 Q120,28 240,44 T480,36 Q600,28 720,44 T960,36 Q1080,28 1200,44 T1440,40 L1440,80 Z" fill="#F1EBDD"></path>
     </svg>
   </div>
+
 </section>
 
 <section class="index-services-section" data-layout-spec="בית-services" dir="rtl" id="zappy-section-1">
@@ -1193,7 +1225,7 @@
           <p class="zappy-editable"><a href="#contact" class="index-services-panel-cta">לפרטים על חוות דעת מומחה <span aria-hidden="true">←</span></a>
         </p></div>
       </article><div class="index-services-connector index-services-connector--ab" aria-hidden="true">
-        <svg aria-hidden="true" viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg aria-hidden="true" viewbox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M70 8 C55 8 30 52 10 52" stroke="var(--secondary)" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.45"></path>
           <circle cx="70" cy="8" r="3" fill="var(--secondary)" opacity="0.5"></circle>
           <circle cx="10" cy="52" r="3" fill="var(--accent)" opacity="0.5"></circle>
@@ -1210,7 +1242,7 @@
           <p class="zappy-editable"><a href="#contact" class="index-services-panel-cta">לפרטים על ייעוץ חירום ואסונות <span aria-hidden="true">←</span></a>
         </p></div>
       </article><div class="index-services-connector index-services-connector--bc" aria-hidden="true">
-        <svg aria-hidden="true" viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg aria-hidden="true" viewbox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M10 8 C25 8 50 52 70 52" stroke="var(--secondary)" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.45"></path>
           <circle cx="10" cy="8" r="3" fill="var(--secondary)" opacity="0.5"></circle>
           <circle cx="70" cy="52" r="3" fill="var(--accent)" opacity="0.5"></circle>
@@ -1233,7 +1265,7 @@
 
   <!-- Bottom diagonal paper-cut divider -->
   <div class="index-services-divider-wrapper">
-    <svg aria-hidden="true" viewBox="0 0 1200 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <svg aria-hidden="true" viewbox="0 0 1200 90" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M0,90 L0,38 L1200,0 L1200,90 Z" fill="#1E2535"></path>
       <path d="M0,90 L0,38 L1200,0 L1200,90 Z" fill="#1E2535"></path>
     </svg>
@@ -1271,7 +1303,7 @@
       <div class="index-authority-proofs">
         <div class="index-authority-proof-item">
           <div class="index-authority-proof-icon" aria-hidden="true">
-            <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewbox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="3" y="3" width="22" height="22" rx="1" stroke="currentColor" stroke-width="1.5"></rect>
               <path d="M8 14h12M8 9.5h8M8 18.5h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
               <circle cx="21" cy="21" r="4" fill="var(--accent)" stroke="var(--bg-dark)" stroke-width="1.5"></circle>
@@ -1286,7 +1318,7 @@
 
         <div class="index-authority-proof-item">
           <div class="index-authority-proof-icon" aria-hidden="true">
-            <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewbox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14 3L4 8v6c0 5.5 4.3 10.7 10 12 5.7-1.3 10-6.5 10-12V8L14 3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path>
               <path d="M10 14l2.5 2.5L18 11" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
@@ -1299,7 +1331,7 @@
 
         <div class="index-authority-proof-item">
           <div class="index-authority-proof-icon" aria-hidden="true">
-            <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewbox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="14" cy="14" r="10" stroke="currentColor" stroke-width="1.5"></circle>
               <path d="M14 8v6l4 2" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
               <path d="M6 6l2 2M20 6l-2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity="0.5"></path>
@@ -1337,7 +1369,7 @@
 
   <!-- Bottom divider: curved gradient dissolve with radiology contour traces -->
   <div class="index-authority-divider-wrapper">
-    <svg aria-hidden="true" viewBox="0 0 1200 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <svg aria-hidden="true" viewbox="0 0 1200 100" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg">
       <!-- Faint radiology-style contour traces -->
       <path d="M0,60 Q150,48 300,55 T600,50 Q750,44 900,52 T1200,48" stroke="rgba(47,124,138,0.18)" stroke-width="1" fill="#EEF1EC"></path>
       <path d="M0,72 Q200,62 400,68 T800,64 Q1000,58 1200,65" stroke="rgba(47,124,138,0.10)" stroke-width="0.8" fill="#EEF1EC"></path>
@@ -1369,7 +1401,7 @@
           <div class="audience-number" aria-hidden="true">01</div>
           <div class="audience-content">
             <div class="audience-icon-bar">
-              <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewbox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <rect x="4" y="3" width="14" height="18" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"></rect>
                 <path d="M8 8h6M8 11h6M8 14h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
                 <path d="M20 12l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1392,7 +1424,7 @@
           <div class="audience-number" aria-hidden="true">02</div>
           <div class="audience-content">
             <div class="audience-icon-bar">
-              <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewbox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M14 4v4M6 8h16M8 8l-3 8h6L8 8zM20 8l-3 8h6L20 8z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                 <path d="M5 20h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
                 <rect x="11" y="20" width="6" height="4" rx="0.5" stroke="currentColor" stroke-width="1.5" fill="none"></rect>
@@ -1415,7 +1447,7 @@
           <div class="audience-number" aria-hidden="true">03</div>
           <div class="audience-content">
             <div class="audience-icon-bar">
-              <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewbox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <circle cx="14" cy="14" r="9" stroke="currentColor" stroke-width="1.5" fill="none"></circle>
                 <path d="M14 5c0 0-4 4-4 9s4 9 4 9M14 5c0 0 4 4 4 9s-4 9-4 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"></path>
                 <path d="M5 14h18" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"></path>
@@ -1439,7 +1471,7 @@
           <div class="audience-number" aria-hidden="true">04</div>
           <div class="audience-content">
             <div class="audience-icon-bar">
-              <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewbox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <circle cx="14" cy="9" r="4" stroke="currentColor" stroke-width="1.5" fill="none"></circle>
                 <path d="M6 23c0-4.418 3.582-8 8-8s8 3.582 8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"></path>
                 <path d="M20 15l2 2M22 15l-2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"></path>
@@ -1463,7 +1495,7 @@
 
   <!-- Stepped atlas-style bottom divider -->
   <div class="audiences-divider-wrapper">
-    <svg aria-hidden="true" viewBox="0 0 1200 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <svg aria-hidden="true" viewbox="0 0 1200 90" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg">
       <!-- Contour band 1 (lightest, highest) -->
       <path d="M0,90 L0,62 Q120,54 240,60 T480,56 Q600,52 720,58 T960,54 Q1080,50 1200,56 L1200,90 Z" fill="#1E2A42"></path>
       <!-- Contour band 2 (mid) -->
