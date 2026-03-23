@@ -834,7 +834,7 @@
         <span class="meoi-corner meoi-corner-bl" aria-hidden="true"></span>
         <span class="meoi-corner meoi-corner-br" aria-hidden="true"></span>
 
-        <img data-placeholder="medical-expert-opinions-intro-image-1" data-context="A serious, authoritative image of a medical doctor in professional attire reviewing legal and medical documents at a desk. The environment suggests a professional legal-medical consultation setting: papers, a stethoscope, and perhaps a gavel or legal folder visible. The lighting is warm and focused, conveying trust, expertise, and precision. The mood is formal, calm, and commanding — appropriate for a medical expert witness in court cases involving medical malpractice. No dramatic expressions, just professional composure and intellectual authority." width="560" height="720" src="/assets/business-general-service-upload-1774258184185.webp" alt="ד&quot;ר ערן טל-אור — מומחה לחוות דעת רפואיות לבית משפט" class="meoi-main-image zappy-editable-image" data-element-type="image" data-element-id="img-1774256820002-1tmqm9xw2" data-resize-handler-attached="true" style="object-fit: contain; object-position: 50% 50%; width: auto; height: auto; max-width: 600px; display: block; border-radius: 8px; margin-top: 20px; margin-right: auto !important; margin-bottom: 20px; margin-left: auto !important;" data-zappy-zoom="1">
+        <div data-zappy-zoom-wrapper="true" data-element-id="img-1774256820002-1tmqm9xw2" data-element-type="image" data-zappy-zoom-wrapper-width="200px" data-zappy-zoom-wrapper-height="257px" data-zappy-zoom-wrapper-width-mode="px" style="position: relative !important; overflow: hidden !important; width: 200px !important; max-width: 100% !important; margin-left: auto !important; margin-right: auto !important; height: 257px !important; display: block !important;" data-zappy-zoom-clip="true" data-zappy-wrapper-margins-applied="true"><img data-placeholder="medical-expert-opinions-intro-image-1" data-context="A serious, authoritative image of a medical doctor in professional attire reviewing legal and medical documents at a desk. The environment suggests a professional legal-medical consultation setting: papers, a stethoscope, and perhaps a gavel or legal folder visible. The lighting is warm and focused, conveying trust, expertise, and precision. The mood is formal, calm, and commanding — appropriate for a medical expert witness in court cases involving medical malpractice. No dramatic expressions, just professional composure and intellectual authority." width="560" height="720" src="/assets/business-general-service-upload-1774258309804-t40ity.webp?v=1774258311253" alt="ד&quot;ר ערן טל-אור — מומחה לחוות דעת רפואיות לבית משפט" class="meoi-main-image zappy-editable-image" data-element-type="image" data-element-id="img-1774256820002-1tmqm9xw2" data-resize-handler-attached="true" style="object-fit: cover; object-position: 66% 80%; width: 179.895% !important; height: 140% !important; max-width: none !important; display: block; border-radius: 8px; margin: 0px !important; position: absolute !important; left: -52.7304% !important; top: -32% !important; max-height: none !important;" data-zappy-zoom="1.4" data-zappy-original-width="200" data-zappy-original-height="256.9921875"></div>
 
         <!-- Floating annotation badge -->
         <div class="meoi-annotation-badge" aria-label="תחום התמחות">
@@ -1366,6 +1366,34 @@
       if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileLangMenu); }
       else { initMobileLangMenu(); }
       window.addEventListener('resize', function() { clearTimeout(window._mlrt); window._mlrt = setTimeout(initMobileLangMenu, 250); });
+    })();
+    </script>
+
+    <script>
+    (function(){
+      if(window.innerWidth>768)return;
+      function fixZW(){
+        document.querySelectorAll('[data-zappy-zoom-wrapper="true"]').forEach(function(w){
+          var cw=w.style.getPropertyValue('width');
+          if(!cw||cw==='100%')return;
+          w.style.setProperty('width','100%','important');
+          w.style.setProperty('max-width','100%','important');
+          w.style.setProperty('height','auto','important');
+          var img=w.querySelector('img');
+          if(img){
+            img.style.setProperty('position','relative','important');
+            img.style.setProperty('width','100%','important');
+            img.style.setProperty('height','auto','important');
+            img.style.setProperty('max-width','100%','important');
+            img.style.setProperty('max-height','400px','important');
+            img.style.setProperty('object-fit','cover','important');
+            img.style.setProperty('left','0','important');
+            img.style.setProperty('top','0','important');
+          }
+        });
+      }
+      if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fixZW);
+      else setTimeout(fixZW,50);
     })();
     </script>
 </body>
