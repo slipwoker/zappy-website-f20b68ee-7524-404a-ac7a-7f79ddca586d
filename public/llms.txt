@@ -1,0 +1,51 @@
+# Business — Generative Engine Optimization Map
+
+---
+
+## Pages
+
+### בית
+https://example.com
+ד&quot;ר ערן טל-אור מביא מומחיות רפואית מהשורה הראשונה לעולמות המשפט, החירום והייעוץ. חוות דעת מדויקות, ייעוץ מוכנות לאסונות ורפואת חירום — הכל במקום אחד.
+
+### חוות דעת רפואיות
+https://example.com/medical-expert-opinions
+חוות דעת מומחה רשלנות רפואית מקצועיות ומבוססות ראיות, המיועדות לעורכי דין ובתי משפט. ד&quot;ר ערן טל-אור מעניק חוות דעת שמכריעות תיקים — פנה עוד היום.
+
+### ייעוץ מוכנות לחירום ואסונות
+https://example.com/emergency-disaster-preparedness
+ייעוץ מוכנות לחירום ואסונות לארגונים וגופים ציבוריים — תכנון עבודה במצבי חירום רפואי שמבוסס על ניסיון שטח אמיתי. בנה את תוכנית החירום שלך עם ד&quot;ר ערן טל-אור.
+
+### ייעוץ ברפואת חירום
+https://example.com/emergency-medicine-advisory
+ד&quot;ר ערן טל-אור מציע ייעוץ ברפואת חירום למטופלים, ארגונים ואנשי מקצוע. קבל הכוונה רפואית מדויקת ומהירה ממומחה בעל ניסיון נרחב ברפואה דחופה — צור קשר עכשיו.
+
+### אודות וצור קשר
+https://example.com/about-contact
+ד&quot;ר ערן טל-אור — רופא, מומחה משפטי ויועץ חירום עם ניסיון קליני ומשפטי עשיר. גלה את הדרך המקצועית שלו וצור קשר לתיאום ייעוץ מותאם אישית לצרכיך.
+
+## Legal & Policy
+
+### Privacy Policy
+https://example.com/privacy
+Information about how user data is collected, stored, and protected.
+
+### Terms & Conditions
+https://example.com/terms
+Legal terms describing service usage, rights, and policies.
+
+### Accessibility Statement
+https://example.com/accessibility
+Information about WCAG compliance and accessibility features.
+
+---
+
+# Business Context (for LLM understanding)
+
+## About Business
+---
+
+# Additional Resources
+
+- **Sitemap**: https://example.com/sitemap.xml
+- **Robots.txt**: https://example.com/robots.txt
