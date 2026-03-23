@@ -243,8 +243,6 @@
     <!-- Mickidum Accessibility Toolbar -->
     <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
 
-
-
 <style data-zappy-section-v2-css="true">
 /* V2 Regenerated Section CSS */
 .index-hero-section {
@@ -257,94 +255,109 @@
   display: flex;
   align-items: center;
   padding-bottom: 80px;
-  direction: rtl;
 }
 
-/* Background layer */
+/* Background image layer */
 .index-hero-section .index-hero-bg {
   position: absolute;
   inset: 0;
-  z-index: 0;
-  overflow: hidden;
-}
-
-.index-hero-section .index-hero-bg-img {
   width: 100%;
   height: 100%;
+  z-index: 0;
+  background-position: center center;
   background-size: cover;
-  background-position: center top;
-  min-height: 100vh;
+  background-repeat: no-repeat;
 }
 
-/* Scrim overlay — strong gradient from bottom-right (text side) to top-left */
+/* Scrim overlay */
 .index-hero-section .index-hero-scrim {
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
   background-image:
-    linear-gradient(135deg,
-      rgba(38, 58, 91, 0.92) 0%,
-      rgba(38, 58, 91, 0.80) 40%,
-      rgba(20, 30, 50, 0.55) 70%,
-      rgba(10, 15, 25, 0.25) 100%
-    );
+    linear-gradient(105deg, rgba(38,58,91,0.88) 0%, rgba(38,58,91,0.72) 45%, rgba(20,30,50,0.38) 100%),
+    linear-gradient(180deg, rgba(20,30,50,0.22) 0%, rgba(38,58,91,0.65) 100%);
 }
 
-/* Decorative contour/radiology overlay */
-.index-hero-section .index-hero-contour {
+/* Decorative grid lines */
+.index-hero-section .index-hero-grid-lines {
   position: absolute;
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  background-image:
-    radial-gradient(ellipse 60% 50% at 20% 50%, rgba(47, 124, 138, 0.12) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 40% at 80% 20%, rgba(233, 138, 61, 0.07) 0%, transparent 60%);
+  overflow: hidden;
+}
+.index-hero-section .grid-line {
+  position: absolute;
+  background: rgba(233,138,61,0.08);
+}
+.index-hero-section .gl-1 {
+  top: 0;
+  bottom: 0;
+  right: 38%;
+  width: 1px;
+}
+.index-hero-section .gl-2 {
+  top: 0;
+  bottom: 0;
+  right: 62%;
+  width: 1px;
+  background: rgba(47,124,138,0.1);
+}
+.index-hero-section .gl-3 {
+  left: 0;
+  right: 0;
+  top: 68%;
+  height: 1px;
+  background: rgba(233,138,61,0.07);
 }
 
-/* Container */
+/* Main container */
 .index-hero-section .index-hero-container {
   position: relative;
   z-index: 10;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 140px 48px 40px;
+  padding: 160px 48px 60px;
 }
 
-/* Content block — sits on the right side */
-.index-hero-section .index-hero-content {
-  max-width: 680px;
+.index-hero-section .index-hero-inner {
+  max-width: 720px;
   margin-inline-start: 0;
+  margin-inline-end: auto;
   text-align: right;
 }
 
-/* Eyebrow */
-.index-hero-section .index-hero-eyebrow {
-  display: flex;
+/* Badge */
+.index-hero-section .index-hero-badge {
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 28px;
+  gap: 10px;
   flex-direction: row;
-  justify-content: flex-start;
+  background: rgba(47,124,138,0.18);
+  border: 1px solid rgba(47,124,138,0.45);
+  border-radius: 2px;
+  padding: 6px 14px 6px 12px;
+  margin-bottom: 28px;
 }
-
-.index-hero-section .index-hero-eyebrow-line {
-  display: block;
-  height: 1px;
-  width: 40px;
+.index-hero-section .badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
   background: var(--accent);
   flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(233,138,61,0.6);
 }
-
-.index-hero-section .index-hero-eyebrow-text {
+.index-hero-section .badge-text {
   font-family: 'Manrope', system-ui, sans-serif;
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent);
-  white-space: nowrap;
+  color: var(--text-light);
+  opacity: 0.88;
 }
 
 /* H1 */
@@ -355,60 +368,65 @@
   line-height: 1.2;
   letter-spacing: -0.02em;
   color: var(--text-light);
-  margin: 0 0 20px 0;
+  margin: 0 0 20px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
+  text-shadow: 0 2px 24px rgba(20,30,50,0.55);
 }
-
-.index-hero-section .index-hero-name {
-  font-size: 1.5rem;
-  font-weight: 400;
-  letter-spacing: 0.01em;
-  color: rgba(238, 241, 236, 0.75);
-  display: block;
-  margin-bottom: 6px;
-  font-family: 'Manrope', system-ui, sans-serif;
+.index-hero-section .h1-name {
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: var(--text-light);
+  opacity: 1;
 }
-
-.index-hero-section .index-hero-title-line {
-  display: block;
+.index-hero-section .h1-line2 {
+  font-size: 3rem;
   color: var(--text-light);
 }
-
-.index-hero-section .index-hero-title-accent {
-  color: var(--accent);
+.index-hero-section .h1-line3 {
+  font-size: 2.1rem;
+  font-weight: 400;
+  font-style: italic;
+  color: rgba(238,241,236,0.75);
 }
 
-/* Horizontal rule */
+/* Decorative rule */
 .index-hero-section .index-hero-rule {
-  width: 64px;
-  height: 2px;
-  background: linear-gradient(90deg, var(--accent) 0%, var(--secondary) 100%);
-  margin: 0 0 22px auto;
-  border: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-direction: row;
+  margin-bottom: 20px;
+}
+.index-hero-section .rule-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(233,138,61,0.55), transparent);
+  max-width: 160px;
 }
 
 /* H3 subtitle */
 .index-hero-section .index-hero-h3 {
   font-family: 'Manrope', system-ui, sans-serif;
-  font-size: 1.375rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  line-height: 1.4;
-  color: var(--text-light);
-  margin: 0 0 20px 0;
-  opacity: 0.92;
+  line-height: 1.7;
+  color: rgba(238,241,236,0.82);
+  margin: 0 0 20px;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 8px rgba(20,30,50,0.4);
 }
 
-/* Body */
+/* Body paragraph */
 .index-hero-section .index-hero-body {
   font-family: 'Manrope', system-ui, sans-serif;
   font-size: 16px;
   line-height: 1.7;
-  color: rgba(238, 241, 236, 0.80);
-  margin: 0 0 36px 0;
+  color: rgba(238,241,236,0.72);
+  margin: 0 0 36px;
   max-width: 560px;
-  margin-inline-start: auto;
+  text-shadow: 0 1px 6px rgba(20,30,50,0.35);
 }
 
 /* CTAs */
@@ -416,93 +434,51 @@
   display: flex;
   flex-direction: row;
   gap: 14px;
-  margin-bottom: 40px;
-  justify-content: flex-start;
+  align-items: center;
   flex-wrap: wrap;
 }
 
-.index-hero-section .index-hero-btn-primary {
+.index-hero-section .btn-hero-primary {
   display: inline-block;
   background: var(--accent);
-  color: var(--text-light);
+  color: #fff;
   font-family: 'Manrope', system-ui, sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 14px 32px;
-  border-radius: 0;
-  border: 1px solid rgba(233, 138, 61, 0.4);
+  letter-spacing: 0.05em;
   text-decoration: none;
-  box-shadow: 0 8px 24px rgba(233, 138, 61, 0.30);
-  transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+  padding: 14px 32px;
+  border-radius: 2px;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 4px 20px rgba(233,138,61,0.35), inset 0 1px 0 rgba(255,255,255,0.12);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
   white-space: nowrap;
 }
-
-.index-hero-section .index-hero-btn-primary:hover {
-  background: #d97a2c;
-  box-shadow: 0 12px 32px rgba(233, 138, 61, 0.45);
+.index-hero-section .btn-hero-primary:hover {
+  background: #d4762e;
   transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(233,138,61,0.45);
 }
 
-.index-hero-section .index-hero-btn-secondary {
+.index-hero-section .btn-hero-secondary {
   display: inline-block;
   background: transparent;
   color: var(--text-light);
   font-family: 'Manrope', system-ui, sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 13px 32px;
-  border-radius: 0;
-  border: 1px solid rgba(238, 241, 236, 0.45);
+  letter-spacing: 0.05em;
   text-decoration: none;
-  transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+  padding: 13px 30px;
+  border-radius: 2px;
+  border: 1px solid rgba(238,241,236,0.35);
+  transition: background 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
   white-space: nowrap;
 }
-
-.index-hero-section .index-hero-btn-secondary:hover {
-  background: rgba(238, 241, 236, 0.10);
-  border-color: rgba(238, 241, 236, 0.80);
-  transform: translateY(-2px);
-}
-
-/* Service badges */
-.index-hero-section .index-hero-badges {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-}
-
-.index-hero-section .index-hero-badge {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
-  background: rgba(38, 58, 91, 0.55);
-  border: 1px solid var(--border-dark);
-  padding: 8px 16px;
-  backdrop-filter: blur(4px);
-  font-family: 'Manrope', system-ui, sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-light);
-  letter-spacing: 0.02em;
-  transition: background 0.2s ease, border-color 0.2s ease;
-}
-
-.index-hero-section .index-hero-badge:hover {
-  background: rgba(47, 124, 138, 0.25);
+.index-hero-section .btn-hero-secondary:hover {
+  background: rgba(47,124,138,0.22);
   border-color: var(--secondary);
-}
-
-.index-hero-section .index-hero-badge-icon {
-  color: var(--accent);
-  font-size: 14px;
-  flex-shrink: 0;
+  transform: translateY(-2px);
 }
 
 /* Bottom divider wrapper */
@@ -515,74 +491,75 @@
   pointer-events: none;
   z-index: 5;
 }
-
 .index-hero-section .index-hero-divider-wrapper svg {
   display: block;
   width: 100%;
   height: 100%;
 }
 
-/* ── Responsive ── */
-@media (max-width: 768px) {
-  .index-hero-section {
-    min-height: 100vh;
-    padding-bottom: 80px;
-  }
-
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
   .index-hero-section .index-hero-container {
-    padding: 110px 20px 40px;
+    padding: 140px 32px 60px;
   }
-
-  .index-hero-section .index-hero-content {
+  .index-hero-section .index-hero-inner {
     max-width: 100%;
   }
-
   .index-hero-section .index-hero-h1 {
-    font-size: 2.25rem;
+    font-size: 2.4rem;
   }
-
-  .index-hero-section .index-hero-name {
-    font-size: 1.1rem;
+  .index-hero-section .h1-name {
+    font-size: 2rem;
   }
-
-  .index-hero-section .index-hero-h3 {
-    font-size: 1.05rem;
+  .index-hero-section .h1-line2 {
+    font-size: 2.4rem;
   }
-
-  .index-hero-section .index-hero-body {
-    max-width: 100%;
-    margin-inline-start: 0;
-  }
-
-  .index-hero-section .index-hero-ctas {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .index-hero-section .index-hero-btn-primary,
-  .index-hero-section .index-hero-btn-secondary {
-    text-align: center;
-    width: 100%;
-    padding: 14px 20px;
-  }
-
-  .index-hero-section .index-hero-badges {
-    gap: 8px;
-  }
-
-  .index-hero-section .index-hero-badge {
-    padding: 7px 12px;
-    font-size: 12px;
+  .index-hero-section .h1-line3 {
+    font-size: 1.7rem;
   }
 }
 
-@media (min-width: 1024px) {
-  .index-hero-section .index-hero-h1 {
-    font-size: 3.5rem;
+@media (max-width: 768px) {
+  .index-hero-section {
+    min-height: 100svh;
+    align-items: flex-start;
   }
-
-  .index-hero-section .index-hero-name {
-    font-size: 1.6rem;
+  .index-hero-section .index-hero-container {
+    padding: 110px 20px 60px;
+  }
+  .index-hero-section .index-hero-inner {
+    max-width: 100%;
+  }
+  .index-hero-section .index-hero-h1 {
+    font-size: 2rem;
+  }
+  .index-hero-section .h1-name {
+    font-size: 1.65rem;
+  }
+  .index-hero-section .h1-line2 {
+    font-size: 2rem;
+  }
+  .index-hero-section .h1-line3 {
+    font-size: 1.45rem;
+  }
+  .index-hero-section .index-hero-h3 {
+    font-size: 0.95rem;
+  }
+  .index-hero-section .index-hero-body {
+    max-width: 100%;
+  }
+  .index-hero-section .index-hero-ctas {
+    gap: 10px;
+  }
+  .index-hero-section .btn-hero-primary,
+  .index-hero-section .btn-hero-secondary {
+    padding: 12px 22px;
+    font-size: 13px;
+  }
+  .index-hero-section .gl-1,
+  .index-hero-section .gl-2,
+  .index-hero-section .gl-3 {
+    display: none;
   }
 }
 </style>
@@ -1127,38 +1104,46 @@
 </script>
   
   <main>
-    <section class="index-hero-section" data-layout-spec="בית-hero" dir="rtl" data-hero-type="text-only" data-zappy-section="true" id="zappy-section-0" style="position: relative; overflow: hidden; background-color: #2F7C8A; --zappy-bg-color: #2F7C8A" data-zappy-bg-type="color" data-zappy-bg-color="#2F7C8A" data-zappy-bg-image="" data-zappy-bg-overlay-color="#000000" data-zappy-bg-overlay-opacity="30" data-zappy-bg-video-type="" data-zappy-bg-video-url="">
+    <section class="index-hero-section" data-layout-spec="בית-hero" dir="rtl" data-hero-type="text-only" data-zappy-section="true" id="zappy-section-0" style="opacity: 1; --zappy-bg-overlay: rgba(0,0,0,0.13); --zappy-bg-image: url(&quot; position: relative; overflow: hidden; --zappy-bg-color: #263A5B; cursor: url(&quot; data: image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 50 50' fill='none' xmlns='http; min-height: 120px; background-color: #263A5B" data-zappy-bg-type="color" data-zappy-bg-color="#263A5B" data-zappy-bg-image="" data-zappy-bg-overlay-color="#000000" data-zappy-bg-overlay-opacity="13" data-zappy-bg-video-type="" data-zappy-bg-video-url="" data-element-id="zappy-hero-bg-zappy-section-0" data-element-type="background-image" data-zappy-bg-preview-active="true" data-zappy-bg-orig-bgcolor="" data-zappy-bg-orig-bgimage="url(&quot;assets/business-general-hero-upload-1774259840094.webp&quot;)" data-zappy-bg-orig-bgsize="cover" data-zappy-bg-orig-bgposition="50% 50%" data-zappy-bg-orig-bgrepeat="no-repeat" data-zappy-bg-orig-overlay-var="rgba(0, 0, 0, 0.13)" data-zappy-bg-orig-image-var="url(&quot;assets/business-general-hero-upload-1774259840094.webp&quot;)" data-zappy-bg-orig-bgtype="image">
   <!-- Background Layer -->
-  <div class="index-hero-bg" aria-hidden="true">
-    <div class="index-hero-bg-img" style="background-image: url('assets/site-index-hero-image-1.webp'); background-size: cover; background-position: center; min-height: 100vh;"></div>
-  </div>
+  <div class="index-hero-bg" style="background-image: url(&quot;assets/site-index-hero-image-1.webp&quot;); background-size: cover; background-position: center center; display: none;"></div>
 
   <!-- Scrim Overlay -->
-  <div class="index-hero-scrim" aria-hidden="true" style="display: none" data-zappy-original-bg="hidden"></div>
+  <div class="index-hero-scrim" aria-hidden="true" style="display: none" data-zappy-original-bg="hidden" data-zappy-preview-hidden="none"></div>
 
-  <!-- Decorative map-contour overlay -->
-  <div class="index-hero-contour" aria-hidden="true"></div>
+  <!-- Decorative grid lines -->
+  <div class="index-hero-grid-lines" aria-hidden="true" style="display: none;">
+    <div class="grid-line gl-1"></div>
+    <div class="grid-line gl-2"></div>
+    <div class="grid-line gl-3"></div>
+  </div>
 
   <!-- Content -->
-  <div class="index-hero-container">
-    <div class="index-hero-content">
+  <div class="index-hero-container" style="display: none;">
+    <div class="index-hero-inner">
 
-      <!-- Eyebrow label -->
-      <div class="index-hero-eyebrow">
-        <span class="index-hero-eyebrow-line" aria-hidden="true"></span>
-        <span class="index-hero-eyebrow-text">רפואה · משפט · חירום</span>
-        <span class="index-hero-eyebrow-line" aria-hidden="true"></span>
+      <!-- Top badge -->
+      <div class="index-hero-badge">
+        <span class="badge-dot" aria-hidden="true"></span>
+        <span class="badge-text">רפואה · משפט · חירום</span>
       </div>
 
-      <!-- Main Heading -->
-      <h1 class="index-hero-h1">
-        <span class="index-hero-name">ד"ר ערן טל-אור</span>
-        <span class="index-hero-title-line">חוות דעת מומחה</span>
-        <span class="index-hero-title-line index-hero-title-accent">רפואה דחופה והרדמה</span>
+      <!-- Main heading -->
+      <h1 class="index-hero-h1" style="">
+        <span class="h1-name">ד"ר ערן טל-אור</span>
+        <span class="h1-line2">חוות דעת מומחה</span>
+        <span class="h1-line3">רפואה דחופה והרדמה</span>
       </h1>
 
       <!-- Divider rule -->
-      <div class="index-hero-rule" aria-hidden="true"></div>
+      <div class="index-hero-rule" aria-hidden="true">
+        <span class="rule-line"></span>
+        <svg data-element-type="icon" data-icon-type="svg" width="18" height="18" viewbox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink:0;">
+          <circle cx="9" cy="9" r="3.5" stroke="var(--accent)" stroke-width="1.5"></circle>
+          <circle cx="9" cy="9" r="7.5" stroke="var(--accent)" stroke-width="0.75" stroke-dasharray="2 2"></circle>
+        </svg>
+        <span class="rule-line"></span>
+      </div>
 
       <!-- Subtitle -->
       <h3 class="index-hero-h3">חוות דעת לבית משפט ברשלנות רפואית · ייעוץ חירום ואסונות · ייעוץ ברפואה דחופה</h3>
@@ -1168,96 +1153,79 @@
 
       <!-- CTAs -->
       <div class="index-hero-ctas">
-        <a href="#expert-opinions" class="index-hero-btn-primary">חוות דעת מומחה</a>
-        <a href="#contact" class="index-hero-btn-secondary">צרו קשר</a>
-      </div>
-
-      <!-- Service badges -->
-      <div class="index-hero-badges">
-        <div class="index-hero-badge">
-          <i class="fa-solid fa-scale-balanced index-hero-badge-icon" aria-hidden="true"></i>
-          <span>רשלנות רפואית</span>
-        </div>
-        <div class="index-hero-badge">
-          <i class="fa-solid fa-shield-halved index-hero-badge-icon" aria-hidden="true"></i>
-          <span>ייעוץ חירום</span>
-        </div>
-        <div class="index-hero-badge">
-          <i class="fa-solid fa-stethoscope index-hero-badge-icon" aria-hidden="true"></i>
-          <span>רפואה דחופה</span>
-        </div>
+        <a href="#contact" class="btn-hero-primary" data-element-type="button" data-element-id="btn-1774259587928-bzythmdkd" data-native-element="true">צרו קשר</a>
+        <a href="#expert-opinions" class="btn-hero-secondary" data-element-type="button" data-element-id="btn-1774259587928-45bvcgrnr" data-native-element="true">חוות דעת מומחה</a>
       </div>
 
     </div>
   </div>
 
-  <!-- Bottom Divider -->
-  <div class="index-hero-divider-wrapper">
+  <!-- Bottom divider -->
+  <div class="index-hero-divider-wrapper" style="display: none;">
     <svg data-no-icon-edit="true" aria-hidden="true" viewbox="0 0 1440 80" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,80 L0,48 Q120,28 240,44 T480,36 Q600,28 720,44 T960,36 Q1080,28 1200,44 T1440,40 L1440,80 Z" fill="#F1EBDD"></path>
+      <path d="M0,80 L0,48 Q120,32 240,44 T480,36 Q600,28 720,42 T960,34 Q1080,28 1200,40 T1440,36 L1440,80 Z" fill="#F1EBDD"></path>
     </svg>
   </div>
-
 </section>
 
-<section class="index-services-section" data-layout-spec="בית-services" dir="rtl" id="zappy-section-1">
+<section class="index-services-section" data-layout-spec="בית-services" dir="rtl">
   <!-- Paper texture overlay -->
   <div class="index-services-texture" aria-hidden="true"></div>
 
   <!-- Centered intro block -->
   <div class="index-services-container">
     <div class="index-services-intro">
-      <p class="zappy-editable"><span class="index-services-eyebrow">תחומי המומחיות</span>
-      </p><h2 class="index-services-heading">שיקול דעת רפואי מדויק<br>בסביבות לחץ גבוה</h2>
+      <span class="index-services-eyebrow">תחומי המומחיות</span>
+      <h2 class="index-services-heading">שיקול דעת רפואי מדויק<br>בסביבות לחץ גבוה</h2>
       <p class="index-services-subtext">הפרקטיקה של ד"ר ערן טל-אור בנויה סביב שלושה תחומים מקצועיים מובחנים — כל אחד מהם דורש עומק אנליטי, ניסיון קליני ויכולת תקשורת ברורה בין עולמות הרפואה, המשפט והמוכנות לאסון.</p>
     </div>
 
     <!-- Staggered editorial grid -->
-    <div class="index-services-grid zappy-preserve-css-grid" style="display: grid; --zappy-grid-cols: repeat(2, minmax(0px, 1fr));" id="zappy-auto-grid-1774248744614-xpsku0" data-zappy-auto-grid="true" data-original-item-width="588" data-original-gap="0px 24px" data-zappy-explicit-columns="true" data-zappy-grid-align="start"><article class="index-services-panel index-services-panel--1" data-grid-item-index="0">
+    <div class="index-services-grid zappy-preserve-css-grid" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));" id="zappy-auto-grid-1774248744614-xpsku0" data-zappy-auto-grid="true" data-original-item-width="384" data-original-gap="0px 24px" data-zappy-explicit-columns="true"><article class="index-services-panel index-services-panel--1">
         <div class="index-services-panel-annotation">01 / חוות דעת</div>
         <div class="index-services-panel-image-wrap">
-          <img data-placeholder="index-services-image-1" data-context="Professional medical expert witness reviewing legal documents and medical records in a serious office setting. Stack of court documents, medical imaging scans, and a stethoscope on a dark wood desk. Deep indigo and stone tones. Editorial dossier aesthetic." width="600" height="400" src="/assets/site-index-services-image-1.webp" alt="חוות דעת מומחה רשלנות רפואית — ד&quot;ר ערן טל-אור" data-element-type="image" data-element-id="img-1774248744597-9z0eo1boj" class="zappy-editable-image" data-original-position="static" style="position: relative;" data-resize-handler-attached="true">
+          <img data-placeholder="index-services-image-1" data-context="Professional medical expert witness reviewing legal documents and medical records in a serious office setting. Stack of court documents, medical imaging scans, and a stethoscope on a dark wood desk. Deep indigo and stone tones. Editorial dossier aesthetic." width="600" height="400" src="/assets/site-index-services-image-1.webp" alt="חוות דעת מומחה רשלנות רפואית — ד&quot;ר ערן טל-אור" data-element-type="image" data-element-id="img-1774248744597-9z0eo1boj" class="zappy-editable-image" data-original-position="static" style="position: relative;">
         </div>
         <div class="index-services-panel-body">
           <div class="index-services-panel-accent-line" aria-hidden="true"></div>
           <h3 class="index-services-panel-title">חוות דעת מומחה<br>ברשלנות רפואית</h3>
           <p class="index-services-panel-desc">מתן חוות דעת מקצועיות לבתי משפט, לעורכי דין ולצדדים בתביעות רשלנות רפואית. הניתוח מבוסס על בחינה מעמיקה של תיעוד רפואי, סטנדרטים קליניים מקובלים וניסיון ישיר בחדרי מיון ויחידות טיפול נמרץ — ומוצג בצורה ברורה ומשכנעת בפני הערכאות.</p>
-          <p class="zappy-editable"><a href="#contact" class="index-services-panel-cta">לפרטים על חוות דעת מומחה <span aria-hidden="true">←</span></a>
-        </p></div>
+          <a href="#contact" class="index-services-panel-cta">לפרטים על חוות דעת מומחה <span aria-hidden="true">←</span></a>
+        </div>
       </article><div class="index-services-connector index-services-connector--ab" aria-hidden="true">
         <svg aria-hidden="true" viewbox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M70 8 C55 8 30 52 10 52" stroke="var(--secondary)" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.45"></path>
           <circle cx="70" cy="8" r="3" fill="var(--secondary)" opacity="0.5"></circle>
           <circle cx="10" cy="52" r="3" fill="var(--accent)" opacity="0.5"></circle>
         </svg>
-      </div><article class="index-services-panel index-services-panel--2" data-grid-item-index="2">
+      </div><article class="index-services-panel index-services-panel--2">
         <div class="index-services-panel-annotation">02 / חירום ואסונות</div>
         <div class="index-services-panel-image-wrap">
-          <div data-zappy-zoom-wrapper="true" data-element-id="img-1774248744597-e7kc6jnj0" data-element-type="image" data-zappy-zoom-wrapper-width="516px" data-zappy-zoom-wrapper-height="204px" data-zappy-zoom-wrapper-width-mode="px" style="position: relative !important; overflow: hidden !important; width: 516px !important; max-width: 100% !important; margin-left: auto !important; margin-right: auto !important; height: 204px !important; display: block !important;" data-zappy-zoom-clip="true" data-zappy-wrapper-margins-applied="true"><img data-placeholder="index-services-image-2" data-context="Emergency and disaster preparedness planning session. Large tactical map on a table with strategic markers, crisis management charts, and emergency response documents. Professional consultant in a commanding workspace. Deep teal and indigo palette, editorial professional mood." width="600" height="400" src="/assets/site-index-services-image-2.webp" alt="ייעוץ תכנון חירום ואסונות — ד&quot;ר ערן טל-אור" data-element-type="image" data-element-id="img-1774248744597-e7kc6jnj0" class="zappy-editable-image" data-original-position="static" style="position: absolute !important; object-position: 67% 21%; margin-top: 0px !important; margin-bottom: 0px !important; left: -1.34% !important; top: -18.6483% !important; width: 102% !important; height: 188.801% !important; max-width: none !important; max-height: none !important; display: block; object-fit: cover !important;" data-resize-handler-attached="true" data-zappy-zoom="1.02"></div>
+          <img data-placeholder="index-services-image-2" data-context="Emergency and disaster preparedness planning session. Large tactical map on a table with strategic markers, crisis management charts, and emergency response documents. Professional consultant in a commanding workspace. Deep teal and indigo palette, editorial professional mood." width="600" height="400" src="/assets/site-index-services-image-2.webp" alt="ייעוץ תכנון חירום ואסונות — ד&quot;ר ערן טל-אור" data-element-type="image" data-element-id="img-1774248744597-e7kc6jnj0" class="zappy-editable-image" data-original-position="static" style="position: relative;">
         </div>
         <div class="index-services-panel-body">
           <div class="index-services-panel-accent-line index-services-panel-accent-line--teal" aria-hidden="true"></div>
           <h3 class="index-services-panel-title">ייעוץ לתכנון עבודה<br>במצבי חירום ואסונות</h3>
           <p class="index-services-panel-desc">ליווי מוסדות, ארגונים ורשויות בבניית פרוטוקולים ותוכניות עבודה למצבי חירום רפואי וקטסטרופות. הייעוץ כולל הערכת מוכנות, זיהוי פערים תפעוליים ופיתוח מסגרות פעולה המותאמות לצרכים הייחודיים של כל גוף — מבתי חולים ועד גורמי ביטחון וחירום לאומי.</p>
-          <p class="zappy-editable"><a href="#contact" class="index-services-panel-cta">לפרטים על ייעוץ חירום ואסונות <span aria-hidden="true">←</span></a>
-        </p></div>
+          <a href="#contact" class="index-services-panel-cta">לפרטים על ייעוץ חירום ואסונות <span aria-hidden="true">←</span></a>
+        </div>
       </article><div class="index-services-connector index-services-connector--bc" aria-hidden="true">
         <svg aria-hidden="true" viewbox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M10 8 C25 8 50 52 70 52" stroke="var(--secondary)" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.45"></path>
           <circle cx="10" cy="8" r="3" fill="var(--secondary)" opacity="0.5"></circle>
           <circle cx="70" cy="52" r="3" fill="var(--accent)" opacity="0.5"></circle>
         </svg>
-      </div><article class="index-services-panel index-services-panel--3" data-grid-item-index="4" style="">
+      </div><article class="index-services-panel index-services-panel--3">
         <div class="index-services-panel-annotation">03 / רפואה דחופה</div>
         <div class="index-services-panel-image-wrap">
-          <img data-placeholder="index-services-image-3" data-context="Emergency medicine physician in consultation, reviewing patient case files and clinical data in a calm professional setting. Medical charts, diagnostic imaging on a lightboard. Stone and indigo tones. Serious, authoritative, editorial medical aesthetic." width="600" height="400" src="/assets/site-index-services-image-3.webp" alt="ייעוץ רפואי ברפואה דחופה — ד&quot;ר ערן טל-אור" data-element-type="image" data-element-id="img-1774248744597-fm1jo1396" class="zappy-editable-image" data-original-position="static" style="position: relative;" data-resize-handler-attached="true">
+          <img data-placeholder="index-services-image-3" data-context="Emergency medicine physician in consultation, reviewing patient case files and clinical data in a calm professional setting. Medical charts, diagnostic imaging on a lightboard. Stone and indigo tones. Serious, authoritative, editorial medical aesthetic." width="600" height="400" src="/assets/site-index-services-image-3.webp" alt="ייעוץ רפואי ברפואה דחופה — ד&quot;ר ערן טל-אור" data-element-type="image" data-element-id="img-1774248744597-fm1jo1396" class="zappy-editable-image" data-original-position="static" style="position: relative;">
         </div>
         <div class="index-services-panel-body">
           <div class="index-services-panel-accent-line index-services-panel-accent-line--orange" aria-hidden="true"></div>
           <h3 class="index-services-panel-title">ייעוץ רפואי<br>ברפואה דחופה</h3>
           <p class="index-services-panel-desc">מתן ייעוץ מקצועי ברפואה דחופה לאנשים פרטיים, בעלי מקצוע ומוסדות — לרבות הנחיה בניווט מערכת הבריאות בעיתות לחץ, הבנת ממצאים קליניים ותהליכי קבלת החלטות בחדר מיון. ד"ר טל-אור מביא ניסיון ישיר מהשטח לכל שאלה רפואית דחופה.</p>
-          <p class="zappy-editable"><a href="#contact" class="index-services-panel-cta">לפרטים על ייעוץ רפואה דחופה <span aria-hidden="true">←</span></a>
-        </p></div>
+          <a href="#contact" class="index-services-panel-cta">לפרטים על ייעוץ רפואה דחופה <span aria-hidden="true">←</span></a>
+        </div>
       </article></div>
     <!-- /grid -->
   </div>
@@ -1745,34 +1713,6 @@
       if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileLangMenu); }
       else { initMobileLangMenu(); }
       window.addEventListener('resize', function() { clearTimeout(window._mlrt); window._mlrt = setTimeout(initMobileLangMenu, 250); });
-    })();
-    </script>
-
-    <script>
-    (function(){
-      if(window.innerWidth>768)return;
-      function fixZW(){
-        document.querySelectorAll('[data-zappy-zoom-wrapper="true"]').forEach(function(w){
-          var cw=w.style.getPropertyValue('width');
-          if(!cw||cw==='100%')return;
-          w.style.setProperty('width','100%','important');
-          w.style.setProperty('max-width','100%','important');
-          w.style.setProperty('height','auto','important');
-          var img=w.querySelector('img');
-          if(img){
-            img.style.setProperty('position','relative','important');
-            img.style.setProperty('width','100%','important');
-            img.style.setProperty('height','auto','important');
-            img.style.setProperty('max-width','100%','important');
-            img.style.setProperty('max-height','400px','important');
-            img.style.setProperty('object-fit','cover','important');
-            img.style.setProperty('left','0','important');
-            img.style.setProperty('top','0','important');
-          }
-        });
-      }
-      if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fixZW);
-      else setTimeout(fixZW,50);
     })();
     </script>
 </body>
