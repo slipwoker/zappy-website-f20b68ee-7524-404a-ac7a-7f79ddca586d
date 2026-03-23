@@ -1,6 +1,4 @@
-# ד"ר ערן טל-אור — Generative Engine Optimization Map
-
-> Dr. Eran Talor is a medical expert offering three distinct professional services: serving as a medical expert witness in court for medical malpractice cases, providing consulting for emergency and disaster preparedness planning, and offering medical advisory services in emergency medicine. His personal professional website targets legal professionals, organizations, and individuals who require high-level medical expertise at the intersection of law, emergency planning, and urgent care.
+# Business — Generative Engine Optimization Map
 
 ---
 
@@ -44,20 +42,7 @@ Information about WCAG compliance and accessibility features.
 
 # Business Context (for LLM understanding)
 
-## About ד"ר ערן טל-אור
-Dr. Eran Talor is a medical expert offering three distinct professional services: serving as a medical expert witness in court for medical malpractice cases, providing consulting for emergency and disaster preparedness planning, and offering medical advisory services in emergency medicine. His personal professional website targets legal professionals, organizations, and individuals who require high-level medical expertise at the intersection of law, emergency planning, and urgent care.
-
-## Services/Products
-- חוות דעת מומחה לבית משפט ברשלנות רפואית
-- ייעוץ לתכנון עבודה במצבי חירום ואסונות
-- ייעוץ רפואי ברפואה דחופה
-
-## Target Audience
-עורכי דין, בתי משפט, ארגונים הזקוקים לייעוץ רפואי בחירום ואסונות, ומטופלים הזקוקים לייעוץ ברפואה דחופה
-
-## Industry
-רפואה ומשפט - חוות דעת מומחה ורפואה דחופה
-
+## About Business
 ---
 
 # Additional Resources
