@@ -325,16 +325,16 @@
 
   <nav class="navbar" dir="rtl">
   <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
-    <svg class="hamburger-icon" width="24" height="24" viewbox="0 0 24 24" fill="none">
+    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
       <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
     </svg>
-    <svg class="close-icon" width="24" height="24" viewbox="0 0 24 24" fill="none" style="display: none;">
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;">
       <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
     </svg>
   </button>
 
-  <button class="phone-header-btn" data-phone="[business_phone]" aria-label="Call">
-    <svg width="20" height="20" viewbox="0 0 24 24" fill="currentColor">
+  <button class="phone-header-btn" data-phone="+972506267434" aria-label="Call">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
     </svg>
   </button>
@@ -736,7 +736,7 @@
         const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
         const phoneNumber = phoneLinks.length > 0 
           ? phoneLinks[0].getAttribute('href').replace('tel:', '')
-          : '[business_phone]';
+          : '+972506267434';
         
         window.location.href = 'tel:' + phoneNumber;
         console.log('[Navbar] Phone button clicked');
@@ -843,7 +843,7 @@
 
   <!-- Bottom fade divider transitioning to dark section -->
   <div class="emai-divider-wrapper">
-    <svg data-no-icon-edit="true" aria-hidden="true" viewbox="0 0 1200 72" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 72" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M0,72 L0,36 Q80,28 160,38 T320,30 Q400,24 480,34 T640,28 Q720,22 800,32 T960,26 Q1040,20 1120,30 T1200,24 L1200,72 Z" fill="#1E2535"></path>
     </svg>
   </div>
@@ -869,7 +869,7 @@
       <!-- Panel 1: Interpretation of urgent medical situations -->
       <article class="ema-panel">
         <div class="ema-panel-icon-wrap" aria-hidden="true">
-          <svg data-element-type="icon" data-icon-type="svg" width="36" height="36" viewbox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg data-element-type="icon" data-icon-type="svg" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="18" cy="18" r="16" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3"></circle>
             <path d="M18 10v8l5 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
             <path d="M11 18h2M23 18h2M18 11v2M18 23v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
@@ -883,7 +883,7 @@
       <!-- Panel 2: Emergency care pathways -->
       <article class="ema-panel">
         <div class="ema-panel-icon-wrap" aria-hidden="true">
-          <svg data-element-type="icon" data-icon-type="svg" width="36" height="36" viewbox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg data-element-type="icon" data-icon-type="svg" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M6 28 L10 20 L16 24 L22 14 L28 18 L32 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
             <path d="M6 8h24M6 16h6M6 24h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity="0.45"></path>
             <circle cx="10" cy="20" r="2" fill="currentColor"></circle>
@@ -898,7 +898,7 @@
       <!-- Panel 3: Second-opinion medical perspective -->
       <article class="ema-panel">
         <div class="ema-panel-icon-wrap" aria-hidden="true">
-          <svg data-element-type="icon" data-icon-type="svg" width="36" height="36" viewbox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg data-element-type="icon" data-icon-type="svg" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="6" y="8" width="24" height="20" rx="1" stroke="currentColor" stroke-width="1.5"></rect>
             <path d="M11 14h14M11 18h10M11 22h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
             <path d="M24 22l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
@@ -923,7 +923,7 @@
 
   <!-- Bottom angled/contour divider transitioning to next light section -->
   <div class="ema-divider-wrapper">
-    <svg data-no-icon-edit="true" aria-hidden="true" viewbox="0 0 1200 72" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 72" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M0,72 L0,28 L120,18 L240,32 L360,14 L480,28 L600,10 L720,26 L840,12 L960,30 L1080,16 L1200,24 L1200,72 Z" fill="#F1EBDD"></path>
     </svg>
   </div>
@@ -969,7 +969,7 @@
     </div>
   </div>
   <div class="emas-divider-wrapper">
-    <svg data-no-icon-edit="true" aria-hidden="true" viewbox="0 0 1200 70" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M0,70 L0,38 Q100,28 200,36 T400,30 Q500,26 600,34 T800,28 Q900,24 1000,32 T1200,26 L1200,70 Z" fill="var(--bg-light)" opacity="0.18"></path>
       <path d="M0,70 L0,48 Q150,38 300,46 T600,40 Q750,36 900,44 T1200,38 L1200,70 Z" fill="var(--bg-light)"></path>
     </svg>
@@ -1045,7 +1045,7 @@
 
   <!-- Bottom gradient divider -->
   <div class="emam-divider-wrapper">
-    <svg data-no-icon-edit="true" aria-hidden="true" viewbox="0 0 1200 80" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M0,80 L0,28 Q150,52 300,30 T600,32 Q750,52 900,28 T1200,34 L1200,80 Z" fill="#1E2428"></path>
     </svg>
   </div>
@@ -1086,9 +1086,9 @@
           <p class="brand-tagline">ד"ר ערן טלור — מומחה ברפואת חירום, חוות דעת רפואיות ומשפטיות, וייעוץ מוכנות לאסונות.</p>
           <div class="brand-accent-line"></div>
           <div class="social-links">
-            <a href="[facebook_handle]" aria-label="Facebook" class="social-link"><i class="fab fa-facebook-f"></i></a>
-            <a href="[instagram_handle]" aria-label="Instagram" class="social-link"><i class="fab fa-instagram"></i></a>
-            <a href="[whatsapp_handle]" aria-label="WhatsApp" class="social-link"><i class="fab fa-whatsapp"></i></a>
+            <a href="#" aria-label="Facebook" class="social-link" style="display:none !important;"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Instagram" class="social-link" style="display:none !important;"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="WhatsApp" class="social-link" style="display:none !important;"><i class="fab fa-whatsapp"></i></a>
           </div>
         </div>
 
@@ -1109,14 +1109,14 @@
           <ul class="footer-contact">
             <li class="contact-item">
               <span class="contact-icon-wrap"><i class="fas fa-envelope"></i></span>
-              <a href="mailto:[business_email]" class="footer-link contact-text">[business_email]</a>
+              <a href="mailto:work@tal-or.co.il" class="footer-link contact-text">work@tal-or.co.il</a>
             </li>
             <li class="contact-item">
               <span class="contact-icon-wrap"><i class="fas fa-phone"></i></span>
-              <a href="tel:[business_phone]" class="footer-link contact-text">[business_phone]</a>
+              <a href="tel:+972506267434" class="footer-link contact-text">+972506267434</a>
             </li>
             <li class="contact-item"><a href="/"><span class="contact-icon-wrap"><i class="fas fa-map-marker-alt"></i></span>
-              <span class="contact-text">[business_address]</span></a></li>
+              <span class="contact-text">האלון 101 , ,, מסד, 1499000, ישראל</span></a></li>
           </ul>
         </div>
 

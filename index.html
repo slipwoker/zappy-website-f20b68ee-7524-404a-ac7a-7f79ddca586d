@@ -325,16 +325,16 @@
 
   <nav class="navbar" dir="rtl">
   <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
-    <svg class="hamburger-icon" width="24" height="24" viewbox="0 0 24 24" fill="none">
+    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
       <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
     </svg>
-    <svg class="close-icon" width="24" height="24" viewbox="0 0 24 24" fill="none" style="display: none;">
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;">
       <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
     </svg>
   </button>
 
-  <button class="phone-header-btn" data-phone="[business_phone]" aria-label="Call">
-    <svg width="20" height="20" viewbox="0 0 24 24" fill="currentColor">
+  <button class="phone-header-btn" data-phone="+972506267434" aria-label="Call">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
     </svg>
   </button>
@@ -736,7 +736,7 @@
         const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
         const phoneNumber = phoneLinks.length > 0 
           ? phoneLinks[0].getAttribute('href').replace('tel:', '')
-          : '[business_phone]';
+          : '+972506267434';
         
         window.location.href = 'tel:' + phoneNumber;
         console.log('[Navbar] Phone button clicked');
@@ -822,7 +822,7 @@
 
   <!-- Bottom Topographic Divider -->
   <div class="index-hero-divider-wrapper">
-    <svg data-no-icon-edit="true" aria-hidden="true" viewbox="0 0 1440 90" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M0,90 L0,52 C80,44 160,58 240,50 C320,42 400,34 480,40 C560,46 640,54 720,48 C800,42 880,30 960,36 C1040,42 1120,56 1200,50 C1280,44 1360,38 1440,44 L1440,90 Z" fill="#F1EBDD"></path>
       <path d="M0,90 L0,62 C100,56 200,68 300,62 C400,56 500,44 600,50 C700,56 800,66 900,60 C1000,54 1100,42 1200,48 C1300,54 1380,60 1440,56 L1440,90 Z" fill="#F1EBDD" opacity="0.6"></path>
     </svg>
@@ -861,7 +861,7 @@
 
       <!-- Annotation line motif between panels -->
       <div class="index-services-connector index-services-connector--ab" aria-hidden="true">
-        <svg data-no-icon-edit="true" aria-hidden="true" viewbox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M70 8 C55 8 30 52 10 52" stroke="var(--secondary)" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.45"></path>
           <circle cx="70" cy="8" r="3" fill="var(--secondary)" opacity="0.5"></circle>
           <circle cx="10" cy="52" r="3" fill="var(--accent)" opacity="0.5"></circle>
@@ -884,7 +884,7 @@
 
       <!-- Annotation line motif between panels -->
       <div class="index-services-connector index-services-connector--bc" aria-hidden="true" style="">
-        <svg data-no-icon-edit="true" aria-hidden="true" viewbox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M10 8 C25 8 50 52 70 52" stroke="var(--secondary)" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.45"></path>
           <circle cx="10" cy="8" r="3" fill="var(--secondary)" opacity="0.5"></circle>
           <circle cx="70" cy="52" r="3" fill="var(--accent)" opacity="0.5"></circle>
@@ -912,7 +912,7 @@
 
   <!-- Bottom diagonal paper-cut divider -->
   <div class="index-services-divider-wrapper">
-    <svg data-no-icon-edit="true" aria-hidden="true" viewbox="0 0 1200 90" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M0,90 L0,38 L1200,0 L1200,90 Z" fill="#1E2535"></path>
       <path d="M0,90 L0,38 L1200,0 L1200,90 Z" fill="#1E2535"></path>
     </svg>
@@ -950,7 +950,7 @@
       <div class="index-authority-proofs">
         <div class="index-authority-proof-item">
           <div class="index-authority-proof-icon" aria-hidden="true">
-            <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewbox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="3" y="3" width="22" height="22" rx="1" stroke="currentColor" stroke-width="1.5"></rect>
               <path d="M8 14h12M8 9.5h8M8 18.5h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
               <circle cx="21" cy="21" r="4" fill="var(--accent)" stroke="var(--bg-dark)" stroke-width="1.5"></circle>
@@ -965,7 +965,7 @@
 
         <div class="index-authority-proof-item">
           <div class="index-authority-proof-icon" aria-hidden="true">
-            <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewbox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14 3L4 8v6c0 5.5 4.3 10.7 10 12 5.7-1.3 10-6.5 10-12V8L14 3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path>
               <path d="M10 14l2.5 2.5L18 11" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
@@ -978,7 +978,7 @@
 
         <div class="index-authority-proof-item">
           <div class="index-authority-proof-icon" aria-hidden="true">
-            <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewbox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="14" cy="14" r="10" stroke="currentColor" stroke-width="1.5"></circle>
               <path d="M14 8v6l4 2" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
               <path d="M6 6l2 2M20 6l-2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity="0.5"></path>
@@ -1016,7 +1016,7 @@
 
   <!-- Bottom divider: curved gradient dissolve with radiology contour traces -->
   <div class="index-authority-divider-wrapper">
-    <svg data-no-icon-edit="true" aria-hidden="true" viewbox="0 0 1200 100" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <!-- Faint radiology-style contour traces -->
       <path d="M0,60 Q150,48 300,55 T600,50 Q750,44 900,52 T1200,48" stroke="rgba(47,124,138,0.18)" stroke-width="1" fill="#EEF1EC"></path>
       <path d="M0,72 Q200,62 400,68 T800,64 Q1000,58 1200,65" stroke="rgba(47,124,138,0.10)" stroke-width="0.8" fill="#EEF1EC"></path>
@@ -1048,7 +1048,7 @@
           <div class="audience-number" aria-hidden="true">01</div>
           <div class="audience-content">
             <div class="audience-icon-bar">
-              <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewbox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <rect x="4" y="3" width="14" height="18" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"></rect>
                 <path d="M8 8h6M8 11h6M8 14h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
                 <path d="M20 12l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1071,7 +1071,7 @@
           <div class="audience-number" aria-hidden="true">02</div>
           <div class="audience-content">
             <div class="audience-icon-bar">
-              <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewbox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M14 4v4M6 8h16M8 8l-3 8h6L8 8zM20 8l-3 8h6L20 8z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                 <path d="M5 20h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
                 <rect x="11" y="20" width="6" height="4" rx="0.5" stroke="currentColor" stroke-width="1.5" fill="none"></rect>
@@ -1094,7 +1094,7 @@
           <div class="audience-number" aria-hidden="true">03</div>
           <div class="audience-content">
             <div class="audience-icon-bar">
-              <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewbox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <circle cx="14" cy="14" r="9" stroke="currentColor" stroke-width="1.5" fill="none"></circle>
                 <path d="M14 5c0 0-4 4-4 9s4 9 4 9M14 5c0 0 4 4 4 9s-4 9-4 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"></path>
                 <path d="M5 14h18" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"></path>
@@ -1118,7 +1118,7 @@
           <div class="audience-number" aria-hidden="true">04</div>
           <div class="audience-content">
             <div class="audience-icon-bar">
-              <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewbox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <circle cx="14" cy="9" r="4" stroke="currentColor" stroke-width="1.5" fill="none"></circle>
                 <path d="M6 23c0-4.418 3.582-8 8-8s8 3.582 8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"></path>
                 <path d="M20 15l2 2M22 15l-2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"></path>
@@ -1142,7 +1142,7 @@
 
   <!-- Stepped atlas-style bottom divider -->
   <div class="audiences-divider-wrapper">
-    <svg data-no-icon-edit="true" aria-hidden="true" viewbox="0 0 1200 90" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <!-- Contour band 1 (lightest, highest) -->
       <path d="M0,90 L0,62 Q120,54 240,60 T480,56 Q600,52 720,58 T960,54 Q1080,50 1200,56 L1200,90 Z" fill="#1E2A42"></path>
       <!-- Contour band 2 (mid) -->
@@ -1183,9 +1183,9 @@
           <p class="brand-tagline">ד"ר ערן טלור — מומחה ברפואת חירום, חוות דעת רפואיות ומשפטיות, וייעוץ מוכנות לאסונות.</p>
           <div class="brand-accent-line"></div>
           <div class="social-links">
-            <a href="[facebook_handle]" aria-label="Facebook" class="social-link"><i class="fab fa-facebook-f"></i></a>
-            <a href="[instagram_handle]" aria-label="Instagram" class="social-link"><i class="fab fa-instagram"></i></a>
-            <a href="[whatsapp_handle]" aria-label="WhatsApp" class="social-link"><i class="fab fa-whatsapp"></i></a>
+            <a href="#" aria-label="Facebook" class="social-link" style="display:none !important;"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Instagram" class="social-link" style="display:none !important;"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="WhatsApp" class="social-link" style="display:none !important;"><i class="fab fa-whatsapp"></i></a>
           </div>
         </div>
 
@@ -1206,14 +1206,14 @@
           <ul class="footer-contact">
             <li class="contact-item">
               <span class="contact-icon-wrap"><i class="fas fa-envelope"></i></span>
-              <a href="mailto:[business_email]" class="footer-link contact-text">[business_email]</a>
+              <a href="mailto:work@tal-or.co.il" class="footer-link contact-text">work@tal-or.co.il</a>
             </li>
             <li class="contact-item">
               <span class="contact-icon-wrap"><i class="fas fa-phone"></i></span>
-              <a href="tel:[business_phone]" class="footer-link contact-text">[business_phone]</a>
+              <a href="tel:+972506267434" class="footer-link contact-text">+972506267434</a>
             </li>
             <li class="contact-item"><a href="/"><span class="contact-icon-wrap"><i class="fas fa-map-marker-alt"></i></span>
-              <span class="contact-text">[business_address]</span></a></li>
+              <span class="contact-text">האלון 101 , ,, מסד, 1499000, ישראל</span></a></li>
           </ul>
         </div>
 
