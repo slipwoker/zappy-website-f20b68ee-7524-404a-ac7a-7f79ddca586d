@@ -1,0 +1,2767 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title>יצירת קשר</title>
+    <meta name="description" content="ד"ר ערן טל-אור - יצירת קשר">
+    <meta name="keywords" content="">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Zappy Analytics -->
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration
+  var config = {
+    websiteId: 'f20b68ee-7524-404a-ac7a-7f79ddca586d',
+    apiUrl: 'https://api.zappy5.com/api/analytics/track',
+    sessionDuration: 30 * 60 * 1000, // 30 minutes
+    visitorDuration: 30 * 24 * 60 * 60 * 1000, // 30 days
+    trackPageViews: true,
+    trackClicks: true,
+    trackFormSubmissions: true
+  };
+  
+  // Generate or retrieve persistent visitor ID (30 days)
+  function getVisitorId() {
+    var visitorKey = 'zappy_visitor_' + config.websiteId;
+    var visitor = null;
+    
+    try {
+      visitor = localStorage.getItem(visitorKey);
+      if (visitor) {
+        var visitorData = JSON.parse(visitor);
+        var now = Date.now();
+        
+        // Check if visitor ID is still valid (30 days)
+        if (now - visitorData.created < config.visitorDuration) {
+          // Update last seen timestamp
+          visitorData.lastSeen = now;
+          localStorage.setItem(visitorKey, JSON.stringify(visitorData));
+          return visitorData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: LocalStorage not available');
+    }
+    
+    // Generate new visitor ID
+    var newVisitorId = 'zv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      localStorage.setItem(visitorKey, JSON.stringify({
+        id: newVisitorId,
+        created: Date.now(),
+        lastSeen: Date.now()
+      }));
+    } catch (e) {
+      // Continue without local storage
+    }
+    
+    return newVisitorId;
+  }
+  
+  // Generate or retrieve session ID (30 minutes)
+  function getSessionId() {
+    var sessionKey = 'zappy_session_' + config.websiteId;
+    var session = null;
+    
+    try {
+      session = sessionStorage.getItem(sessionKey);
+      if (session) {
+        var sessionData = JSON.parse(session);
+        var now = Date.now();
+        
+        // Check if session is still valid
+        if (now - sessionData.timestamp < config.sessionDuration) {
+          // Update timestamp
+          sessionData.timestamp = now;
+          sessionStorage.setItem(sessionKey, JSON.stringify(sessionData));
+          return sessionData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: SessionStorage not available');
+    }
+    
+    // Generate new session ID
+    var newSessionId = 'zs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      sessionStorage.setItem(sessionKey, JSON.stringify({
+        id: newSessionId,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      // Continue without session storage
+    }
+    
+    return newSessionId;
+  }
+  
+  var visitorId = getVisitorId();
+  var sessionId = getSessionId();
+  
+  // Track an event
+  function trackEvent(eventType, data) {
+    data = data || {};
+    
+    var eventData = {
+      website_id: config.websiteId,
+      event_type: eventType,
+      page_path: window.location.pathname,
+      referrer: document.referrer || 'direct',
+      visitor_id: visitorId,
+      session_id: sessionId,
+      metadata: data
+    };
+    
+    // Use sendBeacon if available (better for page unload events)
+    if (navigator.sendBeacon) {
+      var blob = new Blob([JSON.stringify(eventData)], { type: 'application/json' });
+      navigator.sendBeacon(config.apiUrl, blob);
+    } else {
+      // Fallback to fetch
+      fetch(config.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData),
+        keepalive: true
+      }).catch(function(error) {
+        console.warn('Zappy Analytics: Failed to track event', error);
+      });
+    }
+  }
+  
+  // Track page view
+  if (config.trackPageViews) {
+    trackEvent('pageview', {
+      title: document.title,
+      url: window.location.href
+    });
+  }
+  
+  // Track clicks on important elements
+  if (config.trackClicks) {
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      
+      // Track button clicks (counted as actions)
+      if (target.tagName === 'BUTTON' || target.closest('button')) {
+        var button = target.tagName === 'BUTTON' ? target : target.closest('button');
+        trackEvent('click', {
+          element: 'button',
+          text: button.textContent.trim().substring(0, 100),
+          id: button.id || null,
+          class: button.className || null
+        });
+      }
+      
+      // Track link clicks (navigation - not counted as actions)
+      else if (target.tagName === 'A' || target.closest('a')) {
+        var link = target.tagName === 'A' ? target : target.closest('a');
+        trackEvent('navigation', {
+          element: 'link',
+          text: link.textContent.trim().substring(0, 100),
+          href: link.href,
+          external: link.hostname !== window.location.hostname
+        });
+      }
+    }, true);
+  }
+  
+  // Track form submissions
+  if (config.trackFormSubmissions) {
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      
+      trackEvent('form_submit', {
+        form_id: form.id || null,
+        form_name: form.name || null,
+        form_action: form.action || null,
+        form_method: form.method || 'GET'
+      });
+    }, true);
+  }
+  
+  // Track time on page (send on page unload)
+  var pageLoadTime = Date.now();
+  
+  window.addEventListener('beforeunload', function() {
+    var timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // in seconds
+    
+    trackEvent('page_unload', {
+      time_on_page: timeOnPage,
+      page_path: window.location.pathname
+    });
+  });
+  
+  // Expose tracking function globally for custom events
+  window.zappyAnalytics = {
+    track: trackEvent,
+    getVisitorId: function() { return visitorId; },
+    getSessionId: function() { return sessionId; }
+  };
+  
+})();
+</script>
+<!-- End Zappy Analytics -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Cookie Consent -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+    <!-- Mickidum Accessibility Toolbar -->
+    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:url" content="https://erantalor.com/contact">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="יצירת קשר">
+    <meta property="og:description" content="ד&quot;ר ערן טל-אור - יצירת קשר">
+    <meta property="og:image" content="https://erantalor.com/assets/section-hero-contact-hero-image-1-og.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:alt" content="יצירת קשר">
+    <meta property="og:locale" content="he_IL">
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="יצירת קשר">
+    <meta name="twitter:description" content="ד&quot;ר ערן טל-אור - יצירת קשר">
+    <meta name="twitter:image" content="https://erantalor.com/assets/section-hero-contact-hero-image-1-og.jpg">
+    <meta name="twitter:image:alt" content="יצירת קשר"><style id="zappy-ai-page-styles">.contact-hero-section {
+  position: relative;
+  min-height: 70vh;
+  overflow: visible;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  direction: rtl;
+  display: flex;
+  align-items: center;
+  padding-bottom: 90px;
+}
+
+/* Background Image Layer */
+.contact-hero-section .contact-hero-bg-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.contact-hero-section .contact-hero-bg-layer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  filter: brightness(0.45) saturate(1.2);
+}
+
+/* Scrim Overlay */
+.contact-hero-section .contact-hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(135deg, rgba(38, 58, 91, 0.88) 0%, rgba(47, 124, 138, 0.55) 55%, rgba(38, 58, 91, 0.72) 100%),
+    linear-gradient(180deg, rgba(20, 28, 48, 0.45) 0%, rgba(20, 28, 48, 0.82) 100%);
+}
+
+/* Texture Overlay — radiology/map contour lines */
+.contact-hero-section .contact-hero-texture {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cg fill='none' stroke='%23EEF1EC' stroke-width='0.8'%3E%3Cellipse cx='160' cy='160' rx='140' ry='60'/%3E%3Cellipse cx='160' cy='160' rx='110' ry='45'/%3E%3Cellipse cx='160' cy='160' rx='80' ry='32'/%3E%3Cellipse cx='160' cy='160' rx='50' ry='20'/%3E%3Cpath d='M20 160 Q80 120 160 140 T300 160'/%3E%3Cpath d='M20 200 Q80 170 160 185 T300 200'/%3E%3Cpath d='M20 120 Q80 90 160 110 T300 120'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 320px 320px;
+  background-repeat: repeat;
+}
+
+/* Main Container */
+.contact-hero-section .contact-hero-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 120px 40px 20px;
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: 48px;
+  align-items: center;
+  direction: rtl;
+}
+
+/* ─── RIGHT COLUMN: Main Text ─────────────────────────── */
+.contact-hero-section .contact-hero-text {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  text-align: right;
+}
+
+/* Annotation Line above H1 */
+.contact-hero-section .hero-annotation-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-direction: row;
+}
+
+.contact-hero-section .annotation-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--secondary);
+  flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(47, 124, 138, 0.7);
+}
+
+.contact-hero-section .annotation-line-bar {
+  flex: 1;
+  max-width: 48px;
+  height: 1px;
+  background: var(--secondary);
+  opacity: 0.75;
+}
+
+.contact-hero-section .annotation-label {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--secondary);
+  white-space: nowrap;
+}
+
+/* H1 */
+.contact-hero-section .contact-hero-h1 {
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-size: 3rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--text-light);
+  margin: 0;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.45);
+}
+
+/* H3 Subtitle */
+.contact-hero-section .contact-hero-subtitle {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 1.0625rem;
+  font-weight: 400;
+  line-height: 1.65;
+  color: rgba(238, 241, 236, 0.82);
+  margin: 0;
+  max-width: 520px;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+}
+
+/* Trust Micro Bar */
+.contact-hero-section .hero-trust-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.contact-hero-section .trust-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: rgba(238, 241, 236, 0.78);
+  padding: 6px 0;
+  letter-spacing: 0.01em;
+}
+
+.contact-hero-section .trust-icon {
+  color: var(--secondary);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.contact-hero-section .trust-separator {
+  width: 1px;
+  height: 18px;
+  background: var(--secondary);
+  opacity: 0.45;
+  margin: 0 16px;
+  flex-shrink: 0;
+}
+
+/* ─── LEFT COLUMN: Dossier Card ───────────────────────── */
+.contact-hero-section .contact-hero-dossier {
+  display: flex;
+  align-items: stretch;
+}
+
+.contact-hero-section .dossier-inner {
+  background: rgba(22, 32, 52, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(47, 124, 138, 0.55);
+  border-radius: 2px;
+  padding: 36px 32px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.32), inset 0 1px 0 rgba(47,124,138,0.18);
+  position: relative;
+}
+
+/* Teal top accent bar */
+.contact-hero-section .dossier-inner::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
+  top: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--secondary) 0%, rgba(47,124,138,0.3) 100%);
+  border-radius: 2px 2px 0 0;
+}
+
+.contact-hero-section .dossier-label {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--secondary);
+}
+
+.contact-hero-section .dossier-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.375rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--text-light);
+  margin: 0;
+}
+
+.contact-hero-section .dossier-divider {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(47,124,138,0.6) 0%, rgba(47,124,138,0.08) 100%);
+  margin: 0;
+}
+
+/* Info List */
+.contact-hero-section .dossier-info-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contact-hero-section .dossier-info-item {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 12px;
+  align-items: start;
+  direction: rtl;
+}
+
+.contact-hero-section .dossier-info-icon {
+  color: var(--secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 2px;
+  flex-shrink: 0;
+}
+
+.contact-hero-section .dossier-info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.contact-hero-section .dossier-info-label {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(238, 241, 236, 0.45);
+}
+
+.contact-hero-section .dossier-info-value {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text-light);
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+/* CTA Button */
+.contact-hero-section .dossier-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 14px 24px;
+  border-radius: 0;
+  border: 1px solid rgba(233, 138, 61, 0.3);
+  text-decoration: none;
+  transition: background 0.22s ease, box-shadow 0.22s ease, transform 0.18s ease;
+  box-shadow: 0 8px 24px rgba(233, 138, 61, 0.3), inset 0 1px 0 rgba(255,255,255,0.12);
+  margin-top: 4px;
+  text-align: center;
+}
+
+.contact-hero-section .dossier-cta:hover {
+  background: #d4782e;
+  box-shadow: 0 12px 32px rgba(233, 138, 61, 0.45);
+  transform: translateY(-2px);
+  color: #fff;
+}
+
+/* ─── Bottom Divider ──────────────────────────────────── */
+.contact-hero-section .contact-hero-divider-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 90px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.contact-hero-section .contact-hero-divider-wrapper svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ─── RESPONSIVE: Tablet ──────────────────────────────── */
+@media (max-width: 1024px) {
+  .contact-hero-section .contact-hero-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    padding: 110px 28px 20px;
+  }
+
+  .contact-hero-section .contact-hero-h1 {
+    font-size: 2.4rem;
+  }
+}
+
+/* ─── RESPONSIVE: Mobile ──────────────────────────────── */
+@media (max-width: 768px) {
+  .contact-hero-section {
+    min-height: auto;
+    padding-bottom: 90px;
+  }
+
+  .contact-hero-section .contact-hero-container {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 100px 16px 20px;
+    direction: rtl;
+  }
+
+  /* On mobile: text first (top), dossier card below */
+  .contact-hero-section .contact-hero-text {
+    
+    gap: 18px;
+  }
+
+  .contact-hero-section .contact-hero-dossier {
+    
+  }
+
+  .contact-hero-section .contact-hero-h1 {
+    font-size: 2rem;
+    line-height: 1.25;
+  }
+
+  .contact-hero-section .contact-hero-subtitle {
+    font-size: 0.9375rem;
+    max-width: 100%;
+  }
+
+  .contact-hero-section .hero-trust-bar {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .contact-hero-section .trust-separator {
+    display: none;
+  }
+
+  .contact-hero-section .trust-item {
+    flex-basis: 100%;
+    padding: 4px 0;
+  }
+
+  .contact-hero-section .dossier-inner {
+    padding: 24px 20px 24px;
+  }
+
+  .contact-hero-section .dossier-info-item {
+    grid-template-columns: 26px 1fr;
+    gap: 10px;
+  }
+}
+/* ZAPPY_POSTGEN_GUARD_RTL_ORDER:יצירת קשר-hero — stripped 2 order declaration(s) conflicting with RTL grid */
+
+
+.contact-contact-section {
+  direction: rtl;
+  background-color: #F5F0E5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='none' stroke='%23BFB7AA' stroke-width='1' opacity='0.45'%3E%3Cpath d='M6 118 C24 102 42 102 60 118 S96 134 118 118 150 102 158 110'/%3E%3Cpath d='M0 36 C18 20 42 18 66 34 S112 48 136 34 156 18 160 22'/%3E%3Cpath d='M24 148 C38 130 58 130 76 146 S116 158 138 142'/%3E%3C/g%3E%3C/svg%3E"),
+    linear-gradient(180deg, #F5F0E5 0%, #EEE6D6 100%);
+  color: var(--text-dark);
+  padding: 120px 24px 80px;
+  position: relative;
+  overflow: visible;
+  font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+}
+
+/* Annotation bar */
+.contact-contact-section .contact-annotation-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.contact-contact-section .contact-annotation-line {
+  display: block;
+  width: 60px;
+  height: 1px;
+  background-color: var(--secondary);
+  opacity: 0.6;
+}
+
+.contact-contact-section .contact-annotation-label {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--secondary);
+  white-space: nowrap;
+}
+
+/* Container */
+.contact-contact-section .contact-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Two-column grid */
+.contact-contact-section .contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  direction: rtl;
+}
+
+@media (min-width: 900px) {
+  .contact-contact-section .contact-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+}
+
+/* ───────── INFO COLUMN ───────── */
+.contact-contact-section .contact-info-col {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.contact-contact-section .contact-heading {
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-size: 31px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--primary);
+  text-align: right;
+  margin: 0;
+}
+
+.contact-contact-section .contact-intro {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-dark);
+  text-align: right;
+  margin: 0;
+  max-width: 480px;
+}
+
+/* Info cards 2×2 grid */
+.contact-contact-section .contact-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  direction: rtl;
+}
+
+@media (max-width: 480px) {
+  .contact-contact-section .contact-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.contact-contact-section .contact-info-card {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 12px;
+  align-items: start;
+  background: rgba(241, 235, 221, 0.82);
+  border: 1px solid rgba(216, 206, 188, 0.55);
+  border-radius: 0;
+  padding: 18px 16px;
+  direction: rtl;
+}
+
+.contact-contact-section .contact-card-icon {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 2px;
+  color: var(--secondary);
+  flex-shrink: 0;
+}
+
+.contact-contact-section .contact-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: right;
+}
+
+.contact-contact-section .contact-card-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--primary);
+  margin: 0;
+  text-align: right;
+}
+
+.contact-contact-section .contact-card-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-dark);
+  margin: 0;
+  text-align: right;
+  word-break: break-word;
+}
+
+/* ───────── FORM COLUMN ───────── */
+.contact-contact-section .contact-form-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-contact-section .contact-form-wrapper {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-top: 3px solid var(--primary);
+  padding: 36px 32px 32px;
+  direction: rtl;
+}
+
+.contact-contact-section .contact-form-header {
+  margin-bottom: 28px;
+  text-align: right;
+}
+
+.contact-contact-section .contact-form-title {
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--primary);
+  margin: 0 0 8px;
+  text-align: right;
+}
+
+.contact-contact-section .contact-form-subtitle {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0;
+  text-align: right;
+}
+
+/* Form fields */
+.contact-contact-section .contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contact-contact-section .contact-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: right;
+}
+
+.contact-contact-section .contact-label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-dark);
+  text-align: right;
+}
+
+.contact-contact-section .contact-input {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text-dark);
+  background: #fafaf8;
+  border: none;
+  border-bottom: 1.5px solid var(--border-light);
+  border-radius: 0;
+  padding: 10px 0;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: right;
+  direction: rtl;
+  transition: border-color 0.2s ease;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.contact-contact-section .contact-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+.contact-contact-section .contact-input:focus {
+  border-bottom-color: var(--secondary);
+  background: #f8f6f0;
+}
+
+.contact-contact-section .contact-textarea {
+  resize: vertical;
+  min-height: 100px;
+  padding: 10px 0;
+  background: #fafaf8;
+}
+
+/* Privacy consent */
+.contact-contact-section .privacy-consent {
+  margin-top: 4px;
+  color: var(--text-dark);
+}
+
+.contact-contact-section .privacy-consent-label {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-dark);
+  text-align: right;
+  direction: rtl;
+}
+
+.contact-contact-section .privacy-consent-checkbox {
+  flex-shrink: 0;
+  margin-top: 3px;
+  width: 15px;
+  height: 15px;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.contact-contact-section .privacy-consent-label a {
+  color: var(--secondary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.contact-contact-section .privacy-consent-label a:hover {
+  color: var(--primary);
+}
+
+/* Submit row */
+.contact-contact-section .contact-form-footer {
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 4px;
+}
+
+.contact-contact-section .contact-submit {
+  background: var(--accent);
+  color: #FFF9F0;
+  padding: 13px 32px;
+  border-radius: 0;
+  border: 1px solid rgba(107, 52, 6, 0.18);
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+}
+
+.contact-contact-section .contact-submit:hover {
+  background: #d4782e;
+  box-shadow: 0 4px 16px rgba(228, 135, 22, 0.28);
+}
+
+/* Bottom divider */
+.contact-contact-section .contact-divider-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.contact-contact-section .contact-divider-wrapper svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ───────── MOBILE ───────── */
+@media (max-width: 768px) {
+  .contact-contact-section {
+    padding: 100px 16px 64px;
+  }
+
+  .contact-contact-section .contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 36px;
+  }
+
+  .contact-contact-section .contact-form-wrapper {
+    padding: 24px 20px 24px;
+  }
+
+  .contact-contact-section .contact-heading {
+    font-size: 26px;
+  }
+
+  .contact-contact-section .contact-cards-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .contact-contact-section .contact-annotation-bar {
+    margin-bottom: 32px;
+  }
+}
+
+.contact-services-section {
+  position: relative;
+  overflow: visible;
+  background-color: var(--bg-dark);
+  background-image:
+    radial-gradient(ellipse at 15% 20%, rgba(47,124,138,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 75%, rgba(233,138,61,0.10) 0%, transparent 50%),
+    linear-gradient(170deg, #2A3F65 0%, var(--bg-dark) 55%, #1A2A44 100%);
+  color: var(--text-light);
+  padding: 90px 24px 110px;
+  direction: rtl;
+}
+
+.contact-services-section .contact-services-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Header ── */
+.contact-services-section .contact-services-header {
+  margin-bottom: 52px;
+  max-width: 680px;
+}
+
+.contact-services-section .contact-services-title {
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--text-light);
+  letter-spacing: -0.01em;
+  margin: 0 0 16px 0;
+}
+
+.contact-services-section .contact-services-subtitle {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(238,241,236,0.78);
+  margin: 0;
+}
+
+/* ── Grid ── */
+.contact-services-section .contact-services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  direction: rtl;
+  margin-bottom: 36px;
+}
+
+/* ── Card ── */
+.contact-services-section .contact-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid var(--border-dark);
+  border-radius: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 420px;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.contact-services-section .contact-card:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: var(--secondary);
+}
+
+/* Teal top bar */
+.contact-services-section .contact-card-topbar {
+  height: 3px;
+  background: var(--secondary);
+  width: 52px;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+/* Medical imaging overlay (radiology-like texture in top corner) */
+.contact-services-section .contact-card-medical-overlay {
+  position: absolute;
+  top: 0;
+  inset-inline-start: 0;
+  width: 120px;
+  height: 120px;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 6px,
+    rgba(47,124,138,0.045) 6px,
+    rgba(47,124,138,0.045) 7px
+  );
+  border-radius: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.contact-services-section .contact-card-inner {
+  position: relative;
+  z-index: 1;
+  padding: 26px 28px 30px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Icon wrap */
+.contact-services-section .contact-card-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 52px;
+  height: 52px;
+  background: rgba(47,124,138,0.18);
+  border: 1px solid rgba(47,124,138,0.35);
+  margin-bottom: 20px;
+  color: var(--secondary);
+  flex-shrink: 0;
+}
+
+.contact-services-section .contact-card-icon-wrap svg {
+  margin: auto;
+  display: block;
+}
+
+.contact-services-section .contact-card-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.375rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text-light);
+  margin: 0 0 14px 0;
+}
+
+.contact-services-section .contact-card-intro {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(238,241,236,0.70);
+  margin: 0 0 18px 0;
+}
+
+/* ── Contact Methods List ── */
+.contact-services-section .contact-methods-list {
+  list-style: none;
+  margin: 0 0 auto 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.contact-services-section .contact-method-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(66,83,111,0.55);
+}
+
+.contact-services-section .contact-method-item:last-child {
+  border-bottom: none;
+}
+
+.contact-services-section .contact-method-label {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--secondary);
+}
+
+.contact-services-section .contact-method-value {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 14px;
+  color: rgba(238,241,236,0.88);
+}
+
+.contact-services-section .contact-link {
+  color: rgba(238,241,236,0.88);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.contact-services-section .contact-link:hover {
+  color: var(--accent);
+}
+
+.contact-services-section .contact-card-note {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 10px 12px;
+  background: rgba(47,124,138,0.10);
+  border-inline-start: 2px solid var(--secondary);
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 13px;
+  color: rgba(238,241,236,0.70);
+  line-height: 1.5;
+}
+
+.contact-services-section .contact-card-note .fa-map-marker-alt {
+  color: var(--secondary);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* ── Attach List ── */
+.contact-services-section .contact-attach-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contact-services-section .contact-attach-list li {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(238,241,236,0.82);
+}
+
+.contact-services-section .attach-bullet {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--secondary);
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 7px;
+}
+
+/* ── Social List ── */
+.contact-services-section .contact-social-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-services-section .contact-social-item {
+  padding: 0;
+}
+
+.contact-services-section .contact-social-divider {
+  height: 1px;
+  background: rgba(66,83,111,0.5);
+  margin: 0;
+}
+
+.contact-services-section .social-link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 4px;
+  text-decoration: none;
+  transition: background 0.2s ease;
+  border-radius: 0;
+}
+
+.contact-services-section .social-link:hover {
+  background: rgba(47,124,138,0.12);
+  padding-inline-end: 12px;
+}
+
+.contact-services-section .social-network-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-light);
+  letter-spacing: 0.01em;
+  transition: color 0.2s ease;
+}
+
+.contact-services-section .social-link:hover .social-network-name {
+  color: var(--secondary);
+}
+
+.contact-services-section .social-network-desc {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 12px;
+  color: rgba(238,241,236,0.52);
+  text-align: start;
+}
+
+/* ── Footnote ── */
+.contact-services-section .contact-services-footnote {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 13px;
+  color: rgba(238,241,236,0.52);
+  line-height: 1.6;
+  padding: 14px 18px;
+  border: 1px solid rgba(66,83,111,0.4);
+  background: rgba(0,0,0,0.12);
+  max-width: 820px;
+}
+
+.contact-services-section .contact-services-footnote .fa-lock {
+  color: var(--secondary);
+  flex-shrink: 0;
+  font-size: 13px;
+}
+
+/* ── Bottom Divider ── */
+.contact-services-section .contact-services-divider-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.contact-services-section .contact-services-divider-wrapper svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .contact-services-section .contact-services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .contact-services-section .contact-card:last-child {
+    grid-column: span 2;
+    max-width: 560px;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-services-section {
+    padding: 60px 16px 90px;
+  }
+
+  .contact-services-section .contact-services-header {
+    margin-bottom: 36px;
+  }
+
+  .contact-services-section .contact-services-title {
+    font-size: 1.65rem;
+  }
+
+  .contact-services-section .contact-services-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px;
+  }
+
+  .contact-services-section .contact-card:last-child {
+    grid-column: span 1 !important;
+    max-width: 100%;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+  }
+
+  .contact-services-section .contact-card {
+    min-height: unset;
+  }
+
+  .contact-services-section .contact-card-inner {
+    padding: 20px 18px 22px;
+  }
+
+  .contact-services-section .contact-services-footnote {
+    font-size: 12px;
+    padding: 12px 14px;
+    gap: 8px;
+  }
+}
+
+.contact-cta-section {
+  position: relative;
+  background-color: #1E2023;
+  background-image:
+    radial-gradient(ellipse at 15% 50%, rgba(47, 124, 138, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 85% 20%, rgba(38, 58, 91, 0.35) 0%, transparent 55%),
+    linear-gradient(180deg, #2A2D2F 0%, #1E2023 100%);
+  color: var(--text-light);
+  padding: 80px 24px;
+  overflow: visible;
+  direction: rtl;
+}
+
+/* Grain texture overlay */
+.contact-cta-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Vignette */
+.contact-cta-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(10, 12, 14, 0.55) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.contact-cta-section .contact-cta-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  border: 1px solid var(--border-dark);
+  padding: 52px 56px;
+  background: rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(2px);
+}
+
+/* Corner document marks */
+.contact-cta-section .cta-corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+
+.contact-cta-section .cta-corner--tl {
+  top: -1px;
+  right: -1px;
+  border-top: 2px solid var(--accent);
+  border-right: 2px solid var(--accent);
+}
+
+.contact-cta-section .cta-corner--tr {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid var(--accent);
+  border-left: 2px solid var(--accent);
+}
+
+.contact-cta-section .cta-corner--bl {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid var(--accent);
+  border-right: 2px solid var(--accent);
+}
+
+.contact-cta-section .cta-corner--br {
+  bottom: -1px;
+  left: -1px;
+  border-bottom: 2px solid var(--accent);
+  border-left: 2px solid var(--accent);
+}
+
+.contact-cta-section .contact-cta-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.contact-cta-section .cta-eyebrow {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--secondary);
+  margin: 0;
+  padding: 0;
+  line-height: 1.4;
+}
+
+.contact-cta-section .cta-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text-light);
+  margin: 0;
+  text-align: right;
+}
+
+.contact-cta-section .cta-body {
+  font-family: 'Manrope', sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgba(238, 241, 236, 0.78);
+  margin: 0;
+  max-width: 580px;
+  text-align: right;
+}
+
+.contact-cta-section .cta-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.contact-cta-section .cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  padding: 14px 28px;
+  border-radius: 0;
+  transition: background 0.22s ease, color 0.22s ease, box-shadow 0.22s ease, transform 0.18s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.contact-cta-section .cta-btn i {
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.contact-cta-section .cta-btn--primary {
+  background: var(--accent);
+  color: #fff;
+  border: 1px solid rgba(107, 52, 6, 0.22);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 4px 16px rgba(233, 138, 61, 0.28);
+}
+
+.contact-cta-section .cta-btn--primary:hover {
+  background: #d4762e;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 6px 22px rgba(233, 138, 61, 0.40);
+  transform: translateY(-1px);
+}
+
+.contact-cta-section .cta-btn--outline {
+  background: transparent;
+  color: var(--text-light);
+  border: 1px solid rgba(238, 241, 236, 0.35);
+  box-shadow: none;
+}
+
+.contact-cta-section .cta-btn--outline:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(238, 241, 236, 0.65);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+  transform: translateY(-1px);
+}
+
+.contact-cta-section .cta-rule {
+  margin-top: 36px;
+  height: 1px;
+  background: linear-gradient(to left, transparent, var(--border-dark) 30%, var(--border-dark) 70%, transparent);
+  opacity: 0.6;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .contact-cta-section {
+    padding: 48px 16px;
+  }
+
+  .contact-cta-section .contact-cta-inner {
+    padding: 36px 24px;
+  }
+
+  .contact-cta-section .cta-heading {
+    font-size: 1.6rem;
+  }
+
+  .contact-cta-section .cta-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .contact-cta-section .cta-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .contact-cta-section .cta-corner {
+    width: 14px;
+    height: 14px;
+  }
+}</style>
+    <link rel="stylesheet" href="/styles.css">
+
+    <style id="zappy-dropdown-submenu-styles">
+      /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
+      /* Base styles for dropdown submenus - parent must be positioned */
+      .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { position: relative; }
+      /* Submenu base - hidden by default */
+      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
+      /* CRITICAL: Desktop hover styles to show dropdown */
+      .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Submenu item styling */
+      .sub-menu li { list-style: none; margin: 0; padding: 0; }
+      .sub-menu a { display: block !important; padding: 10px 16px !important; color: var(--text-dark, #333) !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background-color 0.2s; }
+      .sub-menu a:hover { background-color: #f5f5f5; }
+      /* RTL (Hebrew/Arabic) dropdown positioning */
+      [dir="rtl"] .nav-menu .sub-menu, [dir="rtl"] nav .sub-menu, [dir="rtl"] .navbar .sub-menu, html[lang="he"] .nav-menu .sub-menu, html[lang="he"] nav .sub-menu, html[lang="he"] .navbar .sub-menu, html[lang="ar"] .nav-menu .sub-menu, html[lang="ar"] nav .sub-menu, html[lang="ar"] .navbar .sub-menu { left: auto !important; right: 0 !important; }
+      /* Hide empty dropdown menus */
+      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))), .sub-menu:not(:has(li)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      /* Desktop: show submenu on Menu Group hover */
+      li:has(.menu-group-title):hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Menu Group title styling */
+      .nav-menu > li > .menu-group-title, #navMenu > li > .menu-group-title { display: inline-block; padding: 0.5rem 1rem; cursor: default; user-select: none; }
+      
+      /* ========== MOBILE SUBMENU STYLES ========== */
+      @media (max-width: 768px) {
+        .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { position: static !important; transform: none !important; box-shadow: none !important; background: transparent !important; max-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; padding: 0 !important; border-radius: 0 !important; }
+        .sub-menu.mobile-expanded { max-height: 500px !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
+        [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded { padding: 8px 16px 8px 0 !important; }
+        /* Disable hover behavior on mobile */
+        .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 0; visibility: hidden; pointer-events: none; }
+        .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+        .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { display: flex !important; flex-wrap: wrap !important; align-items: center !important; position: relative !important; min-height: 44px !important; }
+        .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a { flex: 1 !important; min-width: 0 !important; }
+        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; min-width: 0 !important; padding: 0 !important; line-height: inherit !important; }
+        .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu, .navbar li:has(.sub-menu) > .sub-menu, #navMenu li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
+        .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
+        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: auto !important; background: transparent !important; border: none !important; cursor: pointer !important; color: var(--text-dark) !important; position: static !important; flex-shrink: 0 !important; align-self: stretch !important; z-index: 2 !important; padding: 0 !important; margin: 0 !important; }
+        .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
+        .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
+        .sub-menu a { padding: 10px 0 !important; display: block !important; color: var(--text-dark) !important; }
+        .navbar .sub-menu li a, nav.navbar .sub-menu li a, .zappy-products-dropdown .sub-menu a { color: var(--text-dark) !important; }
+      }
+      @media (min-width: 769px) { .mobile-submenu-toggle { display: none !important; } }
+    </style>
+
+    <style id="mobile-lang-menu-deployed-css">
+    @media (max-width: 768px) {
+      .lang-switcher,
+      .nav-cta-container .lang-switcher,
+      .nav-container .lang-switcher,
+      .navbar .lang-switcher,
+      .navbar .nav-cta-container .lang-switcher,
+      .nav-icons-left .lang-switcher,
+      .nav-ecommerce-icons .lang-switcher { display: none !important; }
+      .mobile-lang-menu { width: 100%; border-top: 1px solid rgba(128,128,128,0.2); padding: 8px 0 0 0; margin-top: 8px; }
+      .mobile-lang-toggle { display: flex !important; align-items: center; justify-content: space-between; width: 100%; padding: 12px 16px; background: none; border: none; cursor: pointer; font-size: 15px; color: inherit; font-family: inherit; }
+      .mobile-lang-toggle::after { content: ''; display: inline-block; width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); transition: transform 0.3s ease; margin-left: 8px; }
+      .mobile-lang-toggle.expanded::after { transform: rotate(-135deg); }
+      .mobile-lang-options { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+      .mobile-lang-options.expanded { max-height: 300px; }
+      .mobile-lang-option { display: flex !important; align-items: center; gap: 10px; padding: 10px 24px; text-decoration: none; color: inherit; font-size: 14px; font-family: inherit; }
+      .mobile-lang-option:hover { background: rgba(128,128,128,0.1); }
+      .mobile-lang-option.active { font-weight: 600; opacity: 0.7; pointer-events: none; }
+      .mobile-lang-option img { width: 20px; height: 20px; border-radius: 50%; }
+    }
+    @media (min-width: 769px) {
+      .mobile-lang-menu { display: none !important; }
+    }
+    </style>
+
+    <style id="zappy-widget-visibility">
+      #mic-access-tool-general-button, .mic-access-tool-general-button,
+      #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+      ._access-icon, #mic-access-tool-box, .mic-access-tool-box,
+      #mic-init-access-tool #mic-access-tool-box, div[id*="mic-access-tool-box"], ._access-menu {
+        display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important;
+      }
+    </style>
+</head>
+<body>
+
+  <nav class="navbar" dir="rtl">
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+  </button>
+
+  <button class="phone-header-btn" data-phone="+972506267434" aria-label="Call">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+  </button>
+
+  <div class="nav-container">
+    <div class="nav-right-group"><div class="nav-brand">
+      <a href="/" class="logo-link">
+        <img src="/assets/logo-1774348195734-abe1lj.webp?v=1774348195940-x5j2ps" alt="Eran Talor MD" class="logo">
+      </a>
+    </div><ul class="nav-menu" id="navMenu"><li><a href="/medical-expert-opinions">חוות דעת רפואיות</a></li><li><a href="/emergency-disaster-preparedness">ייעוץ מוכנות לחירום ואסונות</a></li><li><a href="/emergency-medicine-advisory">ייעוץ ברפואת חירום</a></li><li><a href="/contact" class="nav-link">יצירת קשר</a></li></ul></div>
+
+    
+
+    <div class="nav-cta-container">
+      <a href="/about-contact" class="nav-cta-btn">אודות וצור קשר</a>
+    </div>
+  </div>
+</nav>
+<script>
+
+// Navbar Mobile Menu Toggle and Contrast Fix
+(function() {
+  // Use 'load' event instead of 'DOMContentLoaded' to ensure we run AFTER all other scripts
+  window.addEventListener('load', function() {
+    
+    // FIX MOBILE BUTTON CONTRAST
+    // Detect navbar background color and apply contrasting color to mobile buttons
+    const navbar = document.querySelector('.navbar, nav, header');
+    if (!navbar) {
+      console.log('[Navbar] Navbar element not found');
+      return;
+    }
+    
+    // DECLARE VARIABLES EARLY to avoid Temporal Dead Zone errors
+    // These are used in multiple places below
+    let mobileToggle = document.getElementById('mobileToggle') ||
+                       document.querySelector('.mobile-toggle') ||
+                       document.querySelector('.hamburger') ||
+                       document.querySelector('.hamburger-menu') ||
+                       document.querySelector('.menu-toggle') ||
+                       document.querySelector('.burger-menu') ||
+                       document.querySelector('[aria-label="Menu"]') ||
+                       document.querySelector('[aria-label="תפריט"]');
+    
+    const phoneBtn = document.querySelector('.phone-header-btn');
+    
+    const computedStyle = window.getComputedStyle(navbar);
+    let bgColor = computedStyle.backgroundColor;
+    
+    console.log('[Navbar] Initial navbar background:', bgColor);
+    
+    // Check if background is transparent or rgba with 0 alpha
+    const isTransparent = bgColor === 'transparent' || 
+                         bgColor === 'rgba(0, 0, 0, 0)' ||
+                         (bgColor.startsWith('rgba') && bgColor.includes(', 0)'));
+    
+    if (isTransparent) {
+      // Check for background-image or gradient
+      const bgImage = computedStyle.backgroundImage;
+      if (bgImage && bgImage !== 'none') {
+        console.log('[Navbar] Navbar has background image/gradient, using dark text');
+        bgColor = 'rgb(240, 240, 240)'; // Assume light background
+      } else {
+        // Transparent navbar - check body background
+        const bodyBg = window.getComputedStyle(document.body).backgroundColor;
+        console.log('[Navbar] Navbar transparent, using body background:', bodyBg);
+        bgColor = bodyBg;
+      }
+    }
+    
+    // Calculate luminance to determine if background is light or dark
+    const rgb = bgColor.match(/\d+/g);
+    if (rgb && rgb.length >= 3) {
+      const r = parseInt(rgb[0]);
+      const g = parseInt(rgb[1]);
+      const b = parseInt(rgb[2]);
+      const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+      
+      // Mobile button colors are set by Claude's AI-generated CSS (same as .nav-menu a)
+      // No dynamic color overrides needed - colors come from the generated navbar CSS
+      console.log('[Navbar] Mobile button colors preserved from Claude CSS (luminance:', luminance.toFixed(2) + ')');
+      
+      // FIX ICON SIZES - Ensure SVGs are properly sized and visible
+      // INJECT CRITICAL CSS TO OVERRIDE ANY CONFLICTING RULES
+      const criticalCSS = document.createElement('style');
+      criticalCSS.id = 'zappy-mobile-nav-fix';
+      const htmlLang = document.documentElement.lang || 'en';
+      const htmlDir = document.documentElement.dir || 'ltr';
+      // Check both dir attribute AND lang for RTL detection
+      // dir="rtl" is the most reliable indicator
+      const isRTL = htmlDir === 'rtl' || htmlLang === 'he' || htmlLang === 'ar';
+      
+      criticalCSS.textContent = `
+        /* Hide mobile buttons on desktop, show only on mobile */
+        @media (min-width: 769px) {
+          .mobile-toggle,
+          .phone-header-btn {
+            display: none !important;
+          }
+        }
+        
+        /* Show and position mobile buttons correctly on mobile */
+        @media (max-width: 768px) {
+          .mobile-toggle,
+          .phone-header-btn {
+            position: absolute !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            z-index: 1001 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 36px !important;
+            height: 36px !important;
+            border-radius: 50% !important;
+            border: none !important;
+            cursor: pointer !important;
+            padding: 6px !important;
+            background: none !important;
+            color: var(--nav-text, var(--text-dark)) !important;
+          }
+          
+          /* LTR positioning (default): hamburger LEFT, phone RIGHT */
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .mobile-toggle,
+          html[dir="ltr"] .mobile-toggle {
+            left: 12px !important;
+            right: auto !important;
+          }
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .phone-header-btn,
+          html[dir="ltr"] .phone-header-btn {
+            right: 12px !important;
+            left: auto !important;
+          }
+          
+          /* RTL positioning: hamburger RIGHT, phone LEFT */
+          html[dir="rtl"] .mobile-toggle,
+          html[lang="he"] .mobile-toggle,
+          html[lang="ar"] .mobile-toggle {
+            right: 12px !important;
+            left: auto !important;
+          }
+          html[dir="rtl"] .phone-header-btn,
+          html[lang="he"] .phone-header-btn,
+          html[lang="ar"] .phone-header-btn {
+            left: 12px !important;
+            right: auto !important;
+          }
+          
+          /* CRITICAL: Ensure nav-container has min-height on mobile */
+          /* All children are positioned absolutely/fixed on mobile, so height:auto collapses to 0 */
+          .nav-container {
+            min-height: 70px !important;
+            position: relative !important;
+          }
+          
+          /* Ensure SVG icons are properly sized and inherit color */
+          .mobile-toggle svg,
+          .phone-header-btn svg {
+            width: 24px !important;
+            height: 24px !important;
+            /* Don't force display - let JavaScript control hamburger/close toggle */
+          }
+          
+          /* Reset nav-cta-container on mobile - remove desktop box-shadow/padding */
+          /* that creates a visible ghost box when CTA button is hidden */
+          .nav-cta-container {
+            box-shadow: none !important;
+            padding: 0 !important;
+          }
+          
+          /* Hide nav-cta-container entirely on mobile when there's no lang-switcher */
+          /* (only the CTA button is inside, and it's hidden on mobile) */
+          .nav-cta-container:not(:has(.lang-switcher)) {
+            display: none !important;
+          }
+          
+          /* CRITICAL: Prevent hero image fade gradient from bleeding over headline text */
+          /* The .image-fade-gradient has bottom: -30px (extends below parent) */
+          /* On mobile stacked layout, this overlaps the h1 text below the image */
+          .hero-image-column {
+            overflow: hidden !important;
+          }
+          .image-fade-gradient {
+            bottom: 0 !important;
+          }
+          
+          /* Hide desktop language switcher on mobile - hamburger menu handles it */
+          /* High specificity to override stored CSS */
+          .lang-switcher,
+          .nav-cta-container .lang-switcher,
+          .nav-container .lang-switcher,
+          .navbar .lang-switcher,
+          .navbar .nav-cta-container .lang-switcher {
+            display: none !important;
+          }
+        }
+      `;
+      
+      // Remove existing fix if present and inject new one
+      const existing = document.getElementById('zappy-mobile-nav-fix');
+      if (existing) existing.remove();
+      document.head.appendChild(criticalCSS);
+      
+      console.log('[Navbar] Critical CSS injected for mobile nav positioning');
+      
+      // ONLY apply inline positioning styles on mobile viewport
+      // On desktop, the CSS handles hiding these buttons with display: none
+      // Inline styles were breaking desktop layout by overriding CSS
+      const isMobileViewport = window.innerWidth <= 768;
+      
+      if (mobileToggle) {
+        // Icon sizing applies to all viewports for consistency
+        const hamburgerIcon = mobileToggle.querySelector('.hamburger-icon');
+        const closeIcon = mobileToggle.querySelector('.close-icon');
+        
+        if (hamburgerIcon) {
+          hamburgerIcon.style.setProperty('width', '24px', 'important');
+          hamburgerIcon.style.setProperty('height', '24px', 'important');
+          hamburgerIcon.style.setProperty('display', 'block', 'important'); // Show hamburger by default
+        }
+        if (closeIcon) {
+          closeIcon.style.setProperty('width', '24px', 'important');
+          closeIcon.style.setProperty('height', '24px', 'important');
+          closeIcon.style.setProperty('display', 'none', 'important'); // Hide close icon by default
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          mobileToggle.style.setProperty('position', 'absolute', 'important');
+          mobileToggle.style.setProperty('top', '50%', 'important');
+          mobileToggle.style.setProperty('transform', 'translateY(-50%)', 'important');
+          mobileToggle.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          
+          console.log('[Navbar] Mobile toggle positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          mobileToggle.style.removeProperty('position');
+          mobileToggle.style.removeProperty('top');
+          mobileToggle.style.removeProperty('transform');
+          mobileToggle.style.removeProperty('z-index');
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared mobile toggle inline positioning');
+        }
+      }
+      
+      if (phoneBtn) {
+        // Icon sizing applies to all viewports
+        const phoneIcon = phoneBtn.querySelector('svg');
+        if (phoneIcon) {
+          phoneIcon.style.width = '24px';
+          phoneIcon.style.height = '24px';
+          phoneIcon.setAttribute('width', '24');
+          phoneIcon.setAttribute('height', '24');
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          phoneBtn.style.setProperty('position', 'absolute', 'important');
+          phoneBtn.style.setProperty('top', '50%', 'important');
+          phoneBtn.style.setProperty('transform', 'translateY(-50%)', 'important');
+          phoneBtn.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          
+          console.log('[Navbar] Phone button positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          phoneBtn.style.removeProperty('position');
+          phoneBtn.style.removeProperty('top');
+          phoneBtn.style.removeProperty('transform');
+          phoneBtn.style.removeProperty('z-index');
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared phone button inline positioning');
+        }
+      }
+    } else {
+      console.log('[Navbar] Could not parse background color:', bgColor);
+    }
+    
+    // MOBILE MENU TOGGLE
+    // Re-query in case DOM changed (mobileToggle already declared at top of function)
+    mobileToggle = document.getElementById('mobileToggle') ||
+                   document.querySelector('.mobile-toggle') ||
+                   document.querySelector('.hamburger') ||
+                   document.querySelector('.hamburger-menu') ||
+                   document.querySelector('.menu-toggle') ||
+                   document.querySelector('.burger-menu') ||
+                   document.querySelector('[aria-label="Menu"]') ||
+                   document.querySelector('[aria-label="תפריט"]');
+    
+    // EXPANDED SEARCH: Find nav menu by ID or class
+    const navMenu = document.getElementById('navMenu') ||
+                  document.querySelector('.nav-menu') ||
+                  document.querySelector('.nav-links') ||
+                  document.querySelector('nav ul:not(.submenu)');
+    
+    if (!mobileToggle || !navMenu) {
+      console.log('[Navbar] Mobile toggle or menu not found:', { toggle: !!mobileToggle, menu: !!navMenu });
+      return;
+    }
+    
+    // Ensure navMenu has ID for CSS targeting
+    if (!navMenu.id) {
+      navMenu.id = 'navMenu';
+    }
+    
+    console.log('[Navbar] Initializing mobile menu...');
+    
+    // Remove any existing event listeners by cloning the button
+    const newToggle = mobileToggle.cloneNode(true);
+    mobileToggle.parentNode.replaceChild(newToggle, mobileToggle);
+    
+    // Toggle menu on button click - use newToggle now
+    newToggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const hamburgerIcon = this.querySelector('.hamburger-icon');
+      const closeIcon = this.querySelector('.close-icon');
+      const isActive = navMenu.classList.contains('active');
+      
+      if (isActive) {
+        // Close menu
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        console.log('[Navbar] Menu closed');
+      } else {
+        // Open menu
+        navMenu.classList.add('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'none', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'block', 'important');
+        document.body.style.overflow = 'hidden';
+        console.log('[Navbar] Menu opened');
+      }
+    });
+    
+    // Close menu when clicking nav links (but NOT dropdown toggles)
+    const navLinks = navMenu.querySelectorAll('a');
+    navLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        // Don't close if it's a dropdown child (unless it's a real navigation link)
+        if (this.getAttribute('href') === '#') return;
+        
+        const hamburgerIcon = newToggle.querySelector('.hamburger-icon');
+        const closeIcon = newToggle.querySelector('.close-icon');
+        
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        console.log('[Navbar] Menu closed (link clicked)');
+      });
+    });
+    
+    // DROPDOWN MENU TOGGLE (for mobile and touch devices)
+    var dropdownToggles = navMenu.querySelectorAll('.dropdown-toggle');
+    dropdownToggles.forEach(function(toggle) {
+      toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var parent = this.closest('.nav-dropdown');
+        if (!parent) return;
+        
+        // Close other open dropdowns at the same level
+        var siblings = parent.parentNode.querySelectorAll('.nav-dropdown.open');
+        siblings.forEach(function(sib) {
+          if (sib !== parent) sib.classList.remove('open');
+        });
+        
+        parent.classList.toggle('open');
+        console.log('[Navbar] Dropdown toggled:', parent.classList.contains('open') ? 'open' : 'closed');
+      });
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        var openDropdowns = document.querySelectorAll('.nav-dropdown.open');
+        openDropdowns.forEach(function(dd) { dd.classList.remove('open'); });
+      }
+    });
+    
+    console.log('[Navbar] Dropdown handlers initialized for ' + dropdownToggles.length + ' dropdowns');
+    
+    // Phone button functionality (phoneBtn already declared at top of function)
+    if (phoneBtn) {
+      phoneBtn.addEventListener('click', function() {
+        // Get phone number from placeholder in page or use default
+        const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+        const phoneNumber = phoneLinks.length > 0 
+          ? phoneLinks[0].getAttribute('href').replace('tel:', '')
+          : '+972506267434';
+        
+        window.location.href = 'tel:' + phoneNumber;
+        console.log('[Navbar] Phone button clicked');
+      });
+    }
+    
+    console.log('[Navbar] Mobile menu initialized successfully');
+    
+    // === WHATSAPP BUTTON VISIBILITY FIX ===
+    // Ensure WhatsApp floating button is hidden on desktop and visible on mobile
+    // IMPORTANT: Only target the floating button by its class, NOT generic wa.me links
+    const handleWhatsAppVisibility = function() {
+      const whatsappBtn = document.querySelector('.whatsapp-float');
+      if (whatsappBtn) {
+        const isDesktop = window.innerWidth >= 769;
+        if (isDesktop) {
+          whatsappBtn.style.setProperty('display', 'none', 'important');
+          whatsappBtn.style.setProperty('visibility', 'hidden', 'important');
+          whatsappBtn.style.setProperty('opacity', '0', 'important');
+          whatsappBtn.style.setProperty('pointer-events', 'none', 'important');
+          console.log('[WhatsApp] Button hidden on desktop');
+        } else {
+          whatsappBtn.style.removeProperty('display');
+          whatsappBtn.style.removeProperty('visibility');
+          whatsappBtn.style.removeProperty('opacity');
+          whatsappBtn.style.removeProperty('pointer-events');
+          console.log('[WhatsApp] Button visible on mobile');
+        }
+      }
+    };
+    
+    // Run on load
+    handleWhatsAppVisibility();
+    
+    // Run on resize with debouncing
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(handleWhatsAppVisibility, 100);
+    });
+  });
+})();
+
+</script>
+  
+  <main class="blog-page ai-generated-page"><section class="contact-hero-section" data-layout-spec="יצירת קשר-hero" dir="rtl" data-hero-type="fullscreen-scrim">
+  <!-- Background Image Layer -->
+  <div class="contact-hero-bg-layer">
+    <img data-hero-bg="true" data-context="Deep indigo and teal abstract background suggesting medical and legal authority — blurred radiology scan overlays, faint topographic map contour lines, and subtle legal document textures merging into a dark professional atmosphere. Deep navy and teal color palette, dramatic lighting from upper right, cinematic editorial mood suitable for a senior medical expert witness and emergency medicine specialist." width="1440" height="800" src="/assets/section-hero-contact-hero-image-1.webp" alt="רקע מקצועי - רפואה ומשפט" data-zappy-editable-image="true">
+  </div>
+
+  <!-- Scrim Overlay -->
+  <div class="contact-hero-scrim" aria-hidden="true"></div>
+
+  <!-- Map/Radiology Texture Overlay -->
+  <div class="contact-hero-texture" aria-hidden="true"></div>
+
+  <!-- Main Content Container -->
+  <div class="contact-hero-container">
+    <!-- Left Column: Dossier Card -->
+    <aside class="contact-hero-dossier">
+      <div class="dossier-inner">
+        <div class="dossier-label">פרטי יצירת קשר</div>
+        <h3 class="dossier-title">נשמח לעמוד לרשותכם</h3>
+        <div class="dossier-divider" aria-hidden="true"></div>
+
+        <ul class="dossier-info-list">
+          <li class="dossier-info-item">
+            <span class="dossier-info-icon" aria-hidden="true">
+              <svg data-element-type="icon" data-icon-type="svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </span>
+            <div class="dossier-info-content">
+              <span class="dossier-info-label">שעות מענה</span>
+              <span class="dossier-info-value">א׳–ה׳, 09:00–18:00</span>
+            </div>
+          </li>
+          <li class="dossier-info-item">
+            <span class="dossier-info-icon" aria-hidden="true">
+              <svg data-element-type="icon" data-icon-type="svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.11 1.22 2 2 0 012.11 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"></path></svg>
+            </span>
+            <div class="dossier-info-content">
+              <span class="dossier-info-label">טלפון</span>
+              <span class="dossier-info-value">[business_phone]</span>
+            </div>
+          </li>
+          <li class="dossier-info-item">
+            <span class="dossier-info-icon" aria-hidden="true">
+              <svg data-element-type="icon" data-icon-type="svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </span>
+            <div class="dossier-info-content">
+              <span class="dossier-info-label">דוא״ל</span>
+              <span class="dossier-info-value">[business_email]</span>
+            </div>
+          </li>
+        </ul>
+
+        <a href="#contact-form" class="dossier-cta btn-secondary">שלחו פנייה עכשיו <span aria-hidden="true">←</span></a>
+      </div>
+    </aside>
+
+    <!-- Right Column: Main Text Block -->
+    <div class="contact-hero-text">
+      <div class="hero-annotation-line" aria-hidden="true">
+        <span class="annotation-dot"></span>
+        <span class="annotation-line-bar"></span>
+        <span class="annotation-label">יצירת קשר</span>
+      </div>
+
+      <h1 class="contact-hero-h1">נפגש, נבחן,<br>נמצא את הדרך הנכונה</h1>
+
+      <h3 class="contact-hero-subtitle">ד״ר ערן טל-אור עומד לרשותכם לשאלות בתחומי חוות דעת מומחה, ייעוץ חירום ורפואה דחופה</h3>
+
+      <!-- Trust Micro Bar -->
+      <div class="hero-trust-bar" role="list">
+        <div class="trust-item" role="listitem">
+          <span class="trust-icon" aria-hidden="true">
+            <svg data-element-type="icon" data-icon-type="svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          </span>
+          <span>מומחה מוסמך בבתי משפט</span>
+        </div>
+        <div class="trust-separator" aria-hidden="true"></div>
+        <div class="trust-item" role="listitem">
+          <span class="trust-icon" aria-hidden="true">
+            <svg data-element-type="icon" data-icon-type="svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          </span>
+          <span>ניסיון של מעל 20 שנה</span>
+        </div>
+        <div class="trust-separator" aria-hidden="true"></div>
+        <div class="trust-item" role="listitem">
+          <span class="trust-icon" aria-hidden="true">
+            <svg data-element-type="icon" data-icon-type="svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 00-3-3.87"></path><path d="M16 3.13a4 4 0 010 7.75"></path></svg>
+          </span>
+          <span>מענה אישי ומקצועי</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Fade Divider -->
+  <div class="contact-hero-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,90 L0,52 Q120,38 240,50 T480,44 Q600,50 720,40 T960,48 Q1080,38 1200,50 T1440,44 L1440,90 Z" fill="var(--bg-light)"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="contact-contact-section" data-layout-spec="יצירת קשר-contact" dir="rtl">
+  <!-- Brand annotation line -->
+  <div class="contact-annotation-bar">
+    <span class="contact-annotation-line"></span>
+    <span class="contact-annotation-label">יצירת קשר</span>
+    <span class="contact-annotation-line"></span>
+  </div>
+
+  <div class="contact-container">
+    <div class="contact-grid">
+
+      <!-- Right Column: Info -->
+      <div class="contact-info-col">
+        <h2 class="contact-heading">נשמח לשמוע מכם</h2>
+        <p class="contact-intro">לפניות בנושאי חוות דעת רפואית מומחה, ייעוץ בחירום ואסונות, או רפואה דחופה — ניתן לפנות בכל אחד מהאמצעים הבאים. כל פנייה מטופלת במקצועיות ובדיסקרטיות מלאה.</p>
+
+        <div class="contact-cards-grid">
+          <!-- Phone -->
+          <article class="contact-info-card">
+            <div class="contact-card-icon">
+              <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.72A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"></path></svg>
+            </div>
+            <div class="contact-card-content">
+              <h3 class="contact-card-title">טלפון</h3>
+              <p class="contact-card-text">[business_phone]</p>
+            </div>
+          </article>
+
+          <!-- Email -->
+          <article class="contact-info-card">
+            <div class="contact-card-icon">
+              <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </div>
+            <div class="contact-card-content">
+              <h3 class="contact-card-title">דוא״ל</h3>
+              <p class="contact-card-text">[business_email]</p>
+            </div>
+          </article>
+
+          <!-- Area -->
+          <article class="contact-info-card">
+            <div class="contact-card-icon">
+              <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="10" r="3"></circle><path d="M12 2a8 8 0 018 8c0 5.25-8 14-8 14S4 15.25 4 10a8 8 0 018-8z"></path></svg>
+            </div>
+            <div class="contact-card-content">
+              <h3 class="contact-card-title">אזור פעילות</h3>
+              <p class="contact-card-text">[business_address]</p>
+              <p class="contact-card-text">מענה לכלל הארץ</p>
+            </div>
+          </article>
+
+          <!-- Hours -->
+          <article class="contact-info-card">
+            <div class="contact-card-icon">
+              <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </div>
+            <div class="contact-card-content">
+              <h3 class="contact-card-title">שעות מענה</h3>
+              <p class="contact-card-text">ראשון–חמישי: 09:00–18:00</p>
+              <p class="contact-card-text">פנייה דחופה: בתיאום מראש</p>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <!-- Left Column: Form -->
+      <div class="contact-form-col">
+        <div class="contact-form-wrapper">
+          <div class="contact-form-header">
+            <h3 class="contact-form-title">שלחו פנייה</h3>
+            <p class="contact-form-subtitle">כל פנייה נענית באופן אישי ומקצועי, בדיסקרטיות מוחלטת.</p>
+          </div>
+
+          <form class="contact-form" novalidate="">
+            <div class="contact-field">
+              <label class="contact-label" for="contact-name">שם מלא</label>
+              <input class="contact-input" type="text" id="contact-name" name="name" placeholder="ד&quot;ר / עו&quot;ד / שם מלא" required="">
+            </div>
+
+            <div class="contact-field">
+              <label class="contact-label" for="contact-email">דוא״ל</label>
+              <input class="contact-input" type="email" id="contact-email" name="email" placeholder="your@email.com" required="">
+            </div>
+
+            <div class="contact-field">
+              <label class="contact-label" for="contact-phone">טלפון</label>
+              <input class="contact-input" type="tel" id="contact-phone" name="phone" placeholder="05X-XXX-XXXX">
+            </div>
+
+            <div class="contact-field">
+              <label class="contact-label" for="contact-message">הודעה</label>
+              <textarea class="contact-input contact-textarea" id="contact-message" name="message" placeholder="תארו בקצרה את נושא הפנייה..." rows="4" required=""></textarea>
+            </div>
+
+            <div class="privacy-consent">
+              <label class="privacy-consent-label">
+                <input type="checkbox" name="privacy_consent" class="privacy-consent-checkbox" required="">
+                <span>קראתי ואני מסכים/ה ל<a href="/terms" target="_blank">תנאי השימוש</a> ול<a href="/privacy" target="_blank">מדיניות הפרטיות</a></span>
+              </label>
+            </div>
+
+            <div class="contact-form-footer">
+              <button type="submit" class="btn-secondary contact-submit">שלח פנייה</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom divider -->
+  <div class="contact-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="400" y1="20" x2="800" y2="20" stroke="var(--secondary)" stroke-width="1" opacity="0.35"></line>
+      <circle cx="600" cy="20" r="3" fill="var(--secondary)" opacity="0.45"></circle>
+    </svg>
+  </div>
+</section>
+
+<section class="contact-services-section" data-layout-spec="יצירת קשר-services" dir="rtl">
+  <div class="contact-services-container">
+
+    <!-- Section Header -->
+    <div class="contact-services-header">
+      <h2 class="contact-services-title">דרכי התקשרות ומידע שימושי</h2>
+      <p class="contact-services-subtitle">לפניות מקצועיות בתחומי רפואה ומשפט — ריכזנו עבורכם את כל הדרכים ליצור קשר, מה מומלץ לצרף לפנייה ראשונית, וכיצד להגיע אלינו ברשתות החברתיות.</p>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="contact-services-grid">
+
+      <!-- Card 1: Contact Methods -->
+      <article class="contact-card">
+        <div class="contact-card-topbar"></div>
+        <div class="contact-card-medical-overlay" aria-hidden="true"></div>
+        <div class="contact-card-inner">
+          <div class="contact-card-icon-wrap">
+            <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"></path></svg>
+          </div>
+          <h3 class="contact-card-title">דרכי התקשרות לפי סוג פנייה</h3>
+          <ul class="contact-methods-list">
+            <li class="contact-method-item">
+              <span class="contact-method-label">עורכי דין ובתי משפט</span>
+              <span class="contact-method-value"><a href="mailto:[business_email]" class="contact-link">[business_email]</a></span>
+            </li>
+            <li class="contact-method-item">
+              <span class="contact-method-label">ארגונים וגופים ציבוריים</span>
+              <span class="contact-method-value"><a href="tel:[business_phone]" class="contact-link">[business_phone]</a></span>
+            </li>
+            <li class="contact-method-item">
+              <span class="contact-method-label">פניות מטופלים ופרטיות</span>
+              <span class="contact-method-value"><a href="mailto:[business_email]" class="contact-link">דוא"ל בלבד</a></span>
+            </li>
+            <li class="contact-method-item">
+              <span class="contact-method-label">ייעוץ דחוף ומיידי</span>
+              <span class="contact-method-value"><a href="tel:[business_phone]" class="contact-link">טלפון ישיר</a></span>
+            </li>
+          </ul>
+          <div class="contact-card-note">
+            <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+            <span>[business_address]</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2: What to Attach -->
+      <article class="contact-card">
+        <div class="contact-card-topbar"></div>
+        <div class="contact-card-medical-overlay" aria-hidden="true"></div>
+        <div class="contact-card-inner">
+          <div class="contact-card-icon-wrap">
+            <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          </div>
+          <h3 class="contact-card-title">מה מומלץ לצרף לפנייה ראשונית</h3>
+          <p class="contact-card-intro">פנייה מסודרת תאפשר מענה מהיר ומדויק יותר. מומלץ לכלול את המסמכים הבאים:</p>
+          <ul class="contact-attach-list">
+            <li>
+              <span class="attach-bullet"></span>
+              <span>תיאור תמציתי של הסוגיה או האירוע הרלוונטי</span>
+            </li>
+            <li>
+              <span class="attach-bullet"></span>
+              <span>מסמכים רפואיים רלוונטיים (תיק רפואי, ממצאי בדיקות, סיכומי מחלה)</span>
+            </li>
+            <li>
+              <span class="attach-bullet"></span>
+              <span>ציון מסגרת הזמן הנדרשת לקבלת חוות הדעת</span>
+            </li>
+            <li>
+              <span class="attach-bullet"></span>
+              <span>פרטי הגורם המזמין (עו"ד, בית משפט, ארגון)</span>
+            </li>
+            <li>
+              <span class="attach-bullet"></span>
+              <span>כל תיעוד קודם של חוות דעת רפואיות בתיק</span>
+            </li>
+            <li>
+              <span class="attach-bullet"></span>
+              <span>שאלות ספציפיות הדורשות התייחסות מקצועית</span>
+            </li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- Card 3: Social Networks -->
+      <article class="contact-card">
+        <div class="contact-card-topbar"></div>
+        <div class="contact-card-medical-overlay" aria-hidden="true"></div>
+        <div class="contact-card-inner">
+          <div class="contact-card-icon-wrap">
+            <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+          </div>
+          <h3 class="contact-card-title">רשתות חברתיות ונוכחות מקוונת</h3>
+          <p class="contact-card-intro">עקבו אחר עדכונים מקצועיים, מאמרים ופרסומים בתחומי הרפואה והמשפט:</p>
+          <ul class="contact-social-list">
+            <li class="contact-social-item">
+              <a href="https://www.linkedin.com/in/[business_handle]" target="_blank" rel="noopener noreferrer" class="social-link">
+                <span class="social-network-name">LinkedIn</span>
+                <span class="social-network-desc">פרופיל מקצועי ופרסומים</span>
+              </a>
+            </li>
+            <li class="contact-social-divider" aria-hidden="true"></li>
+            <li class="contact-social-item">
+              <a href="https://www.facebook.com/[facebook_handle]" target="_blank" rel="noopener noreferrer" class="social-link">
+                <span class="social-network-name">Facebook</span>
+                <span class="social-network-desc">עדכונים ומאמרים שוטפים</span>
+              </a>
+            </li>
+            <li class="contact-social-divider" aria-hidden="true"></li>
+            <li class="contact-social-item">
+              <a href="https://www.youtube.com/@[business_handle]" target="_blank" rel="noopener noreferrer" class="social-link">
+                <span class="social-network-name">YouTube</span>
+                <span class="social-network-desc">הרצאות וסרטוני הסבר מקצועיים</span>
+              </a>
+            </li>
+            <li class="contact-social-divider" aria-hidden="true"></li>
+            <li class="contact-social-item">
+              <a href="https://wa.me/[whatsapp_handle]" target="_blank" rel="noopener noreferrer" class="social-link">
+                <span class="social-network-name">WhatsApp</span>
+                <span class="social-network-desc">לפניות ראשוניות בלבד</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Footer Note -->
+    <p class="contact-services-footnote">
+      <i class="fas fa-lock" aria-hidden="true"></i>
+      מידע רגיש ומסמכים רפואיים יש לשלוח אך ורק בדוא"ל מאובטח — לא דרך הודעות ציבוריות ברשתות חברתיות.
+    </p>
+
+  </div>
+
+  <!-- Bottom Divider -->
+  <div class="contact-services-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,70 L0,32 Q60,22 120,30 T240,26 Q300,32 360,24 T480,28 Q540,22 600,30 T720,26 Q780,32 840,24 T960,28 Q1020,22 1080,30 T1200,26 L1200,70 Z" fill="var(--bg-light)"></path>
+    </svg>
+  </div>
+
+</section>
+
+<section class="contact-cta-section" data-layout-spec="יצירת קשר-cta" dir="rtl">
+  <div class="contact-cta-inner">
+    <!-- Corner document marks -->
+    <span class="cta-corner cta-corner--tl" aria-hidden="true"></span>
+    <span class="cta-corner cta-corner--tr" aria-hidden="true"></span>
+    <span class="cta-corner cta-corner--bl" aria-hidden="true"></span>
+    <span class="cta-corner cta-corner--br" aria-hidden="true"></span>
+
+    <div class="contact-cta-content">
+      <p class="cta-eyebrow">ד״ר ערן טל-אור — רפואה ומשפט</p>
+      <h2 class="cta-heading">מוכנים לקבל חוות דעת מקצועית?</h2>
+      <p class="cta-body">בין אם אתם זקוקים לחוות דעת מומחה לצרכים משפטיים, לייעוץ בתכנון חירום ואסונות, או להכוונה רפואית דחופה — ד״ר טל-אור עומד לרשותכם. פנו עוד היום לקביעת פגישת ייעוץ ראשונית.</p>
+      <div class="cta-actions">
+        <a href="#contact-form" class="cta-btn cta-btn--primary">
+          <i class="fa-solid fa-file-medical" aria-hidden="true"></i>
+          שלחו פנייה עכשיו
+        </a>
+        <a href="tel:[business_phone]" class="cta-btn cta-btn--outline">
+          <i class="fa-solid fa-phone" aria-hidden="true"></i>
+          [business_phone]
+        </a>
+      </div>
+    </div>
+
+    <!-- Decorative rule line -->
+    <div class="cta-rule" aria-hidden="true"></div>
+  </div>
+</section></main>
+  
+  <footer class="site-footer" dir="rtl">
+  <div class="footer-top">
+    <div class="footer-container">
+      <div class="footer-grid">
+
+        <!-- Column 1: Company Info -->
+        <div class="footer-col footer-brand">
+          <img src="/assets/logo-1774348195734-abe1lj.webp?v=1774348195940-x5j2ps" alt="Eran Talor MD" class="logo">
+          <p class="brand-tagline">ד"ר ערן טלור — מומחה ברפואת חירום, חוות דעת רפואיות ומשפטיות, וייעוץ מוכנות לאסונות.</p>
+          <div class="brand-accent-line"></div>
+          <div class="social-links">
+            <a href="https://facebook.com/eran.talor" aria-label="Facebook" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://instagram.com/erantalor" aria-label="Instagram" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="https://twitter.com/eran_talor" aria-label="Twitter" class="social-link" data-element-id="element-ai-1774348055130-tw9x3k" data-element-type="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="https://linkedin.com/company/n/eran-tal-or-m-d-m-h-a-83739621" aria-label="LinkedIn" class="social-link" data-element-id="element-ai-1774348055130-li4m7p" data-element-type="social-link"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://wa.me/972506267434" aria-label="WhatsApp" class="social-link"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <!-- Column 2: Quick Links -->
+        <div class="footer-col">
+          <h3 class="footer-heading"><span class="heading-marker"></span>תחומי פעילות</h3>
+          <ul class="footer-nav">
+            <li><a href="/medical-expert-opinions" class="footer-link"><i class="fas fa-chevron-left footer-link-icon"></i>חוות דעת רפואיות</a></li>
+            <li><a href="/emergency-disaster-preparedness" class="footer-link"><i class="fas fa-chevron-left footer-link-icon"></i>ייעוץ מוכנות לחירום ואסונות</a></li>
+            <li><a href="/emergency-medicine-advisory" class="footer-link"><i class="fas fa-chevron-left footer-link-icon"></i>ייעוץ ברפואת חירום</a></li>
+            <li><a href="/about-contact" class="footer-link"><i class="fas fa-chevron-left footer-link-icon"></i>אודות וצור קשר</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Contact Info -->
+        <div class="footer-col">
+          <h3 class="footer-heading"><span class="heading-marker"></span>יצירת קשר</h3>
+          <ul class="footer-contact">
+            <li class="contact-item">
+              <span class="contact-icon-wrap"><i class="fas fa-envelope"></i></span>
+              <a href="mailto:work@tal-or.co.il" class="footer-link contact-text">work@tal-or.co.il</a>
+            </li>
+            <li class="contact-item">
+              <span class="contact-icon-wrap"><i class="fas fa-phone"></i></span>
+              <a href="tel:+972506267434" class="footer-link contact-text">+972506267434</a>
+            </li>
+            <li class="contact-item"><a href="/"><span class="contact-icon-wrap"><i class="fas fa-map-marker-alt" style="cursor: pointer;"></i></span>
+              <span class="contact-text">האלון 101, מסד, 1499000, ישראל</span></a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Credentials / CTA -->
+        <div class="footer-col footer-cta-col">
+          <h3 class="footer-heading"><span class="heading-marker"></span>מומחיות</h3>
+          <div class="credentials-list">
+            <div class="credential-item">
+              <i class="fas fa-heartbeat credential-icon" data-element-type="icon" data-element-id="icon-1774515349411-nrfc2dq9q" data-icon-type="fontawesome" style="cursor: pointer;"></i>רפואת חרום</div>
+            <div class="credential-item">
+              <i class="fas fa-heartbeat credential-icon" data-element-type="icon" data-element-id="icon-1774515349411-nrfc2dq9q" data-icon-type="fontawesome" style="cursor: pointer;"></i>רפואת חרום</div>
+            <div class="credential-item">
+              <i class="fas fa-heartbeat credential-icon" data-element-type="icon" data-element-id="icon-1774515349411-nrfc2dq9q" data-icon-type="fontawesome" style="cursor: pointer;"></i>רפואת חרום</div>
+            <div class="credential-item">
+              <i class="fas fa-heartbeat credential-icon" data-element-type="icon" data-element-id="icon-1774515349411-nrfc2dq9q" data-icon-type="fontawesome" style="cursor: pointer;"></i>רפואת חרום</div>
+          </div>
+          <a href="/about-contact" class="footer-cta-btn">לתיאום ייעוץ <i class="fas fa-arrow-left"></i></a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="footer-bottom">
+    <div class="footer-container">
+      <div class="footer-bottom-inner">
+        <p class="footer-copyright">© 2026 Eran Talor MD. כל הזכויות שמורות.</p>
+        <div class="footer-legal">
+          <a href="/privacy" class="legal-link">מדיניות פרטיות</a>
+          <span class="legal-sep">|</span>
+          <a href="/terms" class="legal-link">תנאי שימוש</a>
+          <span class="legal-sep">|</span>
+          <a href="/accessibility" class="legal-link">נגישות</a>
+          <span class="legal-sep">|</span>
+          <a href="https://zappy5.com" target="_blank" class="zappy-attribution">נוצר באמצעות Zappy</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+  
+  <a href="https://wa.me/972506267434" class="whatsapp-float" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  
+  <div data-integration="accessibility:toolbar"></div>
+
+    <script src="/script.js"></script>
+
+    <script id="zappy-mobile-submenu-script">
+    (function() {
+      function initMobileSubmenuToggles() {
+        if (window.innerWidth > 768) {
+          document.querySelectorAll('.mobile-submenu-toggle').forEach(function(btn) { btn.remove(); });
+          document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) { menu.classList.remove('mobile-expanded'); });
+          return;
+        }
+        var items = document.querySelectorAll('.nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu)');
+        items.forEach(function(li) {
+          if (li.querySelector('.mobile-submenu-toggle')) return;
+          var submenu = li.querySelector('.sub-menu');
+          var parentLink = li.querySelector(':scope > a');
+          if (!submenu || !parentLink) return;
+          var toggleBtn = document.createElement('button');
+          toggleBtn.className = 'mobile-submenu-toggle';
+          toggleBtn.setAttribute('aria-label', 'Toggle submenu');
+          toggleBtn.setAttribute('type', 'button');
+          parentLink.insertAdjacentElement('afterend', toggleBtn);
+          toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) {
+              if (menu !== submenu) { menu.classList.remove('mobile-expanded'); var t = menu.parentElement.querySelector('.mobile-submenu-toggle'); if(t) t.classList.remove('expanded'); }
+            });
+            submenu.classList.toggle('mobile-expanded');
+            toggleBtn.classList.toggle('expanded');
+          });
+        });
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileSubmenuToggles); }
+      else { initMobileSubmenuToggles(); }
+      var resizeTimer; window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(initMobileSubmenuToggles, 250); });
+      // Re-initialize when mobile menu becomes visible (MutationObserver)
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes') {
+            var target = mutation.target;
+            if (target.classList && (target.classList.contains('active') || target.classList.contains('open'))) {
+              setTimeout(initMobileSubmenuToggles, 100);
+            }
+          }
+        });
+      });
+      setTimeout(function() {
+        document.querySelectorAll('.mobile-menu, .nav-menu, #navMenu, nav').forEach(function(menu) {
+          observer.observe(menu, { attributes: true, attributeFilter: ['class', 'style'] });
+        });
+      }, 500);
+    })();
+    </script>
+
+    <script id="zappy-mobile-lang-menu-script">
+    (function() {
+      function initMobileLangMenu() {
+        if (window.innerWidth > 768) {
+          var existingMenu = document.querySelector('.mobile-lang-menu');
+          if (existingMenu) existingMenu.remove();
+          return;
+        }
+        if (document.querySelector('.mobile-lang-menu')) return;
+        var switcher = document.querySelector('.lang-switcher');
+        if (!switcher) return;
+        var dropdown = switcher.querySelector('.lang-switcher-dropdown');
+        if (!dropdown) return;
+        var options = dropdown.querySelectorAll('.lang-option');
+        if (options.length === 0) return;
+        var navMenu = document.getElementById('navMenu') || document.querySelector('.nav-menu') || document.querySelector('nav ul');
+        if (!navMenu) return;
+        var currentLang = document.documentElement.lang || 'en';
+        var langConfigs = {
+          he: {name:'עברית',flag:'https://api.iconify.design/circle-flags/il.svg'},
+          en: {name:'English',flag:'https://api.iconify.design/circle-flags/us.svg'},
+          ar: {name:'العربية',flag:'https://api.iconify.design/circle-flags/sa.svg'},
+          fr: {name:'Français',flag:'https://api.iconify.design/circle-flags/fr.svg'},
+          es: {name:'Español',flag:'https://api.iconify.design/circle-flags/es.svg'},
+          de: {name:'Deutsch',flag:'https://api.iconify.design/circle-flags/de.svg'},
+          ru: {name:'Русский',flag:'https://api.iconify.design/circle-flags/ru.svg'},
+          zh: {name:'中文',flag:'https://api.iconify.design/circle-flags/cn.svg'},
+          ja: {name:'日本語',flag:'https://api.iconify.design/circle-flags/jp.svg'},
+          pt: {name:'Português',flag:'https://api.iconify.design/circle-flags/br.svg'},
+          it: {name:'Italiano',flag:'https://api.iconify.design/circle-flags/it.svg'},
+          ko: {name:'한국어',flag:'https://api.iconify.design/circle-flags/kr.svg'}
+        };
+        var container = document.createElement('div');
+        container.className = 'mobile-lang-menu';
+        var currentConfig = langConfigs[currentLang] || {name:currentLang,flag:''};
+        var toggleBtn = document.createElement('button');
+        toggleBtn.className = 'mobile-lang-toggle';
+        toggleBtn.type = 'button';
+        var currentFlagHtml = currentConfig.flag ? '<img src="' + currentConfig.flag + '" width="20" height="20" alt="" style="border-radius:50%;margin-right:8px;margin-left:8px;">' : '';
+        toggleBtn.innerHTML = currentFlagHtml + currentConfig.name;
+        container.appendChild(toggleBtn);
+        var optionsDiv = document.createElement('div');
+        optionsDiv.className = 'mobile-lang-options';
+        var currentLink = document.createElement('a');
+        currentLink.className = 'mobile-lang-option active';
+        currentLink.href = '#';
+        currentLink.innerHTML = currentFlagHtml + currentConfig.name;
+        optionsDiv.appendChild(currentLink);
+        options.forEach(function(opt) {
+          var link = document.createElement('a');
+          link.className = 'mobile-lang-option';
+          link.href = opt.getAttribute('href');
+          link.innerHTML = opt.innerHTML;
+          optionsDiv.appendChild(link);
+        });
+        container.appendChild(optionsDiv);
+        navMenu.appendChild(container);
+        toggleBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleBtn.classList.toggle('expanded');
+          optionsDiv.classList.toggle('expanded');
+        });
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileLangMenu); }
+      else { initMobileLangMenu(); }
+      window.addEventListener('resize', function() { clearTimeout(window._mlrt); window._mlrt = setTimeout(initMobileLangMenu, 250); });
+    })();
+    </script>
+</body>
+</html>
