@@ -1,0 +1,3143 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title>תחומי שירות וייעוץ</title>
+    <meta name="description" content="ד"ר ערן טל-אור - תחומי שירות וייעוץ">
+    <meta name="keywords" content="">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Zappy Analytics -->
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration
+  var config = {
+    websiteId: 'f20b68ee-7524-404a-ac7a-7f79ddca586d',
+    apiUrl: 'https://api.zappy5.com/api/analytics/track',
+    sessionDuration: 30 * 60 * 1000, // 30 minutes
+    visitorDuration: 30 * 24 * 60 * 60 * 1000, // 30 days
+    trackPageViews: true,
+    trackClicks: true,
+    trackFormSubmissions: true
+  };
+  
+  // Generate or retrieve persistent visitor ID (30 days)
+  function getVisitorId() {
+    var visitorKey = 'zappy_visitor_' + config.websiteId;
+    var visitor = null;
+    
+    try {
+      visitor = localStorage.getItem(visitorKey);
+      if (visitor) {
+        var visitorData = JSON.parse(visitor);
+        var now = Date.now();
+        
+        // Check if visitor ID is still valid (30 days)
+        if (now - visitorData.created < config.visitorDuration) {
+          // Update last seen timestamp
+          visitorData.lastSeen = now;
+          localStorage.setItem(visitorKey, JSON.stringify(visitorData));
+          return visitorData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: LocalStorage not available');
+    }
+    
+    // Generate new visitor ID
+    var newVisitorId = 'zv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      localStorage.setItem(visitorKey, JSON.stringify({
+        id: newVisitorId,
+        created: Date.now(),
+        lastSeen: Date.now()
+      }));
+    } catch (e) {
+      // Continue without local storage
+    }
+    
+    return newVisitorId;
+  }
+  
+  // Generate or retrieve session ID (30 minutes)
+  function getSessionId() {
+    var sessionKey = 'zappy_session_' + config.websiteId;
+    var session = null;
+    
+    try {
+      session = sessionStorage.getItem(sessionKey);
+      if (session) {
+        var sessionData = JSON.parse(session);
+        var now = Date.now();
+        
+        // Check if session is still valid
+        if (now - sessionData.timestamp < config.sessionDuration) {
+          // Update timestamp
+          sessionData.timestamp = now;
+          sessionStorage.setItem(sessionKey, JSON.stringify(sessionData));
+          return sessionData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: SessionStorage not available');
+    }
+    
+    // Generate new session ID
+    var newSessionId = 'zs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      sessionStorage.setItem(sessionKey, JSON.stringify({
+        id: newSessionId,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      // Continue without session storage
+    }
+    
+    return newSessionId;
+  }
+  
+  var visitorId = getVisitorId();
+  var sessionId = getSessionId();
+  
+  // Track an event
+  function trackEvent(eventType, data) {
+    data = data || {};
+    
+    var eventData = {
+      website_id: config.websiteId,
+      event_type: eventType,
+      page_path: window.location.pathname,
+      referrer: document.referrer || 'direct',
+      visitor_id: visitorId,
+      session_id: sessionId,
+      metadata: data
+    };
+    
+    // Use sendBeacon if available (better for page unload events)
+    if (navigator.sendBeacon) {
+      var blob = new Blob([JSON.stringify(eventData)], { type: 'application/json' });
+      navigator.sendBeacon(config.apiUrl, blob);
+    } else {
+      // Fallback to fetch
+      fetch(config.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData),
+        keepalive: true
+      }).catch(function(error) {
+        console.warn('Zappy Analytics: Failed to track event', error);
+      });
+    }
+  }
+  
+  // Track page view
+  if (config.trackPageViews) {
+    trackEvent('pageview', {
+      title: document.title,
+      url: window.location.href
+    });
+  }
+  
+  // Track clicks on important elements
+  if (config.trackClicks) {
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      
+      // Track button clicks (counted as actions)
+      if (target.tagName === 'BUTTON' || target.closest('button')) {
+        var button = target.tagName === 'BUTTON' ? target : target.closest('button');
+        trackEvent('click', {
+          element: 'button',
+          text: button.textContent.trim().substring(0, 100),
+          id: button.id || null,
+          class: button.className || null
+        });
+      }
+      
+      // Track link clicks (navigation - not counted as actions)
+      else if (target.tagName === 'A' || target.closest('a')) {
+        var link = target.tagName === 'A' ? target : target.closest('a');
+        trackEvent('navigation', {
+          element: 'link',
+          text: link.textContent.trim().substring(0, 100),
+          href: link.href,
+          external: link.hostname !== window.location.hostname
+        });
+      }
+    }, true);
+  }
+  
+  // Track form submissions
+  if (config.trackFormSubmissions) {
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      
+      trackEvent('form_submit', {
+        form_id: form.id || null,
+        form_name: form.name || null,
+        form_action: form.action || null,
+        form_method: form.method || 'GET'
+      });
+    }, true);
+  }
+  
+  // Track time on page (send on page unload)
+  var pageLoadTime = Date.now();
+  
+  window.addEventListener('beforeunload', function() {
+    var timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // in seconds
+    
+    trackEvent('page_unload', {
+      time_on_page: timeOnPage,
+      page_path: window.location.pathname
+    });
+  });
+  
+  // Expose tracking function globally for custom events
+  window.zappyAnalytics = {
+    track: trackEvent,
+    getVisitorId: function() { return visitorId; },
+    getSessionId: function() { return sessionId; }
+  };
+  
+})();
+</script>
+<!-- End Zappy Analytics -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Cookie Consent -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+    <!-- Mickidum Accessibility Toolbar -->
+    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:url" content="https://erantalor.com/clinical-legal-services">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="תחומי שירות וייעוץ">
+    <meta property="og:description" content="ד&quot;ר ערן טל-אור - תחומי שירות וייעוץ">
+    <meta property="og:image" content="https://erantalor.com/assets/section-hero-clinical-legal-services-hero-image-1-og.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:alt" content="תחומי שירות וייעוץ">
+    <meta property="og:locale" content="he_IL">
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="תחומי שירות וייעוץ">
+    <meta name="twitter:description" content="ד&quot;ר ערן טל-אור - תחומי שירות וייעוץ">
+    <meta name="twitter:image" content="https://erantalor.com/assets/section-hero-clinical-legal-services-hero-image-1-og.jpg">
+    <meta name="twitter:image:alt" content="תחומי שירות וייעוץ"><style id="zappy-ai-page-styles">.clinical-legal-services-hero-section {
+  position: relative;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  overflow: visible;
+  padding-top: 0;
+  padding-bottom: 90px;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  direction: rtl;
+}
+
+/* ── Background Image ── */
+.clinical-legal-services-hero-section .clsh-bg-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.clinical-legal-services-hero-section .clsh-bg-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  filter: saturate(0.7) brightness(0.65);
+}
+
+/* ── Scrim Overlay ── */
+.clinical-legal-services-hero-section .clsh-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(90deg,
+      rgba(14, 20, 38, 0.92) 0%,
+      rgba(14, 20, 38, 0.80) 35%,
+      rgba(14, 20, 38, 0.45) 65%,
+      rgba(14, 20, 38, 0.18) 100%
+    ),
+    linear-gradient(180deg,
+      rgba(14, 20, 38, 0.30) 0%,
+      rgba(14, 20, 38, 0.55) 100%
+    );
+}
+
+/* ── Decorative Grid Overlay ── */
+.clinical-legal-services-hero-section .clsh-decorative-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.clinical-legal-services-hero-section .clsh-grid-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Container ── */
+.clinical-legal-services-hero-section .clsh-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1200px;
+  margin-inline-start: auto;
+  margin-inline-end: auto;
+  padding-inline-start: 24px;
+  padding-inline-end: 24px;
+  padding-top: 120px;
+  padding-bottom: 120px;
+}
+
+/* ── Two-Column Layout ── */
+.clinical-legal-services-hero-section .clsh-layout {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: 0;
+  align-items: center;
+  direction: rtl;
+}
+
+/* ── Text Column (Right, 5/12) ── */
+.clinical-legal-services-hero-section .clsh-text-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  text-align: right;
+}
+
+/* ── Eyebrow ── */
+.clinical-legal-services-hero-section .clsh-eyebrow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.clinical-legal-services-hero-section .clsh-eyebrow-line {
+  display: block;
+  width: 32px;
+  height: 2px;
+  background-color: var(--accent);
+  flex-shrink: 0;
+}
+
+.clinical-legal-services-hero-section .clsh-eyebrow-text {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* ── H1 Headline ── */
+.clinical-legal-services-hero-section .clsh-headline {
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-size: 3rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--text-light);
+  margin: 0;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.55);
+}
+
+/* ── H3 Subtitle ── */
+.clinical-legal-services-hero-section .clsh-subtitle {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 1.0625rem;
+  font-weight: 400;
+  line-height: 1.65;
+  color: rgba(238, 241, 236, 0.82);
+  margin: 0;
+  max-width: 420px;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.45);
+}
+
+/* ── Info Strip ── */
+.clinical-legal-services-hero-section .clsh-info-strip {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0;
+  flex-wrap: wrap;
+  border-top: 1px solid rgba(238,241,236,0.15);
+  border-bottom: 1px solid rgba(238,241,236,0.15);
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.clinical-legal-services-hero-section .clsh-info-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  padding-inline-end: 20px;
+  padding-inline-start: 0;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  letter-spacing: 0.01em;
+}
+
+.clinical-legal-services-hero-section .clsh-info-icon {
+  display: flex;
+  align-items: center;
+  color: var(--secondary);
+  flex-shrink: 0;
+}
+
+.clinical-legal-services-hero-section .clsh-info-divider {
+  width: 1px;
+  height: 20px;
+  background-color: rgba(238,241,236,0.25);
+  flex-shrink: 0;
+  margin-inline-end: 20px;
+}
+
+/* ── CTA Row ── */
+.clinical-legal-services-hero-section .clsh-cta-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.clinical-legal-services-hero-section .clsh-btn {
+  display: inline-block;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  padding: 14px 30px;
+  border-radius: 0;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.clinical-legal-services-hero-section .clsh-btn-primary {
+  background-color: var(--accent);
+  color: #fff;
+  border: 1px solid rgba(233,138,61,0.0);
+  box-shadow: 0 4px 20px rgba(233,138,61,0.35);
+}
+
+.clinical-legal-services-hero-section .clsh-btn-primary:hover {
+  background-color: #d4762a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(233,138,61,0.45);
+}
+
+.clinical-legal-services-hero-section .clsh-btn-secondary {
+  background-color: transparent;
+  color: var(--text-light);
+  border: 1px solid rgba(238,241,236,0.40);
+}
+
+.clinical-legal-services-hero-section .clsh-btn-secondary:hover {
+  background-color: rgba(238,241,236,0.10);
+  border-color: rgba(238,241,236,0.70);
+  transform: translateY(-2px);
+}
+
+/* ── Visual Column (Left, 7/12) ── */
+.clinical-legal-services-hero-section .clsh-visual-col {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding-inline-start: 48px;
+  min-height: 320px;
+}
+
+/* ── Annotation Badge ── */
+.clinical-legal-services-hero-section .clsh-annotation-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(14, 20, 38, 0.72);
+  border: 1px solid var(--secondary);
+  border-radius: 0;
+  padding: 14px 22px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  text-align: center;
+  gap: 4px;
+  position: relative;
+  z-index: 10;
+}
+
+.clinical-legal-services-hero-section .clsh-badge-label {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--secondary);
+}
+
+.clinical-legal-services-hero-section .clsh-badge-value {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-light);
+  line-height: 1.2;
+}
+
+/* ── Bottom Divider ── */
+.clinical-legal-services-hero-section .clsh-divider-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 90px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.clinical-legal-services-hero-section .clsh-divider-wrapper svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE — TABLET
+══════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .clinical-legal-services-hero-section .clsh-layout {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .clinical-legal-services-hero-section .clsh-container {
+    padding-top: 100px;
+    padding-bottom: 100px;
+  }
+
+  .clinical-legal-services-hero-section .clsh-headline {
+    font-size: 2.4rem;
+  }
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE — MOBILE
+══════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .clinical-legal-services-hero-section {
+    min-height: auto;
+    padding-bottom: 90px;
+  }
+
+  .clinical-legal-services-hero-section .clsh-scrim {
+    background-image:
+      linear-gradient(180deg,
+        rgba(14, 20, 38, 0.88) 0%,
+        rgba(14, 20, 38, 0.82) 60%,
+        rgba(14, 20, 38, 0.70) 100%
+      );
+  }
+
+  .clinical-legal-services-hero-section .clsh-container {
+    padding-top: 100px;
+    padding-bottom: 72px;
+    padding-inline-start: 20px;
+    padding-inline-end: 20px;
+  }
+
+  .clinical-legal-services-hero-section .clsh-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .clinical-legal-services-hero-section .clsh-text-col {
+    gap: 20px;
+  }
+
+  .clinical-legal-services-hero-section .clsh-headline {
+    font-size: 2.1rem;
+    line-height: 1.22;
+  }
+
+  .clinical-legal-services-hero-section .clsh-subtitle {
+    font-size: 0.9375rem;
+    max-width: 100%;
+  }
+
+  .clinical-legal-services-hero-section .clsh-info-strip {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .clinical-legal-services-hero-section .clsh-info-divider {
+    display: none;
+  }
+
+  .clinical-legal-services-hero-section .clsh-info-item {
+    padding-inline-end: 0;
+    font-size: 12px;
+  }
+
+  .clinical-legal-services-hero-section .clsh-cta-row {
+    gap: 12px;
+  }
+
+  .clinical-legal-services-hero-section .clsh-btn {
+    padding: 12px 22px;
+    font-size: 13px;
+  }
+
+  .clinical-legal-services-hero-section .clsh-visual-col {
+    display: none;
+  }
+
+  .clinical-legal-services-hero-section .clsh-divider-wrapper {
+    height: 60px;
+  }
+}
+
+.clinical-legal-services-services-section {
+  direction: rtl;
+  position: relative;
+  overflow: visible;
+  background-color: #F1EBDD;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='none' stroke='%23BFB7AA' stroke-width='1' opacity='0.45'%3E%3Cpath d='M6 118 C24 102 42 102 60 118 S96 134 118 118 150 102 158 110'/%3E%3Cpath d='M0 36 C18 20 42 18 66 34 S112 48 136 34 156 18 160 22'/%3E%3Cpath d='M24 148 C38 130 58 130 76 146 S116 158 138 142'/%3E%3C/g%3E%3C/svg%3E");
+  color: var(--text-dark);
+  padding: 80px 20px 60px;
+}
+
+.clinical-legal-services-services-section .cls-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Header ── */
+.clinical-legal-services-services-section .cls-header {
+  margin-bottom: 48px;
+}
+
+.clinical-legal-services-services-section .cls-title {
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-size: 31px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  color: var(--primary);
+  text-align: right;
+  margin: 0 0 16px 0;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--secondary);
+  display: inline-block;
+}
+
+.clinical-legal-services-services-section .cls-subtitle {
+  font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-dark);
+  text-align: right;
+  max-width: 66.6%;
+  margin: 0;
+}
+
+/* ── Grid ── */
+.clinical-legal-services-services-section .cls-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  direction: rtl;
+}
+
+/* ── Card Base ── */
+.clinical-legal-services-services-section .cls-card {
+  position: relative;
+  background: rgba(241, 235, 221, 0.82);
+  border: 1px solid rgba(216, 206, 188, 0.75);
+  border-radius: 0;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 10px 30px rgba(24, 20, 16, 0.06);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  overflow: hidden;
+}
+
+.clinical-legal-services-services-section .cls-card:hover {
+  box-shadow: 0 16px 40px rgba(24, 20, 16, 0.12);
+  transform: translateY(-3px);
+}
+
+/* Indigo side bar variant */
+.clinical-legal-services-services-section .cls-card--indigo-bar {
+  border-inline-end: 3px solid var(--primary);
+}
+
+/* ── Annotation badge ── */
+.clinical-legal-services-services-section .cls-card-annotation {
+  position: absolute;
+  top: 12px;
+  inset-inline-start: 12px;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--secondary);
+  background: rgba(47, 124, 138, 0.08);
+  border: 1px solid rgba(47, 124, 138, 0.25);
+  padding: 3px 7px;
+  line-height: 1.4;
+}
+
+/* ── Icon wrapper ── */
+.clinical-legal-services-services-section .cls-card-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 52px;
+  height: 52px;
+  border: 1.5px solid rgba(47, 124, 138, 0.45);
+  color: var(--secondary);
+  flex-shrink: 0;
+  margin-top: 4px;
+  background: rgba(47, 124, 138, 0.05);
+  padding: 10px;
+  align-self: flex-end;
+}
+
+/* ── Card Title ── */
+.clinical-legal-services-services-section .cls-card-title {
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--primary);
+  text-align: right;
+  margin: 0;
+}
+
+/* ── Card Description ── */
+.clinical-legal-services-services-section .cls-card-desc {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text-dark);
+  text-align: right;
+  margin: 0;
+  flex-grow: 1;
+}
+
+/* ── Benefits list ── */
+.clinical-legal-services-services-section .cls-benefits {
+  list-style: none;
+  margin: 8px 0 0 0;
+  padding: 0;
+  border-top: 1px solid rgba(216, 206, 188, 0.7);
+  padding-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.clinical-legal-services-services-section .cls-benefits li {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-dark);
+  text-align: right;
+}
+
+.clinical-legal-services-services-section .cls-bullet {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  margin-top: 7px;
+}
+
+/* ── Divider ── */
+.clinical-legal-services-services-section .cls-divider-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.clinical-legal-services-services-section .cls-divider-wrapper svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Tablet: 2-column ── */
+@media (max-width: 1024px) and (min-width: 601px) {
+  .clinical-legal-services-services-section .cls-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .clinical-legal-services-services-section .cls-subtitle {
+    max-width: 100%;
+  }
+}
+
+/* ── Mobile: 1-column ── */
+@media (max-width: 600px) {
+  .clinical-legal-services-services-section {
+    padding: 60px 16px 48px;
+  }
+
+  .clinical-legal-services-services-section .cls-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .clinical-legal-services-services-section .cls-subtitle {
+    max-width: 100%;
+  }
+
+  .clinical-legal-services-services-section .cls-title {
+    font-size: 26px;
+  }
+
+  .clinical-legal-services-services-section .cls-card {
+    padding: 24px 20px;
+  }
+
+  .clinical-legal-services-services-section .cls-card-annotation {
+    position: static;
+    display: inline-block;
+    margin-bottom: 4px;
+    align-self: flex-end;
+  }
+
+  .clinical-legal-services-services-section .cls-card-icon-wrap {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+.clinical-legal-services-about-section {
+  position: relative;
+  overflow: visible;
+  background-color: var(--bg-dark);
+  background-image:
+    radial-gradient(ellipse at 80% 20%, rgba(47,124,138,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 10% 80%, rgba(233,138,61,0.07) 0%, transparent 45%),
+    linear-gradient(170deg, #2A3F68 0%, #1C2D4A 50%, #192540 100%);
+  color: var(--text-light);
+  padding: 100px 24px 110px;
+  direction: rtl;
+}
+
+/* Background grid lines */
+.clinical-legal-services-about-section .cls-bg-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(47,124,138,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(47,124,138,0.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Abstract medical SVG overlay */
+.clinical-legal-services-about-section .cls-bg-overlay {
+  position: absolute;
+  inset-inline-end: 5%;
+  top: 5%;
+  width: 45%;
+  max-width: 500px;
+  height: 80%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+.clinical-legal-services-about-section .cls-bg-overlay svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Container */
+.clinical-legal-services-about-section .cls-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Main two-column grid */
+.clinical-legal-services-about-section .cls-main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+  direction: rtl;
+}
+
+/* RIGHT column — content */
+.clinical-legal-services-about-section .cls-content-col {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Eyebrow */
+.clinical-legal-services-about-section .cls-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-direction: row;
+}
+
+.clinical-legal-services-about-section .cls-eyebrow-line {
+  display: block;
+  width: 32px;
+  height: 2px;
+  background-color: var(--accent);
+  flex-shrink: 0;
+}
+
+.clinical-legal-services-about-section .cls-eyebrow-text {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* Main heading */
+.clinical-legal-services-about-section .cls-main-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text-light);
+  margin: 0;
+  text-align: right;
+}
+
+/* Intro paragraph */
+.clinical-legal-services-about-section .cls-intro-text {
+  font-family: 'Manrope', sans-serif;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: rgba(238,241,236,0.82);
+  margin: 0;
+  text-align: right;
+}
+
+/* Text blocks */
+.clinical-legal-services-about-section .cls-text-block {
+  position: relative;
+  padding: 24px;
+  border: 1px solid var(--border-dark);
+  background: rgba(255,255,255,0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.clinical-legal-services-about-section .cls-block-accent {
+  border-color: rgba(233,138,61,0.3);
+  background: rgba(233,138,61,0.04);
+}
+
+/* Orange technical marker */
+.clinical-legal-services-about-section .cls-accent-marker {
+  position: absolute;
+  top: -5px;
+  inset-inline-end: 20px;
+  width: 10px;
+  height: 10px;
+  background-color: var(--accent);
+  transform: rotate(45deg);
+}
+
+.clinical-legal-services-about-section .cls-block-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.clinical-legal-services-about-section .cls-block-icon {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(47,124,138,0.15);
+  border: 1px solid rgba(47,124,138,0.3);
+  color: var(--secondary);
+}
+
+.clinical-legal-services-about-section .cls-block-accent .cls-block-icon {
+  background: rgba(233,138,61,0.12);
+  border-color: rgba(233,138,61,0.25);
+  color: var(--accent);
+}
+
+.clinical-legal-services-about-section .cls-block-title {
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-light);
+  margin: 0;
+  text-align: right;
+}
+
+.clinical-legal-services-about-section .cls-block-text {
+  font-family: 'Manrope', sans-serif;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: rgba(238,241,236,0.75);
+  margin: 0;
+  text-align: right;
+}
+
+/* LEFT column — advantages */
+.clinical-legal-services-about-section .cls-advantages-col {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+/* Pull quote */
+.clinical-legal-services-about-section .cls-pull-quote {
+  margin: 0;
+  padding: 0 0 0 0;
+  position: relative;
+}
+
+.clinical-legal-services-about-section .cls-quote-mark {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 5rem;
+  line-height: 0.6;
+  color: var(--secondary);
+  opacity: 0.5;
+  margin-bottom: 8px;
+  text-align: right;
+}
+
+.clinical-legal-services-about-section .cls-quote-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--text-light);
+  margin: 0 0 14px 0;
+  text-align: right;
+  font-style: italic;
+}
+
+.clinical-legal-services-about-section .cls-quote-cite {
+  display: block;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-align: right;
+}
+
+/* 2x2 advantages grid */
+.clinical-legal-services-about-section .cls-advantages-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  direction: rtl;
+}
+
+/* Advantage card */
+.clinical-legal-services-about-section .cls-advantage-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border-dark);
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.clinical-legal-services-about-section .cls-advantage-card:hover {
+  background: rgba(47,124,138,0.08);
+  border-color: rgba(47,124,138,0.35);
+}
+
+.clinical-legal-services-about-section .cls-adv-icon-wrap {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--secondary);
+  background: rgba(47,124,138,0.12);
+  border: 1px solid rgba(47,124,138,0.2);
+  flex-shrink: 0;
+}
+
+.clinical-legal-services-about-section .cls-adv-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.clinical-legal-services-about-section .cls-adv-title {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--text-light);
+  margin: 0;
+  text-align: right;
+  line-height: 1.4;
+}
+
+.clinical-legal-services-about-section .cls-adv-text {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: rgba(238,241,236,0.68);
+  margin: 0;
+  text-align: right;
+}
+
+/* Bottom divider */
+.clinical-legal-services-about-section .cls-divider-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.clinical-legal-services-about-section .cls-divider-wrapper svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .clinical-legal-services-about-section .cls-main-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .clinical-legal-services-about-section .cls-bg-overlay {
+    width: 70%;
+    opacity: 0.3;
+    inset-inline-end: 0;
+    top: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .clinical-legal-services-about-section {
+    padding: 100px 16px 90px;
+  }
+
+  .clinical-legal-services-about-section .cls-main-heading {
+    font-size: 1.75rem;
+  }
+
+  .clinical-legal-services-about-section .cls-main-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px;
+  }
+
+  .clinical-legal-services-about-section .cls-advantages-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .clinical-legal-services-about-section .cls-pull-quote {
+    padding: 0;
+  }
+
+  .clinical-legal-services-about-section .cls-quote-text {
+    font-size: 1.25rem;
+  }
+
+  .clinical-legal-services-about-section .cls-bg-overlay {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .clinical-legal-services-about-section .cls-advantages-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .clinical-legal-services-about-section .cls-advantage-card {
+    padding: 16px 14px;
+  }
+
+  .clinical-legal-services-about-section .cls-text-block {
+    padding: 18px 16px;
+  }
+}
+
+.clinical-legal-services-methodology-section {
+  position: relative;
+  background-color: #F1EBDD;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='none' stroke='%23BFB7AA' stroke-width='1' opacity='0.35'%3E%3Cpath d='M6 118 C24 102 42 102 60 118 S96 134 118 118 150 102 158 110'/%3E%3Cpath d='M0 36 C18 20 42 18 66 34 S112 48 136 34 156 18 160 22'/%3E%3Cpath d='M24 148 C38 130 58 130 76 146 S116 158 138 142'/%3E%3C/g%3E%3C/svg%3E");
+  color: var(--text-dark);
+  padding: 80px 24px 0;
+  overflow: visible;
+  direction: rtl;
+}
+
+.clinical-legal-services-methodology-section .methodology-bg-decoration {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.clinical-legal-services-methodology-section .methodology-bg-decoration svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.clinical-legal-services-methodology-section .methodology-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 64px;
+}
+
+/* Header */
+.clinical-legal-services-methodology-section .methodology-header {
+  text-align: right;
+  margin-bottom: 56px;
+  max-width: 640px;
+}
+
+.clinical-legal-services-methodology-section .methodology-label-tag {
+  display: inline-block;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--secondary);
+  border: 1px solid var(--secondary);
+  padding: 4px 12px;
+  margin-bottom: 18px;
+  border-radius: 0;
+}
+
+.clinical-legal-services-methodology-section .methodology-title {
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--primary);
+  margin: 0 0 16px;
+  letter-spacing: -0.01em;
+}
+
+.clinical-legal-services-methodology-section .methodology-subtitle {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Steps Grid */
+.clinical-legal-services-methodology-section .methodology-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-bottom: 52px;
+  border: 1px solid rgba(216,206,188,0.7);
+  background: rgba(241,235,221,0.5);
+}
+
+.clinical-legal-services-methodology-section .methodology-step {
+  position: relative;
+  padding: 32px 28px 36px;
+  border-inline-start: 1px solid rgba(216,206,188,0.7);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: transparent;
+  transition: background 0.25s ease;
+}
+
+.clinical-legal-services-methodology-section .methodology-step:first-child {
+  border-inline-start: none;
+}
+
+.clinical-legal-services-methodology-section .methodology-step--last {
+  /* last step: no connector line */
+}
+
+.clinical-legal-services-methodology-section .methodology-step:hover {
+  background: rgba(255,255,255,0.55);
+}
+
+/* Connector line (top decorative bar) */
+.clinical-legal-services-methodology-section .step-connector-line {
+  position: absolute;
+  top: 0;
+  inset-inline-end: -1px;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(47,124,138,0.3) 0%, rgba(47,124,138,0.0) 100%);
+  pointer-events: none;
+}
+
+/* Step number badge */
+.clinical-legal-services-methodology-section .step-number-badge {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  background: rgba(233,138,61,0.10);
+  border: 1px solid rgba(233,138,61,0.25);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+/* Step icon area */
+.clinical-legal-services-methodology-section .step-icon-area {
+  color: var(--primary);
+  opacity: 0.75;
+  margin-top: auto;
+  padding-top: 12px;
+}
+
+/* Step content */
+.clinical-legal-services-methodology-section .step-content {
+  flex: 1;
+}
+
+.clinical-legal-services-methodology-section .step-title {
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--primary);
+  margin: 0 0 10px;
+}
+
+.clinical-legal-services-methodology-section .step-description {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Bottom row */
+.clinical-legal-services-methodology-section .methodology-bottom-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+/* Suited-for block */
+.clinical-legal-services-methodology-section .suited-for-block {
+  background: rgba(38,58,91,0.05);
+  border: 1px solid rgba(216,206,188,0.8);
+  border-inline-start: 3px solid var(--secondary);
+  padding: 20px 24px;
+  min-width: 280px;
+}
+
+.clinical-legal-services-methodology-section .suited-for-label {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--secondary);
+  margin-bottom: 14px;
+}
+
+.clinical-legal-services-methodology-section .suited-for-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.clinical-legal-services-methodology-section .suited-for-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-dark);
+}
+
+.clinical-legal-services-methodology-section .suited-for-item svg {
+  flex-shrink: 0;
+}
+
+/* CTA note */
+.clinical-legal-services-methodology-section .methodology-cta-note {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+  text-align: end;
+}
+
+.clinical-legal-services-methodology-section .cta-note-text {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  font-style: italic;
+  margin: 0;
+}
+
+.clinical-legal-services-methodology-section .methodology-cta-btn {
+  display: inline-block;
+  background: var(--primary);
+  color: var(--text-light);
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 13px 28px;
+  border: 1px solid rgba(255,249,240,0.12);
+  border-radius: 0;
+  text-decoration: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.clinical-legal-services-methodology-section .methodology-cta-btn:hover {
+  background: var(--secondary);
+  box-shadow: 0 8px 24px rgba(38,58,91,0.18);
+}
+
+/* Indigo transition strip at bottom */
+.clinical-legal-services-methodology-section .methodology-indigo-strip {
+  width: 100%;
+  height: 6px;
+  background: var(--primary);
+  margin-top: 0;
+  position: relative;
+  z-index: 2;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .clinical-legal-services-methodology-section .methodology-steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .clinical-legal-services-methodology-section .methodology-step:nth-child(odd) {
+    border-inline-start: none;
+  }
+
+  .clinical-legal-services-methodology-section .methodology-step:nth-child(1),
+  .clinical-legal-services-methodology-section .methodology-step:nth-child(2) {
+    border-bottom: 1px solid rgba(216,206,188,0.7);
+  }
+}
+
+@media (max-width: 768px) {
+  .clinical-legal-services-methodology-section {
+    padding: 64px 16px 0;
+  }
+
+  .clinical-legal-services-methodology-section .methodology-header {
+    margin-bottom: 36px;
+  }
+
+  .clinical-legal-services-methodology-section .methodology-title {
+    font-size: 26px;
+  }
+
+  .clinical-legal-services-methodology-section .methodology-steps {
+    grid-template-columns: 1fr !important;
+  }
+
+  .clinical-legal-services-methodology-section .methodology-step {
+    border-inline-start: none !important;
+    border-bottom: 1px solid rgba(216,206,188,0.7);
+    padding: 24px 20px;
+  }
+
+  .clinical-legal-services-methodology-section .methodology-step--last {
+    border-bottom: none;
+  }
+
+  .clinical-legal-services-methodology-section .step-connector-line {
+    display: none;
+  }
+
+  .clinical-legal-services-methodology-section .methodology-bottom-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+  }
+
+  .clinical-legal-services-methodology-section .suited-for-block {
+    min-width: unset;
+  }
+
+  .clinical-legal-services-methodology-section .methodology-cta-note {
+    align-items: flex-start;
+    text-align: start;
+  }
+
+  .clinical-legal-services-methodology-section .methodology-container {
+    padding-bottom: 40px;
+  }
+}
+
+.clinical-legal-services-cta-section {
+  position: relative;
+  overflow: visible;
+  direction: rtl;
+  padding: 88px 24px;
+  background-color: #1E2330;
+  background-image:
+    radial-gradient(ellipse at 80% 50%, rgba(47,124,138,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 10% 80%, rgba(38,58,91,0.4) 0%, transparent 55%),
+    linear-gradient(160deg, #263A5B 0%, #1A2540 50%, #141C30 100%);
+  color: var(--text-light);
+}
+
+/* Contour overlay */
+.clinical-legal-services-cta-section .cta-contour-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.clinical-legal-services-cta-section .cta-contour-overlay svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Vignette */
+.clinical-legal-services-cta-section .cta-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(10,14,22,0.55) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Container */
+.clinical-legal-services-cta-section .cta-container {
+  position: relative;
+  z-index: 10;
+  max-width: 860px;
+  margin: 0 auto;
+  text-align: right;
+}
+
+/* Eyebrow */
+.clinical-legal-services-cta-section .cta-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.clinical-legal-services-cta-section .cta-eyebrow-line {
+  display: block;
+  height: 1px;
+  width: 40px;
+  background: linear-gradient(90deg, transparent, rgba(233,138,61,0.7));
+  flex-shrink: 0;
+}
+
+.clinical-legal-services-cta-section .cta-eyebrow-line:last-child {
+  background: linear-gradient(90deg, rgba(233,138,61,0.7), transparent);
+}
+
+.clinical-legal-services-cta-section .cta-eyebrow-text {
+  font-family: 'Manrope', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+/* Heading */
+.clinical-legal-services-cta-section .cta-heading {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text-light);
+  margin: 0 0 20px 0;
+  text-align: right;
+}
+
+/* Body paragraph */
+.clinical-legal-services-cta-section .cta-body {
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(238,241,236,0.82);
+  margin: 0 0 36px 0;
+  max-width: 680px;
+  margin-inline-start: auto;
+  text-align: right;
+}
+
+/* CTA Actions */
+.clinical-legal-services-cta-section .cta-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+/* Primary button */
+.clinical-legal-services-cta-section .cta-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  color: #FFF9F0;
+  padding: 14px 32px;
+  border-radius: 2px;
+  border: 1px solid rgba(107,52,6,0.18);
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  text-decoration: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 4px 16px rgba(233,138,61,0.25);
+  transition: background 0.22s ease, box-shadow 0.22s ease, transform 0.18s ease;
+  white-space: nowrap;
+}
+
+.clinical-legal-services-cta-section .cta-btn-primary:hover {
+  background: #d97a2e;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 8px 24px rgba(233,138,61,0.38);
+  transform: translateY(-1px);
+  color: #FFF9F0;
+}
+
+.clinical-legal-services-cta-section .cta-btn-primary svg {
+  flex-shrink: 0;
+  color: #FFF9F0;
+}
+
+/* Secondary button */
+.clinical-legal-services-cta-section .cta-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--text-light);
+  padding: 13px 28px;
+  border-radius: 2px;
+  border: 1px solid rgba(238,241,236,0.28);
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1;
+  text-decoration: none;
+  transition: border-color 0.22s ease, background 0.22s ease, color 0.22s ease;
+  white-space: nowrap;
+}
+
+.clinical-legal-services-cta-section .cta-btn-secondary:hover {
+  border-color: rgba(238,241,236,0.65);
+  background: rgba(238,241,236,0.06);
+  color: var(--text-light);
+}
+
+/* Micro text */
+.clinical-legal-services-cta-section .cta-micro-text {
+  font-family: 'Manrope', sans-serif;
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgba(238,241,236,0.45);
+  text-align: right;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.clinical-legal-services-cta-section .micro-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+.clinical-legal-services-cta-section .micro-sep {
+  color: rgba(238,241,236,0.25);
+  font-size: 14px;
+}
+
+/* ─── DESKTOP ─── */
+@media (min-width: 768px) {
+  .clinical-legal-services-cta-section {
+    padding: 88px 48px;
+  }
+
+  .clinical-legal-services-cta-section .cta-heading {
+    font-size: 2.5rem;
+  }
+}
+
+/* ─── MOBILE ─── */
+@media (max-width: 767px) {
+  .clinical-legal-services-cta-section {
+    padding: 64px 20px;
+  }
+
+  .clinical-legal-services-cta-section .cta-eyebrow {
+    justify-content: flex-end;
+  }
+
+  .clinical-legal-services-cta-section .cta-eyebrow-line {
+    width: 24px;
+  }
+
+  .clinical-legal-services-cta-section .cta-heading {
+    font-size: 1.65rem;
+    line-height: 1.35;
+  }
+
+  .clinical-legal-services-cta-section .cta-body {
+    font-size: 15px;
+    margin-bottom: 28px;
+  }
+
+  .clinical-legal-services-cta-section .cta-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .clinical-legal-services-cta-section .cta-btn-primary,
+  .clinical-legal-services-cta-section .cta-btn-secondary {
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  .clinical-legal-services-cta-section .cta-micro-text {
+    justify-content: center;
+    text-align: center;
+    font-size: 11px;
+    gap: 4px;
+  }
+}</style>
+    <link rel="stylesheet" href="/styles.css">
+
+    <style id="zappy-dropdown-submenu-styles">
+      /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
+      /* Base styles for dropdown submenus - parent must be positioned */
+      .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { position: relative; }
+      /* Submenu base - hidden by default */
+      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
+      /* CRITICAL: Desktop hover styles to show dropdown */
+      .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Submenu item styling */
+      .sub-menu li { list-style: none; margin: 0; padding: 0; }
+      .sub-menu a { display: block !important; padding: 10px 16px !important; color: var(--text-dark, #333) !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background-color 0.2s; }
+      .sub-menu a:hover { background-color: #f5f5f5; }
+      /* RTL (Hebrew/Arabic) dropdown positioning */
+      [dir="rtl"] .nav-menu .sub-menu, [dir="rtl"] nav .sub-menu, [dir="rtl"] .navbar .sub-menu, html[lang="he"] .nav-menu .sub-menu, html[lang="he"] nav .sub-menu, html[lang="he"] .navbar .sub-menu, html[lang="ar"] .nav-menu .sub-menu, html[lang="ar"] nav .sub-menu, html[lang="ar"] .navbar .sub-menu { left: auto !important; right: 0 !important; }
+      /* Hide empty dropdown menus */
+      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))), .sub-menu:not(:has(li)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      /* Desktop: show submenu on Menu Group hover */
+      li:has(.menu-group-title):hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Menu Group title styling */
+      .nav-menu > li > .menu-group-title, #navMenu > li > .menu-group-title { display: inline-block; padding: 0.5rem 1rem; cursor: default; user-select: none; }
+      
+      /* ========== MOBILE SUBMENU STYLES ========== */
+      @media (max-width: 768px) {
+        .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { position: static !important; transform: none !important; box-shadow: none !important; background: transparent !important; max-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; padding: 0 !important; border-radius: 0 !important; }
+        .sub-menu.mobile-expanded { max-height: 500px !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
+        [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded { padding: 8px 16px 8px 0 !important; }
+        /* Disable hover behavior on mobile */
+        .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 0; visibility: hidden; pointer-events: none; }
+        .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+        .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { display: flex !important; flex-wrap: wrap !important; align-items: center !important; position: relative !important; min-height: 44px !important; }
+        .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a { flex: 1 !important; min-width: 0 !important; }
+        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; min-width: 0 !important; padding: 0 !important; line-height: inherit !important; }
+        .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu, .navbar li:has(.sub-menu) > .sub-menu, #navMenu li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
+        .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
+        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: auto !important; background: transparent !important; border: none !important; cursor: pointer !important; color: var(--text-dark) !important; position: static !important; flex-shrink: 0 !important; align-self: stretch !important; z-index: 2 !important; padding: 0 !important; margin: 0 !important; }
+        .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
+        .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
+        .sub-menu a { padding: 10px 0 !important; display: block !important; color: var(--text-dark) !important; }
+        .navbar .sub-menu li a, nav.navbar .sub-menu li a, .zappy-products-dropdown .sub-menu a { color: var(--text-dark) !important; }
+      }
+      @media (min-width: 769px) { .mobile-submenu-toggle { display: none !important; } }
+    </style>
+
+    <style id="mobile-lang-menu-deployed-css">
+    @media (max-width: 768px) {
+      .lang-switcher,
+      .nav-cta-container .lang-switcher,
+      .nav-container .lang-switcher,
+      .navbar .lang-switcher,
+      .navbar .nav-cta-container .lang-switcher,
+      .nav-icons-left .lang-switcher,
+      .nav-ecommerce-icons .lang-switcher { display: none !important; }
+      .mobile-lang-menu { width: 100%; border-top: 1px solid rgba(128,128,128,0.2); padding: 8px 0 0 0; margin-top: 8px; }
+      .mobile-lang-toggle { display: flex !important; align-items: center; justify-content: space-between; width: 100%; padding: 12px 16px; background: none; border: none; cursor: pointer; font-size: 15px; color: inherit; font-family: inherit; }
+      .mobile-lang-toggle::after { content: ''; display: inline-block; width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); transition: transform 0.3s ease; margin-left: 8px; }
+      .mobile-lang-toggle.expanded::after { transform: rotate(-135deg); }
+      .mobile-lang-options { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+      .mobile-lang-options.expanded { max-height: 300px; }
+      .mobile-lang-option { display: flex !important; align-items: center; gap: 10px; padding: 10px 24px; text-decoration: none; color: inherit; font-size: 14px; font-family: inherit; }
+      .mobile-lang-option:hover { background: rgba(128,128,128,0.1); }
+      .mobile-lang-option.active { font-weight: 600; opacity: 0.7; pointer-events: none; }
+      .mobile-lang-option img { width: 20px; height: 20px; border-radius: 50%; }
+    }
+    @media (min-width: 769px) {
+      .mobile-lang-menu { display: none !important; }
+    }
+    </style>
+
+    <style id="zappy-widget-visibility">
+      #mic-access-tool-general-button, .mic-access-tool-general-button,
+      #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+      ._access-icon, #mic-access-tool-box, .mic-access-tool-box,
+      #mic-init-access-tool #mic-access-tool-box, div[id*="mic-access-tool-box"], ._access-menu {
+        display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important;
+      }
+    </style>
+</head>
+<body>
+
+  <nav class="navbar" dir="rtl">
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+  </button>
+
+  <button class="phone-header-btn" data-phone="+972506267434" aria-label="Call">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+  </button>
+
+  <div class="nav-container">
+    <div class="nav-right-group"><div class="nav-brand">
+      <a href="/" class="logo-link">
+        <img src="/assets/logo-1774348195734-abe1lj.webp?v=1774348195940-x5j2ps" alt="Eran Talor MD" class="logo">
+      </a>
+    </div><ul class="nav-menu" id="navMenu"><li><a href="/medical-expert-opinions">חוות דעת רפואיות</a></li><li><a href="/emergency-disaster-preparedness">ייעוץ מוכנות לחירום ואסונות</a></li><li><a href="/emergency-medicine-advisory">ייעוץ ברפואת חירום</a></li><li><a href="/clinical-legal-services" class="nav-link">שירותים</a></li></ul></div>
+
+    
+
+    <div class="nav-cta-container">
+      <a href="/about-contact" class="nav-cta-btn">אודות וצור קשר</a>
+    </div>
+  </div>
+</nav>
+<script>
+
+// Navbar Mobile Menu Toggle and Contrast Fix
+(function() {
+  // Use 'load' event instead of 'DOMContentLoaded' to ensure we run AFTER all other scripts
+  window.addEventListener('load', function() {
+    
+    // FIX MOBILE BUTTON CONTRAST
+    // Detect navbar background color and apply contrasting color to mobile buttons
+    const navbar = document.querySelector('.navbar, nav, header');
+    if (!navbar) {
+      console.log('[Navbar] Navbar element not found');
+      return;
+    }
+    
+    // DECLARE VARIABLES EARLY to avoid Temporal Dead Zone errors
+    // These are used in multiple places below
+    let mobileToggle = document.getElementById('mobileToggle') ||
+                       document.querySelector('.mobile-toggle') ||
+                       document.querySelector('.hamburger') ||
+                       document.querySelector('.hamburger-menu') ||
+                       document.querySelector('.menu-toggle') ||
+                       document.querySelector('.burger-menu') ||
+                       document.querySelector('[aria-label="Menu"]') ||
+                       document.querySelector('[aria-label="תפריט"]');
+    
+    const phoneBtn = document.querySelector('.phone-header-btn');
+    
+    const computedStyle = window.getComputedStyle(navbar);
+    let bgColor = computedStyle.backgroundColor;
+    
+    console.log('[Navbar] Initial navbar background:', bgColor);
+    
+    // Check if background is transparent or rgba with 0 alpha
+    const isTransparent = bgColor === 'transparent' || 
+                         bgColor === 'rgba(0, 0, 0, 0)' ||
+                         (bgColor.startsWith('rgba') && bgColor.includes(', 0)'));
+    
+    if (isTransparent) {
+      // Check for background-image or gradient
+      const bgImage = computedStyle.backgroundImage;
+      if (bgImage && bgImage !== 'none') {
+        console.log('[Navbar] Navbar has background image/gradient, using dark text');
+        bgColor = 'rgb(240, 240, 240)'; // Assume light background
+      } else {
+        // Transparent navbar - check body background
+        const bodyBg = window.getComputedStyle(document.body).backgroundColor;
+        console.log('[Navbar] Navbar transparent, using body background:', bodyBg);
+        bgColor = bodyBg;
+      }
+    }
+    
+    // Calculate luminance to determine if background is light or dark
+    const rgb = bgColor.match(/\d+/g);
+    if (rgb && rgb.length >= 3) {
+      const r = parseInt(rgb[0]);
+      const g = parseInt(rgb[1]);
+      const b = parseInt(rgb[2]);
+      const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+      
+      // Mobile button colors are set by Claude's AI-generated CSS (same as .nav-menu a)
+      // No dynamic color overrides needed - colors come from the generated navbar CSS
+      console.log('[Navbar] Mobile button colors preserved from Claude CSS (luminance:', luminance.toFixed(2) + ')');
+      
+      // FIX ICON SIZES - Ensure SVGs are properly sized and visible
+      // INJECT CRITICAL CSS TO OVERRIDE ANY CONFLICTING RULES
+      const criticalCSS = document.createElement('style');
+      criticalCSS.id = 'zappy-mobile-nav-fix';
+      const htmlLang = document.documentElement.lang || 'en';
+      const htmlDir = document.documentElement.dir || 'ltr';
+      // Check both dir attribute AND lang for RTL detection
+      // dir="rtl" is the most reliable indicator
+      const isRTL = htmlDir === 'rtl' || htmlLang === 'he' || htmlLang === 'ar';
+      
+      criticalCSS.textContent = `
+        /* Hide mobile buttons on desktop, show only on mobile */
+        @media (min-width: 769px) {
+          .mobile-toggle,
+          .phone-header-btn {
+            display: none !important;
+          }
+        }
+        
+        /* Show and position mobile buttons correctly on mobile */
+        @media (max-width: 768px) {
+          .mobile-toggle,
+          .phone-header-btn {
+            position: absolute !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            z-index: 1001 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 36px !important;
+            height: 36px !important;
+            border-radius: 50% !important;
+            border: none !important;
+            cursor: pointer !important;
+            padding: 6px !important;
+            background: none !important;
+            color: var(--nav-text, var(--text-dark)) !important;
+          }
+          
+          /* LTR positioning (default): hamburger LEFT, phone RIGHT */
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .mobile-toggle,
+          html[dir="ltr"] .mobile-toggle {
+            left: 12px !important;
+            right: auto !important;
+          }
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .phone-header-btn,
+          html[dir="ltr"] .phone-header-btn {
+            right: 12px !important;
+            left: auto !important;
+          }
+          
+          /* RTL positioning: hamburger RIGHT, phone LEFT */
+          html[dir="rtl"] .mobile-toggle,
+          html[lang="he"] .mobile-toggle,
+          html[lang="ar"] .mobile-toggle {
+            right: 12px !important;
+            left: auto !important;
+          }
+          html[dir="rtl"] .phone-header-btn,
+          html[lang="he"] .phone-header-btn,
+          html[lang="ar"] .phone-header-btn {
+            left: 12px !important;
+            right: auto !important;
+          }
+          
+          /* CRITICAL: Ensure nav-container has min-height on mobile */
+          /* All children are positioned absolutely/fixed on mobile, so height:auto collapses to 0 */
+          .nav-container {
+            min-height: 70px !important;
+            position: relative !important;
+          }
+          
+          /* Ensure SVG icons are properly sized and inherit color */
+          .mobile-toggle svg,
+          .phone-header-btn svg {
+            width: 24px !important;
+            height: 24px !important;
+            /* Don't force display - let JavaScript control hamburger/close toggle */
+          }
+          
+          /* Reset nav-cta-container on mobile - remove desktop box-shadow/padding */
+          /* that creates a visible ghost box when CTA button is hidden */
+          .nav-cta-container {
+            box-shadow: none !important;
+            padding: 0 !important;
+          }
+          
+          /* Hide nav-cta-container entirely on mobile when there's no lang-switcher */
+          /* (only the CTA button is inside, and it's hidden on mobile) */
+          .nav-cta-container:not(:has(.lang-switcher)) {
+            display: none !important;
+          }
+          
+          /* CRITICAL: Prevent hero image fade gradient from bleeding over headline text */
+          /* The .image-fade-gradient has bottom: -30px (extends below parent) */
+          /* On mobile stacked layout, this overlaps the h1 text below the image */
+          .hero-image-column {
+            overflow: hidden !important;
+          }
+          .image-fade-gradient {
+            bottom: 0 !important;
+          }
+          
+          /* Hide desktop language switcher on mobile - hamburger menu handles it */
+          /* High specificity to override stored CSS */
+          .lang-switcher,
+          .nav-cta-container .lang-switcher,
+          .nav-container .lang-switcher,
+          .navbar .lang-switcher,
+          .navbar .nav-cta-container .lang-switcher {
+            display: none !important;
+          }
+        }
+      `;
+      
+      // Remove existing fix if present and inject new one
+      const existing = document.getElementById('zappy-mobile-nav-fix');
+      if (existing) existing.remove();
+      document.head.appendChild(criticalCSS);
+      
+      console.log('[Navbar] Critical CSS injected for mobile nav positioning');
+      
+      // ONLY apply inline positioning styles on mobile viewport
+      // On desktop, the CSS handles hiding these buttons with display: none
+      // Inline styles were breaking desktop layout by overriding CSS
+      const isMobileViewport = window.innerWidth <= 768;
+      
+      if (mobileToggle) {
+        // Icon sizing applies to all viewports for consistency
+        const hamburgerIcon = mobileToggle.querySelector('.hamburger-icon');
+        const closeIcon = mobileToggle.querySelector('.close-icon');
+        
+        if (hamburgerIcon) {
+          hamburgerIcon.style.setProperty('width', '24px', 'important');
+          hamburgerIcon.style.setProperty('height', '24px', 'important');
+          hamburgerIcon.style.setProperty('display', 'block', 'important'); // Show hamburger by default
+        }
+        if (closeIcon) {
+          closeIcon.style.setProperty('width', '24px', 'important');
+          closeIcon.style.setProperty('height', '24px', 'important');
+          closeIcon.style.setProperty('display', 'none', 'important'); // Hide close icon by default
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          mobileToggle.style.setProperty('position', 'absolute', 'important');
+          mobileToggle.style.setProperty('top', '50%', 'important');
+          mobileToggle.style.setProperty('transform', 'translateY(-50%)', 'important');
+          mobileToggle.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          
+          console.log('[Navbar] Mobile toggle positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          mobileToggle.style.removeProperty('position');
+          mobileToggle.style.removeProperty('top');
+          mobileToggle.style.removeProperty('transform');
+          mobileToggle.style.removeProperty('z-index');
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared mobile toggle inline positioning');
+        }
+      }
+      
+      if (phoneBtn) {
+        // Icon sizing applies to all viewports
+        const phoneIcon = phoneBtn.querySelector('svg');
+        if (phoneIcon) {
+          phoneIcon.style.width = '24px';
+          phoneIcon.style.height = '24px';
+          phoneIcon.setAttribute('width', '24');
+          phoneIcon.setAttribute('height', '24');
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          phoneBtn.style.setProperty('position', 'absolute', 'important');
+          phoneBtn.style.setProperty('top', '50%', 'important');
+          phoneBtn.style.setProperty('transform', 'translateY(-50%)', 'important');
+          phoneBtn.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          
+          console.log('[Navbar] Phone button positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          phoneBtn.style.removeProperty('position');
+          phoneBtn.style.removeProperty('top');
+          phoneBtn.style.removeProperty('transform');
+          phoneBtn.style.removeProperty('z-index');
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared phone button inline positioning');
+        }
+      }
+    } else {
+      console.log('[Navbar] Could not parse background color:', bgColor);
+    }
+    
+    // MOBILE MENU TOGGLE
+    // Re-query in case DOM changed (mobileToggle already declared at top of function)
+    mobileToggle = document.getElementById('mobileToggle') ||
+                   document.querySelector('.mobile-toggle') ||
+                   document.querySelector('.hamburger') ||
+                   document.querySelector('.hamburger-menu') ||
+                   document.querySelector('.menu-toggle') ||
+                   document.querySelector('.burger-menu') ||
+                   document.querySelector('[aria-label="Menu"]') ||
+                   document.querySelector('[aria-label="תפריט"]');
+    
+    // EXPANDED SEARCH: Find nav menu by ID or class
+    const navMenu = document.getElementById('navMenu') ||
+                  document.querySelector('.nav-menu') ||
+                  document.querySelector('.nav-links') ||
+                  document.querySelector('nav ul:not(.submenu)');
+    
+    if (!mobileToggle || !navMenu) {
+      console.log('[Navbar] Mobile toggle or menu not found:', { toggle: !!mobileToggle, menu: !!navMenu });
+      return;
+    }
+    
+    // Ensure navMenu has ID for CSS targeting
+    if (!navMenu.id) {
+      navMenu.id = 'navMenu';
+    }
+    
+    console.log('[Navbar] Initializing mobile menu...');
+    
+    // Remove any existing event listeners by cloning the button
+    const newToggle = mobileToggle.cloneNode(true);
+    mobileToggle.parentNode.replaceChild(newToggle, mobileToggle);
+    
+    // Toggle menu on button click - use newToggle now
+    newToggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const hamburgerIcon = this.querySelector('.hamburger-icon');
+      const closeIcon = this.querySelector('.close-icon');
+      const isActive = navMenu.classList.contains('active');
+      
+      if (isActive) {
+        // Close menu
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        console.log('[Navbar] Menu closed');
+      } else {
+        // Open menu
+        navMenu.classList.add('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'none', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'block', 'important');
+        document.body.style.overflow = 'hidden';
+        console.log('[Navbar] Menu opened');
+      }
+    });
+    
+    // Close menu when clicking nav links (but NOT dropdown toggles)
+    const navLinks = navMenu.querySelectorAll('a');
+    navLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        // Don't close if it's a dropdown child (unless it's a real navigation link)
+        if (this.getAttribute('href') === '#') return;
+        
+        const hamburgerIcon = newToggle.querySelector('.hamburger-icon');
+        const closeIcon = newToggle.querySelector('.close-icon');
+        
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        console.log('[Navbar] Menu closed (link clicked)');
+      });
+    });
+    
+    // DROPDOWN MENU TOGGLE (for mobile and touch devices)
+    var dropdownToggles = navMenu.querySelectorAll('.dropdown-toggle');
+    dropdownToggles.forEach(function(toggle) {
+      toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var parent = this.closest('.nav-dropdown');
+        if (!parent) return;
+        
+        // Close other open dropdowns at the same level
+        var siblings = parent.parentNode.querySelectorAll('.nav-dropdown.open');
+        siblings.forEach(function(sib) {
+          if (sib !== parent) sib.classList.remove('open');
+        });
+        
+        parent.classList.toggle('open');
+        console.log('[Navbar] Dropdown toggled:', parent.classList.contains('open') ? 'open' : 'closed');
+      });
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        var openDropdowns = document.querySelectorAll('.nav-dropdown.open');
+        openDropdowns.forEach(function(dd) { dd.classList.remove('open'); });
+      }
+    });
+    
+    console.log('[Navbar] Dropdown handlers initialized for ' + dropdownToggles.length + ' dropdowns');
+    
+    // Phone button functionality (phoneBtn already declared at top of function)
+    if (phoneBtn) {
+      phoneBtn.addEventListener('click', function() {
+        // Get phone number from placeholder in page or use default
+        const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+        const phoneNumber = phoneLinks.length > 0 
+          ? phoneLinks[0].getAttribute('href').replace('tel:', '')
+          : '+972506267434';
+        
+        window.location.href = 'tel:' + phoneNumber;
+        console.log('[Navbar] Phone button clicked');
+      });
+    }
+    
+    console.log('[Navbar] Mobile menu initialized successfully');
+    
+    // === WHATSAPP BUTTON VISIBILITY FIX ===
+    // Ensure WhatsApp floating button is hidden on desktop and visible on mobile
+    // IMPORTANT: Only target the floating button by its class, NOT generic wa.me links
+    const handleWhatsAppVisibility = function() {
+      const whatsappBtn = document.querySelector('.whatsapp-float');
+      if (whatsappBtn) {
+        const isDesktop = window.innerWidth >= 769;
+        if (isDesktop) {
+          whatsappBtn.style.setProperty('display', 'none', 'important');
+          whatsappBtn.style.setProperty('visibility', 'hidden', 'important');
+          whatsappBtn.style.setProperty('opacity', '0', 'important');
+          whatsappBtn.style.setProperty('pointer-events', 'none', 'important');
+          console.log('[WhatsApp] Button hidden on desktop');
+        } else {
+          whatsappBtn.style.removeProperty('display');
+          whatsappBtn.style.removeProperty('visibility');
+          whatsappBtn.style.removeProperty('opacity');
+          whatsappBtn.style.removeProperty('pointer-events');
+          console.log('[WhatsApp] Button visible on mobile');
+        }
+      }
+    };
+    
+    // Run on load
+    handleWhatsAppVisibility();
+    
+    // Run on resize with debouncing
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(handleWhatsAppVisibility, 100);
+    });
+  });
+})();
+
+</script>
+  
+  <main class="blog-page ai-generated-page"><section class="clinical-legal-services-hero-section" data-layout-spec="תחומי שירות וייעוץ-hero" dir="rtl" data-hero-type="fullscreen-scrim">
+  <!-- Background Image Layer -->
+  <div class="clsh-bg-layer">
+    <img data-hero-bg="true" data-context="A dramatic, high-authority composite atmosphere: a senior male physician in a white coat reviewing legal documents and medical scans simultaneously at a large desk, with a courtroom or law library visible in the blurred background. Moody, cinematic lighting with deep indigo and teal tones. Medical imaging overlays (CT scan, X-ray fragments) subtly visible. Professional, commanding, editorial quality. Aspect ratio wide landscape." width="1200" height="700" src="/assets/section-hero-clinical-legal-services-hero-image-1.webp" alt="ד&quot;ר ערן טל-אור - רפואה ומשפט, חוות דעת מומחה" class="clsh-bg-img" data-zappy-editable-image="true">
+  </div>
+
+  <!-- Scrim / Gradient Overlay -->
+  <div class="clsh-scrim" aria-hidden="true"></div>
+
+  <!-- Decorative Overlays -->
+  <div class="clsh-decorative-grid" aria-hidden="true">
+    <svg data-no-icon-edit="true" aria-hidden="true" class="clsh-grid-svg" viewBox="0 0 1200 700" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <!-- Map contour lines -->
+      <g stroke="rgba(47,124,138,0.18)" stroke-width="1" fill="none">
+        <path d="M0,180 Q200,160 400,175 T800,165 T1200,170"></path>
+        <path d="M0,240 Q180,225 380,238 T780,228 T1200,235"></path>
+        <path d="M0,310 Q220,295 420,308 T820,298 T1200,305"></path>
+        <path d="M0,390 Q200,375 400,388 T800,378 T1200,385"></path>
+        <path d="M0,460 Q180,445 380,458 T780,448 T1200,455"></path>
+      </g>
+      <!-- Medical grid crosshairs -->
+      <g stroke="rgba(233,138,61,0.10)" stroke-width="0.8" fill="none">
+        <line x1="900" y1="0" x2="900" y2="700"></line>
+        <line x1="960" y1="0" x2="960" y2="700"></line>
+        <line x1="1020" y1="0" x2="1020" y2="700"></line>
+        <line x1="840" y1="0" x2="840" y2="700"></line>
+        <line x1="0" y1="120" x2="1200" y2="120"></line>
+        <line x1="0" y1="200" x2="1200" y2="200"></line>
+        <line x1="0" y1="280" x2="1200" y2="280"></line>
+        <line x1="0" y1="360" x2="1200" y2="360"></line>
+        <line x1="0" y1="440" x2="1200" y2="440"></line>
+        <line x1="0" y1="520" x2="1200" y2="520"></line>
+      </g>
+      <!-- Radiology-style corner markers -->
+      <g stroke="rgba(47,124,138,0.25)" stroke-width="1.2" fill="none">
+        <path d="M820,80 L820,110 L850,110"></path>
+        <path d="M1150,80 L1150,110 L1120,110"></path>
+        <path d="M820,580 L820,550 L850,550"></path>
+        <path d="M1150,580 L1150,550 L1120,550"></path>
+      </g>
+      <!-- Small crosshair center -->
+      <g stroke="rgba(233,138,61,0.22)" stroke-width="1" fill="none">
+        <line x1="985" y1="320" x2="985" y2="340"></line>
+        <line x1="975" y1="330" x2="995" y2="330"></line>
+        <circle cx="985" cy="330" r="8" stroke="rgba(233,138,61,0.15)"></circle>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Main Content Container -->
+  <div class="clsh-container">
+    <div class="clsh-layout">
+
+      <!-- Right Column: Text Content (5/12) -->
+      <div class="clsh-text-col">
+        <!-- Eyebrow label -->
+        <div class="clsh-eyebrow">
+          <span class="clsh-eyebrow-line"></span>
+          <span class="clsh-eyebrow-text">רפואה · משפט · חירום</span>
+        </div>
+
+        <!-- H1 Main Headline -->
+        <h1 class="clsh-headline">מומחיות רפואית<br>בשירות הצדק<br>והמוכנות לחירום</h1>
+
+        <!-- H3 Subtitle -->
+        <h3 class="clsh-subtitle">ד"ר ערן טל-אור — חוות דעת מומחה בתביעות רשלנות רפואית, ייעוץ לארגונים בחירום ואסונות, ורפואה דחופה ברמה הגבוהה ביותר.</h3>
+
+        <!-- Info Strip: 3 static items -->
+        <div class="clsh-info-strip">
+          <div class="clsh-info-item">
+            <span class="clsh-info-icon" aria-hidden="true"><svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg></span>
+            <span>חוות דעת מומחה</span>
+          </div>
+          <div class="clsh-info-divider" aria-hidden="true"></div>
+          <div class="clsh-info-item">
+            <span class="clsh-info-icon" aria-hidden="true"><svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></span>
+            <span>ייעוץ לחירום ואסונות</span>
+          </div>
+          <div class="clsh-info-divider" aria-hidden="true"></div>
+          <div class="clsh-info-item">
+            <span class="clsh-info-icon" aria-hidden="true"><svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg></span>
+            <span>רפואה דחופה</span>
+          </div>
+        </div>
+
+        <!-- Dual CTA Buttons -->
+        <div class="clsh-cta-row">
+          <a href="#contact" class="clsh-btn clsh-btn-primary">לתיאום ייעוץ</a>
+          <a href="#services" class="clsh-btn clsh-btn-secondary">תחומי השירות</a>
+        </div>
+      </div>
+
+      <!-- Left Column: Visual spacer (7/12 — image fills full bg) -->
+      <div class="clsh-visual-col" aria-hidden="true">
+        <!-- Floating annotation badge -->
+        <div class="clsh-annotation-badge">
+          <span class="clsh-badge-label">מוסמך</span>
+          <span class="clsh-badge-value">בית משפט</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom Divider: transition to light stone section -->
+  <div class="clsh-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,90 L0,52 Q60,42 120,50 T240,44 Q300,50 360,42 T480,46 Q540,42 600,50 T720,44 Q780,50 840,42 T960,46 Q1020,42 1080,50 T1200,44 L1200,90 Z" fill="var(--bg-light)"></path>
+    </svg>
+  </div>
+
+</section>
+
+<section class="clinical-legal-services-services-section" data-layout-spec="תחומי שירות וייעוץ-services" dir="rtl">
+  <div class="cls-container">
+    <div class="cls-header">
+      <h2 class="cls-title">תחומי שירות וייעוץ</h2>
+      <p class="cls-subtitle">ד"ר ערן טל-אור מציע מגוון שירותים מקצועיים בצומת שבין הרפואה, המשפט וניהול חירום — כל אחד מהם מבוסס על ניסיון קליני עמוק, ידע משפטי מוכח, ויכולת ניתוח ממוקדת תוצאות.</p>
+    </div>
+
+    <div class="cls-grid">
+
+      <!-- Card 1: חוות דעת מומחה רפואית -->
+      <article class="cls-card cls-card--indigo-bar">
+        <div class="cls-card-annotation">מסמך מומחה</div>
+        <div class="cls-card-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        </div>
+        <h3 class="cls-card-title">חוות דעת מומחה רפואית</h3>
+        <p class="cls-card-desc">עריכת חוות דעת מקצועיות ומנומקות לבתי משפט ולגורמי ביטוח, בתחום רשלנות רפואית ונזקי גוף.</p>
+        <ul class="cls-benefits">
+          <li><span class="cls-bullet"></span>ניסיון רב בהגשת חוות דעת לערכאות שיפוטיות</li>
+          <li><span class="cls-bullet"></span>ניתוח מעמיק של תיעוד רפואי ופרוטוקולים</li>
+          <li><span class="cls-bullet"></span>עמידה בסטנדרטים המשפטיים הגבוהים ביותר</li>
+        </ul>
+      </article>
+
+      <!-- Card 2: הערכת מקרה טרום-הליך -->
+      <article class="cls-card">
+        <div class="cls-card-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+        </div>
+        <h3 class="cls-card-title">הערכת מקרה טרום-הליך</h3>
+        <p class="cls-card-desc">בחינה מוקדמת ומעמיקה של תיק רפואי-משפטי לפני פתיחת הליך, לצורך הערכת סיכויים וחיסכון במשאבים.</p>
+        <ul class="cls-benefits">
+          <li><span class="cls-bullet"></span>זיהוי נקודות חוזק וחולשה בתיק</li>
+          <li><span class="cls-bullet"></span>חוות דעת ראשונית מהירה ומבוססת</li>
+          <li><span class="cls-bullet"></span>ייעוץ אסטרטגי לפני הגשת תביעה</li>
+        </ul>
+      </article>
+
+      <!-- Card 3: ליווי רפואי לעורכי דין -->
+      <article class="cls-card cls-card--indigo-bar">
+        <div class="cls-card-annotation">ייעוץ שוטף</div>
+        <div class="cls-card-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        </div>
+        <h3 class="cls-card-title">ליווי רפואי לעורכי דין</h3>
+        <p class="cls-card-desc">תמיכה מקצועית שוטפת לצוותים משפטיים המטפלים בתיקי רשלנות רפואית, לאורך כל שלבי ההליך.</p>
+        <ul class="cls-benefits">
+          <li><span class="cls-bullet"></span>הסבר מונחים רפואיים מורכבים בשפה ברורה</li>
+          <li><span class="cls-bullet"></span>הכנה לחקירות נגדיות ועדויות מומחה</li>
+          <li><span class="cls-bullet"></span>זמינות גבוהה לאורך כל שלבי התיק</li>
+        </ul>
+      </article>
+
+      <!-- Card 4: ייעוץ ברפואה דחופה -->
+      <article class="cls-card">
+        <div class="cls-card-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+        </div>
+        <h3 class="cls-card-title">ייעוץ ברפואה דחופה</h3>
+        <p class="cls-card-desc">שירותי ייעוץ רפואי בתחום הרפואה הדחופה לארגונים, מוסדות ויחידים הזקוקים להכוונה מקצועית מיידית.</p>
+        <ul class="cls-benefits">
+          <li><span class="cls-bullet"></span>פרוטוקולי טיפול בחירום ועזרה ראשונה</li>
+          <li><span class="cls-bullet"></span>הדרכת צוותים ומנהלים לתרחישי חירום</li>
+          <li><span class="cls-bullet"></span>ייעוץ מהיר ומדויק בסיטואציות קריטיות</li>
+        </ul>
+      </article>
+
+      <!-- Card 5: היערכות לאירועי חירום ואסון -->
+      <article class="cls-card cls-card--indigo-bar">
+        <div class="cls-card-annotation">תכנון אסטרטגי</div>
+        <div class="cls-card-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
+        </div>
+        <h3 class="cls-card-title">היערכות לאירועי חירום ואסון</h3>
+        <p class="cls-card-desc">ייעוץ ותכנון מקיף להיערכות רפואית לאירועי רב-נפגעים, אסונות טבע ומצבי חירום לאומיים וארגוניים.</p>
+        <ul class="cls-benefits">
+          <li><span class="cls-bullet"></span>בניית תוכניות חירום מותאמות לארגון</li>
+          <li><span class="cls-bullet"></span>ניסיון בשדה בניהול אירועי חירום מורכבים</li>
+          <li><span class="cls-bullet"></span>תרגולים והדרכות מעשיות לצוותים</li>
+        </ul>
+      </article>
+
+      <!-- Card 6: ניתוח תיעוד רפואי -->
+      <article class="cls-card">
+        <div class="cls-card-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line></svg>
+        </div>
+        <h3 class="cls-card-title">ניתוח תיעוד רפואי</h3>
+        <p class="cls-card-desc">בחינה שיטתית ומדוקדקת של רשומות רפואיות, דוחות ניתוח ופרוטוקולי טיפול לצורכי משפט וביטוח.</p>
+        <ul class="cls-benefits">
+          <li><span class="cls-bullet"></span>זיהוי פערים, סתירות ואי-התאמות בתיעוד</li>
+          <li><span class="cls-bullet"></span>תרגום ממצאים קלינيים לשפה משפטית מובנת</li>
+          <li><span class="cls-bullet"></span>סיכומים ממוקדים לשימוש בהליכים משפטיים</li>
+        </ul>
+      </article>
+
+    </div>
+  </div>
+
+  <!-- Bottom transition divider -->
+  <div class="cls-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" y1="20" x2="1200" y2="20" stroke="var(--secondary)" stroke-width="1" opacity="0.35"></line>
+      <line x1="0" y1="24" x2="1200" y2="24" stroke="var(--secondary)" stroke-width="0.5" opacity="0.15"></line>
+    </svg>
+  </div>
+</section>
+
+<section class="clinical-legal-services-about-section" data-layout-spec="תחומי שירות וייעוץ-about" dir="rtl">
+  <!-- Background decorative grid lines -->
+  <div class="cls-bg-grid" aria-hidden="true"></div>
+  <!-- Abstract medical overlay -->
+  <div class="cls-bg-overlay" aria-hidden="true">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <circle cx="400" cy="300" r="280" fill="none" stroke="rgba(47,124,138,0.08)" stroke-width="1"></circle>
+      <circle cx="400" cy="300" r="200" fill="none" stroke="rgba(47,124,138,0.06)" stroke-width="1"></circle>
+      <circle cx="400" cy="300" r="120" fill="none" stroke="rgba(47,124,138,0.05)" stroke-width="1"></circle>
+      <line x1="120" y1="300" x2="680" y2="300" stroke="rgba(47,124,138,0.07)" stroke-width="1"></line>
+      <line x1="400" y1="20" x2="400" y2="580" stroke="rgba(47,124,138,0.07)" stroke-width="1"></line>
+      <line x1="200" y1="100" x2="600" y2="500" stroke="rgba(47,124,138,0.04)" stroke-width="1"></line>
+      <line x1="600" y1="100" x2="200" y2="500" stroke="rgba(47,124,138,0.04)" stroke-width="1"></line>
+      <rect x="350" y="250" width="100" height="100" fill="none" stroke="rgba(233,138,61,0.06)" stroke-width="1"></rect>
+      <path d="M380,270 L380,330 M350,300 L410,300" stroke="rgba(233,138,61,0.1)" stroke-width="1.5"></path>
+    </svg>
+  </div>
+
+  <div class="cls-container">
+    <div class="cls-main-grid">
+
+      <!-- RIGHT COLUMN: Main text content -->
+      <div class="cls-content-col">
+        <div class="cls-eyebrow">
+          <span class="cls-eyebrow-line"></span>
+          <span class="cls-eyebrow-text">פרופיל מקצועי</span>
+        </div>
+        <h2 class="cls-main-heading">המקום שבו רפואה<br>ומשפט נפגשים</h2>
+        <p class="cls-intro-text">ד"ר ערן טל-אור הוא רופא מומחה ברפואה דחופה עם ניסיון קליני ומשפטי נדיר המשלב הבנה עמוקה של מערכות הבריאות עם יכולת ניתוח מקצועית ברמה שבית משפט מכיר. שנות ניסיון בשטח, בחדרי מיון ובאולמות בית משפט מעניקות לו נקודת מבט ייחודית שאין להחליפה.</p>
+
+        <!-- Block 1 -->
+        <div class="cls-text-block">
+          <div class="cls-block-header">
+            <div class="cls-block-icon">
+              <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
+                <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path>
+                <path d="M2 17l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path>
+                <path d="M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path>
+              </svg>
+            </div>
+            <h3 class="cls-block-title">מומחיות משפטית-רפואית</h3>
+          </div>
+          <p class="cls-block-text">ד"ר טל-אור מגיש חוות דעת מומחה בתביעות רשלנות רפואית, תאונות דרכים ואירועי נזק גוף. חוות הדעת שלו מנוסחות בשפה ברורה ומשכנעת, מבוססות על ספרות רפואית עדכנית ומוגשות בפורמט שבתי המשפט מכירים ומעריכים.</p>
+        </div>
+
+        <!-- Block 2 -->
+        <div class="cls-text-block cls-block-accent">
+          <div class="cls-accent-marker" aria-hidden="true"></div>
+          <div class="cls-block-header">
+            <div class="cls-block-icon">
+              <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path>
+                <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </div>
+            <h3 class="cls-block-title">ייעוץ לחירום ומוכנות לאסון</h3>
+          </div>
+          <p class="cls-block-text">ארגונים, רשויות מקומיות ומוסדות בריאות נעזרים בד"ר טל-אור לבניית פרוטוקולי חירום, הכשרת צוותים ותכנון תגובה לאירועים מרובי נפגעים. הניסיון המבצעי שלו בשטח מתורגם לתוכניות פעולה ישימות ואפקטיביות.</p>
+        </div>
+      </div>
+
+      <!-- LEFT COLUMN: 2x2 advantage grid -->
+      <div class="cls-advantages-col">
+        <!-- Large pull quote -->
+        <blockquote class="cls-pull-quote">
+          <span class="cls-quote-mark" aria-hidden="true">״</span>
+          <p class="cls-quote-text">הצטלבות הרפואה והמשפט דורשת מומחה שמכיר את שתי השפות — ויודע מתי כל אחת מהן חיונית.</p>
+          <cite class="cls-quote-cite">ד"ר ערן טל-אור</cite>
+        </blockquote>
+
+        <div class="cls-advantages-grid">
+          <!-- Item 1 -->
+          <article class="cls-advantage-card">
+            <div class="cls-adv-icon-wrap">
+              <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                <path d="M9 11l3 3L22 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </div>
+            <div class="cls-adv-content">
+              <h3 class="cls-adv-title">אמינות מוכחת</h3>
+              <p class="cls-adv-text">ניסיון רב-שנים בהעדת עדות מומחה בפני בתי משפט ובוררויות, עם רקורד של חוות דעת שהתקבלו.</p>
+            </div>
+          </article>
+
+          <!-- Item 2 -->
+          <article class="cls-advantage-card">
+            <div class="cls-adv-icon-wrap">
+              <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"></circle>
+                <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+              </svg>
+            </div>
+            <div class="cls-adv-content">
+              <h3 class="cls-adv-title">זמינות ומהירות תגובה</h3>
+              <p class="cls-adv-text">הבנת לוחות הזמנים המשפטיים מאפשרת מסירת חוות דעת בזמן הנדרש, גם בתיקים דחופים.</p>
+            </div>
+          </article>
+
+          <!-- Item 3 -->
+          <article class="cls-advantage-card">
+            <div class="cls-adv-icon-wrap">
+              <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path>
+                <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path>
+              </svg>
+            </div>
+            <div class="cls-adv-content">
+              <h3 class="cls-adv-title">בסיס אקדמי מוצק</h3>
+              <p class="cls-adv-text">כל חוות דעת נשענת על ספרות רפואית עדכנית, הנחיות קליניות מוכרות ומחקר עדכני בתחום.</p>
+            </div>
+          </article>
+
+          <!-- Item 4 -->
+          <article class="cls-advantage-card">
+            <div class="cls-adv-icon-wrap">
+              <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="1.5"></circle>
+                <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </div>
+            <div class="cls-adv-content">
+              <h3 class="cls-adv-title">שירות אישי ומקצועי</h3>
+              <p class="cls-adv-text">כל תיק מקבל תשומת לב מלאה ואישית. ד"ר טל-אור עצמו מעורב בכל שלב — מהבחינה הראשונית ועד להגשה.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom divider transitioning to light -->
+  <div class="cls-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,70 L0,35 Q100,22 200,32 T400,25 Q500,20 600,30 T800,22 Q900,18 1000,28 T1200,20 L1200,70 Z" fill="var(--bg-light)"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="clinical-legal-services-methodology-section" data-layout-spec="תחומי שירות וייעוץ-methodology" dir="rtl">
+  <!-- Decorative annotation lines -->
+  <div class="methodology-bg-decoration" aria-hidden="true">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" y1="120" x2="1200" y2="95" stroke="rgba(47,124,138,0.12)" stroke-width="1"></line>
+      <line x1="0" y1="240" x2="1200" y2="210" stroke="rgba(47,124,138,0.08)" stroke-width="1"></line>
+      <line x1="0" y1="380" x2="1200" y2="355" stroke="rgba(47,124,138,0.10)" stroke-width="1"></line>
+      <line x1="180" y1="0" x2="160" y2="500" stroke="rgba(47,124,138,0.07)" stroke-width="1"></line>
+      <line x1="900" y1="0" x2="880" y2="500" stroke="rgba(47,124,138,0.07)" stroke-width="1"></line>
+    </svg>
+  </div>
+
+  <div class="methodology-container">
+    <!-- Section Header -->
+    <div class="methodology-header">
+      <div class="methodology-label-tag">תהליך העבודה</div>
+      <h2 class="methodology-title">ארבעה שלבים. מסקנות ברורות.</h2>
+      <p class="methodology-subtitle">מתודולוגיה מקצועית המשלבת ניתוח רפואי מעמיק עם דרישות משפטיות מחמירות — לכל פנייה ניגשים באותה רצינות ודייקנות.</p>
+    </div>
+
+    <!-- Steps Grid -->
+    <div class="methodology-steps">
+
+      <!-- Step 1 -->
+      <article class="methodology-step">
+        <div class="step-connector-line" aria-hidden="true"></div>
+        <div class="step-number-badge">01</div>
+        <div class="step-content">
+          <h3 class="step-title">קבלת חומר</h3>
+          <p class="step-description">בחינה ראשונית של תיק הפנייה: מסמכים רפואיים, פרוטוקולים, חוות דעת קודמות ועדויות. תיאום ציפיות ראשוני מול הלקוח או עורך הדין המטפל.</p>
+        </div>
+        <div class="step-icon-area" aria-hidden="true">
+          <svg data-element-type="icon" data-icon-type="svg" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="4" width="20" height="26" rx="1" stroke="currentColor" stroke-width="1.5"></rect>
+            <line x1="10" y1="11" x2="22" y2="11" stroke="currentColor" stroke-width="1.5"></line>
+            <line x1="10" y1="16" x2="22" y2="16" stroke="currentColor" stroke-width="1.5"></line>
+            <line x1="10" y1="21" x2="17" y2="21" stroke="currentColor" stroke-width="1.5"></line>
+            <circle cx="28" cy="28" r="6" fill="var(--accent)" opacity="0.15"></circle>
+            <path d="M25 28 L27 30 L31 26" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+      </article>
+
+      <!-- Step 2 -->
+      <article class="methodology-step">
+        <div class="step-connector-line" aria-hidden="true"></div>
+        <div class="step-number-badge">02</div>
+        <div class="step-content">
+          <h3 class="step-title">בחינה רפואית-משפטית</h3>
+          <p class="step-description">ניתוח מעמיק של הנתונים הקליניים בהשוואה לסטנדרט הטיפול המקצועי המקובל. בדיקת עקביות הממצאים, זיהוי פערים ותיעוד מדויק של כל סטייה רלוונטית.</p>
+        </div>
+        <div class="step-icon-area" aria-hidden="true">
+          <svg data-element-type="icon" data-icon-type="svg" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="16" cy="16" r="10" stroke="currentColor" stroke-width="1.5"></circle>
+            <line x1="23" y1="23" x2="30" y2="30" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></line>
+            <line x1="12" y1="16" x2="20" y2="16" stroke="var(--secondary)" stroke-width="1.5" stroke-linecap="round"></line>
+            <line x1="16" y1="12" x2="16" y2="20" stroke="var(--secondary)" stroke-width="1.5" stroke-linecap="round"></line>
+          </svg>
+        </div>
+      </article>
+
+      <!-- Step 3 -->
+      <article class="methodology-step">
+        <div class="step-connector-line" aria-hidden="true"></div>
+        <div class="step-number-badge">03</div>
+        <div class="step-content">
+          <h3 class="step-title">גיבוש מסקנות</h3>
+          <p class="step-description">ניסוח מסקנות מבוסס-ראיות בשפה רפואית-משפטית מדויקת. כל טענה נשענת על ספרות מדעית עדכנית, נורמות קליניות ופרקטיקה מקצועית מוכחת.</p>
+        </div>
+        <div class="step-icon-area" aria-hidden="true">
+          <svg data-element-type="icon" data-icon-type="svg" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 28 L8 14 L18 6 L28 14 L28 28 Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path>
+            <rect x="14" y="19" width="8" height="9" stroke="currentColor" stroke-width="1.5"></rect>
+            <circle cx="28" cy="10" r="5" fill="var(--secondary)" opacity="0.2"></circle>
+            <path d="M26 10 L27.5 11.5 L30.5 8.5" stroke="var(--secondary)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+      </article>
+
+      <!-- Step 4 -->
+      <article class="methodology-step methodology-step--last">
+        <div class="step-number-badge">04</div>
+        <div class="step-content">
+          <h3 class="step-title">מסירת חוות דעת</h3>
+          <p class="step-description">הגשת חוות דעת כתובה מפורטת, או המלצות ייעוציות מסודרות. זמינות לעדות מומחה בבית משפט, לתשאול ולהבהרות בהמשך ההליך.</p>
+        </div>
+        <div class="step-icon-area" aria-hidden="true">
+          <svg data-element-type="icon" data-icon-type="svg" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 6 L28 6 L28 26 L20 34 L8 34 Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path>
+            <path d="M20 26 L20 34 L28 26 Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path>
+            <line x1="12" y1="13" x2="24" y2="13" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"></line>
+            <line x1="12" y1="18" x2="24" y2="18" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"></line>
+            <line x1="12" y1="23" x2="18" y2="23" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"></line>
+          </svg>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Bottom row: suited-for block -->
+    <div class="methodology-bottom-row">
+      <div class="suited-for-block">
+        <div class="suited-for-label">מתאים עבור</div>
+        <ul class="suited-for-list">
+          <li class="suited-for-item">
+            <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="8" cy="8" r="7" stroke="var(--secondary)" stroke-width="1.2"></circle>
+              <path d="M5 8 L7 10 L11 6" stroke="var(--secondary)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <span>עורכי דין ומשרדי עורכי דין</span>
+          </li>
+          <li class="suited-for-item">
+            <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="8" cy="8" r="7" stroke="var(--secondary)" stroke-width="1.2"></circle>
+              <path d="M5 8 L7 10 L11 6" stroke="var(--secondary)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <span>מוסדות, ארגונים וגופים ציבוריים</span>
+          </li>
+          <li class="suited-for-item">
+            <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="8" cy="8" r="7" stroke="var(--secondary)" stroke-width="1.2"></circle>
+              <path d="M5 8 L7 10 L11 6" stroke="var(--secondary)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <span>מטופלים ומשפחות המבקשים ייעוץ</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="methodology-cta-note">
+        <p class="cta-note-text">כל פנייה מטופלת באופן אישי ובסודיות מלאה</p>
+        <a href="#contact" class="btn-primary methodology-cta-btn">פנו לייעוץ ראשוני</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom indigo transition strip -->
+  <div class="methodology-indigo-strip" aria-hidden="true"></div>
+</section>
+
+<section class="clinical-legal-services-cta-section" data-layout-spec="תחומי שירות וייעוץ-cta" dir="rtl">
+  <!-- Decorative contour lines overlay -->
+  <div class="cta-contour-overlay" aria-hidden="true">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="rgba(238,241,236,0.04)" stroke-width="1.5">
+        <path d="M0,80 Q200,60 400,90 T800,75 Q1000,65 1200,85"></path>
+        <path d="M0,130 Q150,110 350,140 T700,125 Q950,115 1200,135"></path>
+        <path d="M0,180 Q250,160 500,190 T900,175 Q1050,165 1200,185"></path>
+        <path d="M0,230 Q180,210 420,240 T850,225 Q1020,215 1200,235"></path>
+        <path d="M0,280 Q220,260 460,285 T880,270 Q1080,260 1200,280"></path>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Vignette overlay -->
+  <div class="cta-vignette" aria-hidden="true"></div>
+
+  <div class="cta-container">
+    <!-- Eyebrow label -->
+    <div class="cta-eyebrow">
+      <span class="cta-eyebrow-line"></span>
+      <span class="cta-eyebrow-text">ייעוץ מקצועי ברמה הגבוהה ביותר</span>
+      <span class="cta-eyebrow-line"></span>
+    </div>
+
+    <!-- Main heading -->
+    <h2 class="cta-heading">מוכנים לקבל חוות דעת מומחה<br>שתשנה את התמונה?</h2>
+
+    <!-- Supporting paragraph -->
+    <p class="cta-body">ד"ר ערן טל-אור מעמיד לרשותכם עשורים של ניסיון בצומת שבין רפואה, משפט ומוכנות לחירום. בין אם אתם מחפשים חוות דעת מומחה לבית משפט, ייעוץ אסטרטגי לתכנון חירום ואסון, או ייעוץ ברפואה דחופה — כאן תמצאו את המענה המקצועי שאתם צריכים.</p>
+
+    <!-- CTA Buttons -->
+    <div class="cta-actions">
+      <a href="/contact" class="cta-btn-primary">
+        <span>פנו אלינו לייעוץ</span>
+        <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M10 8L6 4M6 12L10 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </a>
+      <a href="/services" class="cta-btn-secondary">
+        <span>לתחומי השירות</span>
+      </a>
+    </div>
+
+    <!-- Micro-text audience line -->
+    <p class="cta-micro-text">
+      <span class="micro-dot"></span> מותאם לעורכי דין ובתי משפט
+      <span class="micro-sep">·</span>
+      ארגונים וגופים ציבוריים
+      <span class="micro-sep">·</span>
+      מטופלים הזקוקים לייעוץ דחוף
+    </p>
+  </div>
+</section></main>
+  
+  <footer class="site-footer" dir="rtl">
+  <div class="footer-top">
+    <div class="footer-container">
+      <div class="footer-grid">
+
+        <!-- Column 1: Company Info -->
+        <div class="footer-col footer-brand">
+          <img src="/assets/logo-1774348195734-abe1lj.webp?v=1774348195940-x5j2ps" alt="Eran Talor MD" class="logo">
+          <p class="brand-tagline">ד"ר ערן טלור — מומחה ברפואת חירום, חוות דעת רפואיות ומשפטיות, וייעוץ מוכנות לאסונות.</p>
+          <div class="brand-accent-line"></div>
+          <div class="social-links">
+            <a href="https://facebook.com/eran.talor" aria-label="Facebook" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://instagram.com/erantalor" aria-label="Instagram" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="https://twitter.com/eran_talor" aria-label="Twitter" class="social-link" data-element-id="element-ai-1774348055130-tw9x3k" data-element-type="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="https://linkedin.com/company/n/eran-tal-or-m-d-m-h-a-83739621" aria-label="LinkedIn" class="social-link" data-element-id="element-ai-1774348055130-li4m7p" data-element-type="social-link"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://wa.me/972506267434" aria-label="WhatsApp" class="social-link"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <!-- Column 2: Quick Links -->
+        <div class="footer-col">
+          <h3 class="footer-heading"><span class="heading-marker"></span>תחומי פעילות</h3>
+          <ul class="footer-nav">
+            <li><a href="/medical-expert-opinions" class="footer-link"><i class="fas fa-chevron-left footer-link-icon"></i>חוות דעת רפואיות</a></li>
+            <li><a href="/emergency-disaster-preparedness" class="footer-link"><i class="fas fa-chevron-left footer-link-icon"></i>ייעוץ מוכנות לחירום ואסונות</a></li>
+            <li><a href="/emergency-medicine-advisory" class="footer-link"><i class="fas fa-chevron-left footer-link-icon"></i>ייעוץ ברפואת חירום</a></li>
+            <li><a href="/about-contact" class="footer-link"><i class="fas fa-chevron-left footer-link-icon"></i>אודות וצור קשר</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Contact Info -->
+        <div class="footer-col">
+          <h3 class="footer-heading"><span class="heading-marker"></span>יצירת קשר</h3>
+          <ul class="footer-contact">
+            <li class="contact-item">
+              <span class="contact-icon-wrap"><i class="fas fa-envelope"></i></span>
+              <a href="mailto:work@tal-or.co.il" class="footer-link contact-text">work@tal-or.co.il</a>
+            </li>
+            <li class="contact-item">
+              <span class="contact-icon-wrap"><i class="fas fa-phone"></i></span>
+              <a href="tel:+972506267434" class="footer-link contact-text">+972506267434</a>
+            </li>
+            <li class="contact-item"><a href="/"><span class="contact-icon-wrap"><i class="fas fa-map-marker-alt" style="cursor: pointer;"></i></span>
+              <span class="contact-text">האלון 101, מסד, 1499000, ישראל</span></a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Credentials / CTA -->
+        <div class="footer-col footer-cta-col">
+          <h3 class="footer-heading"><span class="heading-marker"></span>מומחיות</h3>
+          <div class="credentials-list">
+            <div class="credential-item">
+              <i class="fas fa-heartbeat credential-icon" data-element-type="icon" data-element-id="icon-1774515349411-nrfc2dq9q" data-icon-type="fontawesome" style="cursor: pointer;"></i>רפואת חרום</div>
+            <div class="credential-item">
+              <i class="fas fa-heartbeat credential-icon" data-element-type="icon" data-element-id="icon-1774515349411-nrfc2dq9q" data-icon-type="fontawesome" style="cursor: pointer;"></i>רפואת חרום</div>
+            <div class="credential-item">
+              <i class="fas fa-heartbeat credential-icon" data-element-type="icon" data-element-id="icon-1774515349411-nrfc2dq9q" data-icon-type="fontawesome" style="cursor: pointer;"></i>רפואת חרום</div>
+            <div class="credential-item">
+              <i class="fas fa-heartbeat credential-icon" data-element-type="icon" data-element-id="icon-1774515349411-nrfc2dq9q" data-icon-type="fontawesome" style="cursor: pointer;"></i>רפואת חרום</div>
+          </div>
+          <a href="/about-contact" class="footer-cta-btn">לתיאום ייעוץ <i class="fas fa-arrow-left"></i></a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="footer-bottom">
+    <div class="footer-container">
+      <div class="footer-bottom-inner">
+        <p class="footer-copyright">© 2026 Eran Talor MD. כל הזכויות שמורות.</p>
+        <div class="footer-legal">
+          <a href="/privacy" class="legal-link">מדיניות פרטיות</a>
+          <span class="legal-sep">|</span>
+          <a href="/terms" class="legal-link">תנאי שימוש</a>
+          <span class="legal-sep">|</span>
+          <a href="/accessibility" class="legal-link">נגישות</a>
+          <span class="legal-sep">|</span>
+          <a href="https://zappy5.com" target="_blank" class="zappy-attribution">נוצר באמצעות Zappy</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+  
+  <a href="https://wa.me/972506267434" class="whatsapp-float" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  
+  <div data-integration="accessibility:toolbar"></div>
+
+    <script src="/script.js"></script>
+
+    <script id="zappy-mobile-submenu-script">
+    (function() {
+      function initMobileSubmenuToggles() {
+        if (window.innerWidth > 768) {
+          document.querySelectorAll('.mobile-submenu-toggle').forEach(function(btn) { btn.remove(); });
+          document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) { menu.classList.remove('mobile-expanded'); });
+          return;
+        }
+        var items = document.querySelectorAll('.nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu)');
+        items.forEach(function(li) {
+          if (li.querySelector('.mobile-submenu-toggle')) return;
+          var submenu = li.querySelector('.sub-menu');
+          var parentLink = li.querySelector(':scope > a');
+          if (!submenu || !parentLink) return;
+          var toggleBtn = document.createElement('button');
+          toggleBtn.className = 'mobile-submenu-toggle';
+          toggleBtn.setAttribute('aria-label', 'Toggle submenu');
+          toggleBtn.setAttribute('type', 'button');
+          parentLink.insertAdjacentElement('afterend', toggleBtn);
+          toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) {
+              if (menu !== submenu) { menu.classList.remove('mobile-expanded'); var t = menu.parentElement.querySelector('.mobile-submenu-toggle'); if(t) t.classList.remove('expanded'); }
+            });
+            submenu.classList.toggle('mobile-expanded');
+            toggleBtn.classList.toggle('expanded');
+          });
+        });
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileSubmenuToggles); }
+      else { initMobileSubmenuToggles(); }
+      var resizeTimer; window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(initMobileSubmenuToggles, 250); });
+      // Re-initialize when mobile menu becomes visible (MutationObserver)
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes') {
+            var target = mutation.target;
+            if (target.classList && (target.classList.contains('active') || target.classList.contains('open'))) {
+              setTimeout(initMobileSubmenuToggles, 100);
+            }
+          }
+        });
+      });
+      setTimeout(function() {
+        document.querySelectorAll('.mobile-menu, .nav-menu, #navMenu, nav').forEach(function(menu) {
+          observer.observe(menu, { attributes: true, attributeFilter: ['class', 'style'] });
+        });
+      }, 500);
+    })();
+    </script>
+
+    <script id="zappy-mobile-lang-menu-script">
+    (function() {
+      function initMobileLangMenu() {
+        if (window.innerWidth > 768) {
+          var existingMenu = document.querySelector('.mobile-lang-menu');
+          if (existingMenu) existingMenu.remove();
+          return;
+        }
+        if (document.querySelector('.mobile-lang-menu')) return;
+        var switcher = document.querySelector('.lang-switcher');
+        if (!switcher) return;
+        var dropdown = switcher.querySelector('.lang-switcher-dropdown');
+        if (!dropdown) return;
+        var options = dropdown.querySelectorAll('.lang-option');
+        if (options.length === 0) return;
+        var navMenu = document.getElementById('navMenu') || document.querySelector('.nav-menu') || document.querySelector('nav ul');
+        if (!navMenu) return;
+        var currentLang = document.documentElement.lang || 'en';
+        var langConfigs = {
+          he: {name:'עברית',flag:'https://api.iconify.design/circle-flags/il.svg'},
+          en: {name:'English',flag:'https://api.iconify.design/circle-flags/us.svg'},
+          ar: {name:'العربية',flag:'https://api.iconify.design/circle-flags/sa.svg'},
+          fr: {name:'Français',flag:'https://api.iconify.design/circle-flags/fr.svg'},
+          es: {name:'Español',flag:'https://api.iconify.design/circle-flags/es.svg'},
+          de: {name:'Deutsch',flag:'https://api.iconify.design/circle-flags/de.svg'},
+          ru: {name:'Русский',flag:'https://api.iconify.design/circle-flags/ru.svg'},
+          zh: {name:'中文',flag:'https://api.iconify.design/circle-flags/cn.svg'},
+          ja: {name:'日本語',flag:'https://api.iconify.design/circle-flags/jp.svg'},
+          pt: {name:'Português',flag:'https://api.iconify.design/circle-flags/br.svg'},
+          it: {name:'Italiano',flag:'https://api.iconify.design/circle-flags/it.svg'},
+          ko: {name:'한국어',flag:'https://api.iconify.design/circle-flags/kr.svg'}
+        };
+        var container = document.createElement('div');
+        container.className = 'mobile-lang-menu';
+        var currentConfig = langConfigs[currentLang] || {name:currentLang,flag:''};
+        var toggleBtn = document.createElement('button');
+        toggleBtn.className = 'mobile-lang-toggle';
+        toggleBtn.type = 'button';
+        var currentFlagHtml = currentConfig.flag ? '<img src="' + currentConfig.flag + '" width="20" height="20" alt="" style="border-radius:50%;margin-right:8px;margin-left:8px;">' : '';
+        toggleBtn.innerHTML = currentFlagHtml + currentConfig.name;
+        container.appendChild(toggleBtn);
+        var optionsDiv = document.createElement('div');
+        optionsDiv.className = 'mobile-lang-options';
+        var currentLink = document.createElement('a');
+        currentLink.className = 'mobile-lang-option active';
+        currentLink.href = '#';
+        currentLink.innerHTML = currentFlagHtml + currentConfig.name;
+        optionsDiv.appendChild(currentLink);
+        options.forEach(function(opt) {
+          var link = document.createElement('a');
+          link.className = 'mobile-lang-option';
+          link.href = opt.getAttribute('href');
+          link.innerHTML = opt.innerHTML;
+          optionsDiv.appendChild(link);
+        });
+        container.appendChild(optionsDiv);
+        navMenu.appendChild(container);
+        toggleBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleBtn.classList.toggle('expanded');
+          optionsDiv.classList.toggle('expanded');
+        });
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileLangMenu); }
+      else { initMobileLangMenu(); }
+      window.addEventListener('resize', function() { clearTimeout(window._mlrt); window._mlrt = setTimeout(initMobileLangMenu, 250); });
+    })();
+    </script>
+</body>
+</html>
