@@ -10066,6 +10066,12 @@ body.accessibility-widget-visible ._access-menu {
   width: 100%;
 }
 
+#zappy-auto-grid-1774344848405-yqry7q .zappy-grid-item {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 /* ========== RTL MOBILE NAVBAR FIX (zappy-rtl-mobile-fix) ========== */
 /* High-specificity rules to ensure RTL positioning wins over any [lang="en"] conflicts */
 /* For RTL sites: hamburger on RIGHT, phone on LEFT (mirror of LTR layout) */
