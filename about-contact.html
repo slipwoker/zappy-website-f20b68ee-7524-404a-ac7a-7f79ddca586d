@@ -242,6 +242,382 @@
     <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
     <!-- Mickidum Accessibility Toolbar -->
     <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+
+<style data-zappy-section-v2-css="true">
+/* V2 Regenerated Section CSS */
+.about-contact-profile-section {
+  direction: rtl;
+  background-color: #F1EBDD;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='none' stroke='%23BFB7AA' stroke-width='1' opacity='0.45'%3E%3Cpath d='M6 118 C24 102 42 102 60 118 S96 134 118 118 150 102 158 110'/%3E%3Cpath d='M0 36 C18 20 42 18 66 34 S112 48 136 34 156 18 160 22'/%3E%3Cpath d='M24 148 C38 130 58 130 76 146 S116 158 138 142'/%3E%3C/g%3E%3C/svg%3E");
+  color: var(--text-dark);
+  padding: 80px 24px 80px;
+  position: relative;
+  overflow: visible;
+}
+
+.about-contact-profile-section .profile-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Section Header ── */
+.about-contact-profile-section .profile-section-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.about-contact-profile-section .profile-label-tag {
+  display: inline-block;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(233, 138, 61, 0.1);
+  border: 1px solid rgba(233, 138, 61, 0.3);
+  padding: 5px 14px;
+  margin-bottom: 14px;
+}
+
+.about-contact-profile-section .profile-main-title {
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--primary);
+  line-height: 1.3;
+  margin: 0 0 18px;
+  letter-spacing: -0.01em;
+}
+
+.about-contact-profile-section .profile-title-rule {
+  width: 64px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--secondary));
+  margin: 0 auto;
+}
+
+/* ── Split Layout ── */
+.about-contact-profile-section .profile-split-layout {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 56px;
+  align-items: start;
+  direction: rtl;
+}
+
+/* ── Right Column: Identity ── */
+.about-contact-profile-section .profile-identity-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.about-contact-profile-section .profile-image-frame {
+  position: relative;
+  margin-bottom: 0;
+}
+
+.about-contact-profile-section .profile-image-frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  border: 1px solid var(--border-light);
+  position: relative;
+  z-index: 2;
+}
+
+.about-contact-profile-section .profile-image-accent-bar {
+  position: absolute;
+  inset-inline-end: -10px;
+  bottom: -10px;
+  width: 60%;
+  height: 60%;
+  border: 2px solid var(--accent);
+  opacity: 0.35;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.about-contact-profile-section .profile-identity-card {
+  background: rgba(38, 58, 91, 0.96);
+  border: 1px solid var(--border-dark);
+  padding: 24px 22px;
+  position: relative;
+  z-index: 3;
+  margin-top: -2px;
+}
+
+.about-contact-profile-section .profile-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: var(--text-light);
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+
+.about-contact-profile-section .profile-title-line {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 13px;
+  color: var(--accent);
+  margin: 0 0 18px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.about-contact-profile-section .profile-credentials-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.about-contact-profile-section .profile-credentials-list li {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 13px;
+  color: rgba(238, 241, 236, 0.85);
+  line-height: 1.5;
+}
+
+.about-contact-profile-section .profile-credentials-list li i {
+  color: var(--accent);
+  font-size: 13px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* ── Left Column: Bio ── */
+.about-contact-profile-section .profile-bio-col {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.about-contact-profile-section .profile-bio-block {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.about-contact-profile-section .profile-bio-heading {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: var(--primary);
+  line-height: 1.3;
+  margin: 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.about-contact-profile-section .profile-bio-block p {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 16px;
+  color: var(--text-dark);
+  line-height: 1.75;
+  margin: 0;
+  text-align: right;
+}
+
+/* ── Expertise Grid ── */
+.about-contact-profile-section .profile-expertise-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  direction: rtl;
+}
+
+.about-contact-profile-section .profile-expertise-item {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 12px;
+  align-items: flex-start;
+  background: rgba(241, 235, 221, 0.82);
+  border: 1px solid rgba(216, 206, 188, 0.55);
+  padding: 16px 14px;
+}
+
+.about-contact-profile-section .expertise-icon-wrap {
+  width: 40px;
+  height: 40px;
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.about-contact-profile-section .expertise-icon-wrap i {
+  color: var(--accent);
+  font-size: 15px;
+}
+
+.about-contact-profile-section .expertise-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.about-contact-profile-section .expertise-text strong {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1.3;
+}
+
+.about-contact-profile-section .expertise-text span {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ── CV PDF Block ── */
+.about-contact-profile-section .profile-cv-block {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: rgba(38, 58, 91, 0.05);
+  border: 1px solid var(--border-light);
+  padding: 24px;
+}
+
+.about-contact-profile-section .profile-cv-header {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.about-contact-profile-section .profile-cv-icon {
+  font-size: 28px;
+  color: var(--accent);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.about-contact-profile-section .profile-cv-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+
+.about-contact-profile-section .profile-cv-subtitle {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.about-contact-profile-section .profile-cv-embed-wrapper {
+  width: 100%;
+  border: 1px solid var(--border-light);
+  overflow: hidden;
+  background: #fff;
+}
+
+.about-contact-profile-section .profile-cv-iframe {
+  display: block;
+  width: 100%;
+  height: 520px;
+  border: none;
+}
+
+.about-contact-profile-section .profile-cv-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--primary);
+  color: var(--text-light);
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 13px 24px;
+  border: 1px solid rgba(255, 249, 240, 0.12);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+  align-self: flex-start;
+  letter-spacing: 0.03em;
+}
+
+.about-contact-profile-section .profile-cv-download-btn:hover {
+  background: var(--secondary);
+  color: var(--text-light);
+}
+
+.about-contact-profile-section .profile-cv-download-btn i {
+  font-size: 12px;
+}
+
+/* ── Responsive: Tablet ── */
+@media (max-width: 1024px) {
+  .about-contact-profile-section .profile-split-layout {
+    grid-template-columns: 300px 1fr;
+    gap: 36px;
+  }
+}
+
+/* ── Responsive: Mobile ── */
+@media (max-width: 768px) {
+  .about-contact-profile-section {
+    padding: 60px 16px 60px;
+  }
+
+  .about-contact-profile-section .profile-split-layout {
+    grid-template-columns: 1fr !important;
+    gap: 32px;
+  }
+
+  .about-contact-profile-section .profile-identity-col {
+    max-width: 100%;
+  }
+
+  .about-contact-profile-section .profile-image-frame img {
+    max-height: 360px;
+    object-position: top;
+  }
+
+  .about-contact-profile-section .profile-image-accent-bar {
+    display: none;
+  }
+
+  .about-contact-profile-section .profile-expertise-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .about-contact-profile-section .profile-cv-iframe {
+    height: 360px;
+  }
+
+  .about-contact-profile-section .profile-main-title {
+    font-size: 1.75rem;
+  }
+
+  .about-contact-profile-section .profile-cv-block {
+    padding: 16px;
+  }
+
+  .about-contact-profile-section .profile-cv-download-btn {
+    align-self: stretch;
+    justify-content: center;
+  }
+}
+</style>
     <link rel="stylesheet" href="/styles.css">
 
     <style id="zappy-dropdown-submenu-styles">
@@ -325,16 +701,16 @@
 
   <nav class="navbar" dir="rtl">
   <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
-    <svg class="hamburger-icon" width="24" height="24" viewbox="0 0 24 24" fill="none">
+    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
       <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
     </svg>
-    <svg class="close-icon" width="24" height="24" viewbox="0 0 24 24" fill="none" style="display: none;">
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;">
       <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
     </svg>
   </button>
 
   <button class="phone-header-btn" data-phone="+972506267434" aria-label="Call">
-    <svg width="20" height="20" viewbox="0 0 24 24" fill="currentColor">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
     </svg>
   </button>
@@ -784,76 +1160,100 @@
   
   <main>
     <section class="about-contact-profile-section" data-layout-spec="אודות וצור קשר-profile" dir="rtl" id="zappy-section-0">
-  <!-- Paper texture overlay -->
-  <div class="about-contact-profile-section__texture" aria-hidden="true"></div>
+  <div class="profile-container">
 
-  <div class="about-contact-profile-section__container">
-    <div class="about-contact-profile-section__grid">
-
-      <!-- START: Narrative Column (Right in RTL) -->
-      <div class="about-contact-profile-section__content">
-        <div class="about-contact-profile-section__eyebrow">
-          <span class="about-contact-profile-section__eyebrow-line" aria-hidden="true"></span>
-          <span class="about-contact-profile-section__eyebrow-text">פרופיל מקצועי</span>
-        </div>
-
-        <h1 class="about-contact-profile-section__h1">ד"ר ערן טל-אור</h1>
-
-        <h3 class="about-contact-profile-section__h3">מרפואה דחופה אל זירת המשפט — מומחיות בצומת שבין רפואה, חוק ומוכנות לחירום</h3>
-
-        <div class="about-contact-profile-section__divider-rule" aria-hidden="true"></div>
-
-        <p class="about-contact-profile-section__para">ד"ר ערן טל-אור הוא רופא מומחה ברפואה דחופה, בעל ניסיון קליני ואקדמי נרחב בשני עולמות — הטיפולי והמשפטי. הוא מעניק חוות דעת מומחה לבתי משפט בתביעות רשלנות רפואית, מתוך הבנה מעמיקה של פרוטוקולים קליניים, סטנדרטים מקצועיים ומנגנוני קבלת החלטות בלחץ. עבודתו כמומחה מטעם בית המשפט מאופיינת בניתוח מדוקדק, ניסוח מדויק ויכולת הצגה ברורה בפני שופטים ועורכי דין.</p>
-
-        <p class="about-contact-profile-section__para" style="">בנוסף לפעילותו המשפטית, מייעץ ד"ר טל-אור לארגונים ורשויות בתכנון מערכי עבודה במצבי חירום ואסונות, ומספק ייעוץ רפואי ישיר ברפואה דחופה לגורמים מוסדיים ופרטיים. שילוב ייחודי זה של ידע קליני, אחריות משפטית ותכנון מערכתי הופך אותו לשותף מקצועי בלתי-מתפשר עבור כל מי שזקוק לסמכות רפואית אמינה.</p>
-
-        <div class="zappy-inserted-element" id="zappy-element-1774526167598-45bq0m7xe" data-element-id="zappy-element-1774526167598-45bq0m7xe" data-element-type="h2" data-zappy-newly-inserted="true" style="width: 100%;">תולדות חיים</div><div class="about-contact-profile-section__credentials">
-          <div class="zappy-inserted-element" id="zappy-element-1774524250961-cqrx0yam3" data-element-id="zappy-element-1774524250961-cqrx0yam3" data-element-type="h2" style="width: 100%;"></div><div class="zappy-inserted-element" id="zappy-element-1774525501011-aljtqyq5d" data-element-id="zappy-element-1774525501011-aljtqyq5d" data-element-type="iframe" data-zappy-newly-inserted="true" style="max-width: 1440px; margin: 20px auto; display: flex; justify-content: center; cursor: pointer;" data-iframe-editable="true"><div style="width: 100%; max-width: 600px; display: block; margin-left: auto; margin-right: auto;" data-full-width="" data-custom-width=""><div style="position: relative; width: 100%; height: 0px; padding-bottom: 56.25%; background: rgb(249, 250, 251); border: 2px dashed rgb(209, 213, 219); border-radius: 8px; overflow: hidden; cursor: pointer;" data-element-type="iframe" data-element-id="zappy-element-1774525501011-aljtqyq5d" id="zappy-element-1774525501011-aljtqyq5d" data-iframe-editable="true"><div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #6b7280;"><svg style="width: 48px; height: 48px; margin-bottom: 8px;" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg><span style="font-size: 14px;">Click to add embed URL</span></div></div></div></div><div class="about-contact-profile-section__cred-item">
-            <span class="about-contact-profile-section__cred-icon" aria-hidden="true"><i class="fas fa-gavel" data-element-type="icon" data-element-id="icon-1774523832488-epta02gbh" data-icon-type="fontawesome"></i></span>
-            <div class="about-contact-profile-section__cred-text" style="">
-              <strong>חוות דעת מומחה</strong>
-              <span>רשלנות רפואית ובתי משפט</span>
-            </div>
-          </div>
-          <div class="about-contact-profile-section__cred-item">
-            <span class="about-contact-profile-section__cred-icon" aria-hidden="true"><i class="fas fa-shield-alt" data-element-type="icon" data-element-id="icon-1774523832488-3y2o1daxf" data-icon-type="fontawesome"></i></span>
-            <div class="about-contact-profile-section__cred-text">
-              <strong>ייעוץ חירום ואסונות</strong>
-              <span>תכנון עבודה במצבי חירום</span>
-            </div>
-          </div>
-          <div class="about-contact-profile-section__cred-item">
-            <span class="about-contact-profile-section__cred-icon" aria-hidden="true"><i class="fas fa-stethoscope" data-element-type="icon" data-element-id="icon-1774523832488-3sdsvh5ja" data-icon-type="fontawesome"></i></span>
-            <div class="about-contact-profile-section__cred-text">
-              <strong>רפואה דחופה</strong>
-              <span>ייעוץ רפואי מתקדם</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- END: Portrait Column (Left in RTL) -->
-      <div class="about-contact-profile-section__portrait-col">
-        <div class="about-contact-profile-section__portrait-frame">
-          <div class="about-contact-profile-section__portrait-accent" aria-hidden="true"></div>
-          <figure class="about-contact-profile-section__figure">
-            <img data-placeholder="about-contact-profile-image-1" data-context="Professional portrait of Dr. Eran Talor, an authoritative Israeli male physician in his 40s-50s, wearing a formal dark suit or white medical coat, photographed in a professional medical or legal setting. Neutral or slightly dark background. Serious, confident, and trustworthy expression. Editorial lighting. High-end professional headshot quality. The image should convey expertise at the intersection of emergency medicine and legal consulting." width="520" height="640" src="/assets/site-about-contact-profile-image-1.webp" alt="ד&quot;ר ערן טל-אור — מומחה ברפואה דחופה וחוות דעת משפטית" class="about-contact-profile-section__portrait-img zappy-editable-image" data-element-type="image" data-element-id="img-1774523832488-la97fyedh" data-original-position="static" style="position: relative;" data-resize-handler-attached="true">
-          </figure>
-          <div class="about-contact-profile-section__portrait-badge">
-            <span class="about-contact-profile-section__badge-title">רופא מומחה</span>
-            <span class="about-contact-profile-section__badge-sub">רפואה דחופה | משפט רפואי</span>
-          </div>
-        </div>
-      </div>
-
+    <!-- Section Header -->
+    <div class="profile-section-header">
+      <span class="profile-label-tag">קורות חיים</span>
+      <h2 class="profile-main-title">תולדות חיים</h2>
+      <div class="profile-title-rule"></div>
     </div>
-  </div>
 
-  <!-- Bottom paper-tear SVG divider transitioning to dark qualifications section -->
-  <div class="about-contact-profile-divider-wrapper">
-    <svg data-no-icon-edit="true" aria-hidden="true" viewbox="0 0 1440 90" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,90 L0,44 Q48,36 96,46 T192,40 Q240,34 288,44 T384,38 Q432,42 480,36 T576,44 Q624,38 672,46 T768,40 Q816,36 864,44 T960,38 Q1008,42 1056,36 T1152,44 Q1200,40 1248,46 T1344,38 Q1392,42 1440,36 L1440,90 Z" fill="#263A5B"></path>
-    </svg>
+    <!-- Profile Split Layout -->
+    <div class="profile-split-layout">
+
+      <!-- Right Column: Image + Identity -->
+      <div class="profile-identity-col">
+        <div class="profile-image-frame">
+          <img data-context="Professional portrait of Dr. Eran Talor, a senior Israeli medical expert and emergency medicine specialist. The doctor is dressed in formal attire, standing in a clinical or legal office setting with medical books, legal documents, and emergency preparedness materials visible in the background. The image conveys authority, expertise, and trustworthiness at the intersection of medicine and law." width="420" height="520" src="/assets/section-אודות וצור קשר-profile-about-contact-profile-image-1.webp" alt="ד&quot;ר ערן טל-אור – מומחה רפואי ועד מומחה בבית משפט" data-zappy-editable-image="true">
+          <div class="profile-image-accent-bar"></div>
+        </div>
+        <div class="profile-identity-card">
+          <h3 class="profile-name">ד"ר ערן טל-אור</h3>
+          <p class="profile-title-line">מומחה ברפואה דחופה | עד מומחה רפואי</p>
+          <ul class="profile-credentials-list">
+            <li><i class="fas fa-medal" aria-hidden="true"></i><span>מומחה מוסמך ברפואת חירום</span></li>
+            <li><i class="fas fa-balance-scale" aria-hidden="true"></i><span>עד מומחה בבתי משפט בישראל</span></li>
+            <li><i class="fas fa-shield-alt" aria-hidden="true"></i><span>יועץ בכיר לרפואת אסון ומוכנות לחירום</span></li>
+            <li><i class="fas fa-university" aria-hidden="true"></i><span>בוגר הפקולטה לרפואה – אוניברסיטה עברית</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Left Column: Bio + CV Embed -->
+      <div class="profile-bio-col">
+
+        <div class="profile-bio-block">
+          <h3 class="profile-bio-heading">רקע מקצועי</h3>
+          <p>ד"ר ערן טל-אור הוא רופא מומחה ברפואת חירום עם ניסיון קליני ואקדמי של למעלה מעשרים שנה. לאורך הקריירה שלו שימש בתפקידים בכירים במחלקות חירום בבתי חולים מובילים בישראל, ופיתח מומחיות ייחודית בנקודת המפגש שבין רפואה קלינית לעולם המשפטי.</p>
+          <p>בתחום חוות הדעת המשפטיות, ד"ר טל-אור מספק חוות דעת רפואיות מקיפות בתיקי רשלנות רפואית, נזקי גוף ואחריות מקצועית. הוא מוכר על ידי בתי המשפט בישראל כעד מומחה, ומוניטינו מבוסס על ניתוח מדויק, ניסוח ברור ועדות אמינה בפני שופטים ועורכי דין.</p>
+          <p>בתחום הייעוץ לחירום ואסון, ד"ר טל-אור מלווה ארגונים, רשויות מקומיות וגופים ביטחוניים בבניית תכניות מוכנות רפואית לאירועי חירום המוניים, אסונות טבע ומצבי קיצון. הוא מביא פרספקטיבה קלינית מעשית לתכנון אסטרטגי ולניהול משברים.</p>
+        </div>
+
+        <div class="profile-bio-block">
+          <h3 class="profile-bio-heading">תחומי מומחיות</h3>
+          <div class="profile-expertise-grid">
+            <div class="profile-expertise-item">
+              <div class="expertise-icon-wrap"><i class="fas fa-file-medical-alt" aria-hidden="true"></i></div>
+              <div class="expertise-text">
+                <strong>חוות דעת רפואיות</strong>
+                <span>תיקי רשלנות רפואית ונזקי גוף</span>
+              </div>
+            </div>
+            <div class="profile-expertise-item">
+              <div class="expertise-icon-wrap"><i class="fas fa-ambulance" aria-hidden="true"></i></div>
+              <div class="expertise-text">
+                <strong>רפואת חירום</strong>
+                <span>ייעוץ קליני ואקדמי ברפואה דחופה</span>
+              </div>
+            </div>
+            <div class="profile-expertise-item">
+              <div class="expertise-icon-wrap"><i class="fas fa-map-marked-alt" aria-hidden="true"></i></div>
+              <div class="expertise-text">
+                <strong>מוכנות לאסון</strong>
+                <span>תכנון רפואי לאירועי חירום המוניים</span>
+              </div>
+            </div>
+            <div class="profile-expertise-item">
+              <div class="expertise-icon-wrap"><i class="fas fa-gavel" aria-hidden="true"></i></div>
+              <div class="expertise-text">
+                <strong>עדות בבית משפט</strong>
+                <span>עד מומחה מוכר בערכאות שיפוטיות</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CV PDF Embed -->
+        <div class="profile-cv-block">
+          <div class="profile-cv-header">
+            <i class="fas fa-file-pdf profile-cv-icon" aria-hidden="true"></i>
+            <div>
+              <h3 class="profile-cv-title">קורות חיים מלאים</h3>
+              <p class="profile-cv-subtitle">לצפייה בקורות החיים המלאים של ד"ר ערן טל-אור</p>
+            </div>
+          </div>
+          <div class="profile-cv-embed-wrapper">
+            <iframe src="https://drive.google.com/file/d/1p26KhY4F8fZixYxvfCjALdChe1jtQFHm/preview" width="100%" height="520" allow="autoplay" title="קורות חיים – ד&quot;ר ערן טל-אור" class="profile-cv-iframe" loading="lazy"></iframe>
+          </div>
+          <a href="https://drive.google.com/file/d/1p26KhY4F8fZixYxvfCjALdChe1jtQFHm/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="profile-cv-download-btn">
+            <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+            פתח קורות חיים בחלון חדש
+          </a>
+        </div>
+
+      </div>
+    </div>
   </div>
 </section>
 
@@ -877,7 +1277,7 @@
       <!-- Block 1 -->
       <article class="acq-card">
         <div class="acq-card-icon" aria-hidden="true">
-          <svg data-element-type="icon" data-icon-type="svg" width="32" height="32" viewbox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg data-element-type="icon" data-icon-type="svg" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M16 3C8.82 3 3 8.82 3 16s5.82 13 13 13 13-5.82 13-13S23.18 3 16 3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
             <path d="M16 10v6l4 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
@@ -892,7 +1292,7 @@
       <!-- Block 2 -->
       <article class="acq-card">
         <div class="acq-card-icon" aria-hidden="true">
-          <svg data-element-type="icon" data-icon-type="svg" width="32" height="32" viewbox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg data-element-type="icon" data-icon-type="svg" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="4" y="4" width="24" height="24" rx="1" stroke="currentColor" stroke-width="1.8"></rect>
             <path d="M4 12h24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
             <path d="M12 12v16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
@@ -909,7 +1309,7 @@
       <!-- Block 3 -->
       <article class="acq-card">
         <div class="acq-card-icon" aria-hidden="true">
-          <svg data-element-type="icon" data-icon-type="svg" width="32" height="32" viewbox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg data-element-type="icon" data-icon-type="svg" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M16 3L4 9v7c0 7 5.4 12.4 12 14 6.6-1.6 12-7 12-14V9L16 3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
             <path d="M11 16l3 3 7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
@@ -924,7 +1324,7 @@
       <!-- Block 4 -->
       <article class="acq-card">
         <div class="acq-card-icon" aria-hidden="true">
-          <svg data-element-type="icon" data-icon-type="svg" width="32" height="32" viewbox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg data-element-type="icon" data-icon-type="svg" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="16" cy="10" r="5" stroke="currentColor" stroke-width="1.8"></circle>
             <path d="M5 28c0-5 4.9-9 11-9s11 4 11 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
             <path d="M22 16l3 3-3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -945,7 +1345,7 @@
 
   <!-- Bottom divider: gradient contour wash transitioning to light section -->
   <div class="acq-divider-wrapper">
-    <svg aria-hidden="true" viewbox="0 0 1200 80" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg">
+    <svg aria-hidden="true" viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M0,80 L0,48 Q60,38 120,46 T240,40 Q300,44 360,36 T480,42 Q540,38 600,44 T720,36 Q780,42 840,38 T960,44 Q1020,36 1080,42 T1200,38 L1200,80 Z" fill="#F5F0E5"></path>
     </svg>
   </div>
@@ -993,7 +1393,7 @@
 
   <!-- Bottom Divider: indigo slope into contact section -->
   <div class="approach-divider-wrapper">
-    <svg aria-hidden="true" viewbox="0 0 1200 90" preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg">
+    <svg aria-hidden="true" viewBox="0 0 1200 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M0,90 L0,55 Q200,20 400,38 T800,28 Q1000,18 1200,42 L1200,90 Z" fill="var(--bg-dark)"></path>
     </svg>
   </div>
@@ -1041,7 +1441,7 @@
 <script data-privacy-consent-validation="">(function(){if(window._zpcv)return;window._zpcv=1;var _l=document.documentElement.lang||"";var isHe=_l==="he"||(_l!=="ar"&&document.documentElement.dir==="rtl");var isAr=_l==="ar";var valMsg=isHe?"יש לאשר את תנאי השימוש ומדיניות הפרטיות":isAr?"يرجى الموافقة على الشروط والأحكام وسياسة الخصوصية":"Please accept the Terms & Conditions and Privacy Policy";var cbs=document.querySelectorAll(".privacy-consent-checkbox");cbs.forEach(function(cb){cb.setCustomValidity(cb.checked?"":valMsg);cb.addEventListener("change",function(){cb.setCustomValidity(cb.checked?"":valMsg)})});document.addEventListener("submit",function(e){var f=e.target;if(!f||f.tagName!=="FORM")return;var cb=f.querySelector(".privacy-consent-checkbox");if(!cb||cb.checked)return;e.preventDefault();e.stopImmediatePropagation();if(typeof window.zappyNotify==="function"){window.zappyNotify(valMsg,"error")}else if(typeof window.showNotification==="function"){window.showNotification(valMsg,"error")}else{var ex=document.querySelectorAll(".zappy-privacy-error");ex.forEach(function(el){el.remove()});var n=document.createElement("div");n.className="zappy-privacy-error";n.style.cssText="position:fixed;top:20px;right:20px;max-width:400px;padding:14px 18px;background:#f8d7da;color:#721c24;border:1px solid #f5c6cb;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.15);z-index:10000;font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:14px";n.textContent=valMsg;document.body.appendChild(n);setTimeout(function(){if(n.parentElement)n.remove()},6000)}cb.focus()},true)})();</script>
 <button type="submit" class="acc-submit-btn">
             שלחו פנייה
-            <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewbox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
           </button>
@@ -1057,7 +1457,7 @@
           <ul class="acc-contact-list">
             <li class="acc-contact-item">
               <span class="acc-contact-icon" aria-hidden="true">
-                <svg data-element-type="icon" data-icon-type="svg" width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg data-element-type="icon" data-icon-type="svg" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M2.5 3.5C2.5 3.5 4 2 5.5 2C7 2 8 4 8 4L6.5 6.5C6.5 6.5 7 7.5 9 9.5C11 11.5 12 12 12 12L14.5 10.5C14.5 10.5 16.5 11.5 17.5 13C18.5 14.5 17 16 17 16C17 16 15.5 18 13 17C10.5 16 6 12 4 9C2 6 2.5 3.5 2.5 3.5Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
               </span>
@@ -1068,7 +1468,7 @@
             </li>
             <li class="acc-contact-item">
               <span class="acc-contact-icon" aria-hidden="true">
-                <svg data-element-type="icon" data-icon-type="svg" width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg data-element-type="icon" data-icon-type="svg" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <rect x="2" y="4" width="16" height="12" rx="1.5" stroke="currentColor" stroke-width="1.6"></rect>
                   <path d="M2 5.5L10 11L18 5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
                 </svg>
@@ -1080,7 +1480,7 @@
             </li>
             <li class="acc-contact-item">
               <span class="acc-contact-icon" aria-hidden="true">
-                <svg data-element-type="icon" data-icon-type="svg" width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg data-element-type="icon" data-icon-type="svg" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M10 2C7.24 2 5 4.24 5 7C5 10.75 10 17 10 17C10 17 15 10.75 15 7C15 4.24 12.76 2 10 2ZM10 9C8.9 9 8 8.1 8 7C8 5.9 8.9 5 10 5C11.1 5 12 5.9 12 7C12 8.1 11.1 9 10 9Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
                 </svg>
               </span>
@@ -1091,7 +1491,7 @@
             </li>
             <li class="acc-contact-item">
               <span class="acc-contact-icon" aria-hidden="true">
-                <svg data-element-type="icon" data-icon-type="svg" width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg data-element-type="icon" data-icon-type="svg" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M10 2C5.58 2 2 5.58 2 10C2 11.85 2.63 13.55 3.68 14.9L2 18L5.2 16.37C6.5 17.41 8.18 18 10 18C14.42 18 18 14.42 18 10C18 5.58 14.42 2 10 2Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
                   <path d="M7.5 8.5C7.5 8.5 7.5 7 8.75 7C10 7 10 8.5 8.75 9.5C7.5 10.5 7.5 11 7.5 11H10M10 13V13.01" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
                 </svg>
@@ -1110,7 +1510,7 @@
           </div>
 
           <a href="https://maps.google.com/?q=האלון 101 , , , , , ,, מסד, 1499000, ישראל" target="_blank" rel="noopener noreferrer" class="acc-map-link">
-            <svg data-element-type="icon" data-icon-type="svg" width="14" height="14" viewbox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <svg data-element-type="icon" data-icon-type="svg" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M2 12L5.5 8.5M12 2L8.5 5.5M8.5 5.5L5.5 8.5M8.5 5.5H5.5V8.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
             הצג במפה

@@ -68,7 +68,6 @@
   src: url('assets/fonts/Rubik-Bold.woff2') format('woff2');
 }
 
-
 /* Self-hosted fonts (Inter + Rubik for multi-language support) */
 
 /* Inter font (English / LTR languages) */
@@ -1335,7 +1334,6 @@ textarea {
   }
 }
 
-
 /* ============================================
    NAVBAR LAYOUT - POST-GENERATION FIXES
    Structural layout only - colors from Claude
@@ -2166,7 +2164,6 @@ html[lang="ar"] .nav-cta-btn {
 
 /* Post-generation fix: Remove main element margin-top and padding-top */
 main { margin-top: 0 !important; padding-top: 0 !important; }
-
 
 /* Footer Styles */
 .site-footer {
@@ -3590,7 +3587,6 @@ a.contact-text:hover {
   }
 }
 /* ZAPPY_POSTGEN_GUARD_RTL_ORDER:בית-authority — stripped 1 order declaration(s) conflicting with RTL grid */
-
 
 /* index-audiences */
 .index-audiences-section {
@@ -8193,341 +8189,22 @@ a.contact-text:hover {
   }
 }
 
-/* about-contact-profile */
-.about-contact-profile-section {
-  position: relative;
-  overflow: visible;
-  background-color: #F5F0E5;
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='none' stroke='%23BFB7AA' stroke-width='1' opacity='0.35'%3E%3Cpath d='M6 118 C24 102 42 102 60 118 S96 134 118 118 150 102 158 110'/%3E%3Cpath d='M0 36 C18 20 42 18 66 34 S112 48 136 34 156 18 160 22'/%3E%3Cpath d='M24 148 C38 130 58 130 76 146 S116 158 138 142'/%3E%3C/g%3E%3C/svg%3E"),
-    linear-gradient(180deg, #F5F0E5 0%, #EEE6D6 100%);
-  color: var(--text-dark);
-  padding: 140px 24px 110px;
-  direction: rtl;
-}
-
-.about-contact-profile-section__texture {
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
-}
-
-.about-contact-profile-section__container {
-  position: relative;
-  z-index: 1;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.about-contact-profile-section__grid {
-  display: grid;
-  grid-template-columns: 1fr 460px;
-  gap: 72px;
-  align-items: center;
-  direction: rtl;
-}
-
 /* ── CONTENT (START / RIGHT column) ── */
-.about-contact-profile-section__content {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.about-contact-profile-section__eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
-  flex-direction: row;
-}
-
-.about-contact-profile-section__eyebrow-line {
-  display: block;
-  width: 36px;
-  height: 2px;
-  background-color: var(--secondary);
-  flex-shrink: 0;
-}
-
-.about-contact-profile-section__eyebrow-text {
-  font-family: 'Rubik', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--secondary);
-}
-
-.about-contact-profile-section__h1 {
-  font-family: 'Rubik', sans-serif;
-  font-size: 3rem;
-  font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-  color: var(--primary);
-  margin: 0 0 18px 0;
-  text-align: start;
-}
-
-.about-contact-profile-section__h3 {
-  font-family: 'Rubik', sans-serif;
-  font-size: 1.125rem;
-  font-weight: 500;
-  line-height: 1.55;
-  color: var(--text-muted);
-  margin: 0 0 24px 0;
-  text-align: start;
-  max-width: 540px;
-}
-
-.about-contact-profile-section__divider-rule {
-  width: 56px;
-  height: 1px;
-  background-color: var(--secondary);
-  margin-bottom: 28px;
-  margin-inline-start: 0;
-}
-
-.about-contact-profile-section__para {
-  font-family: 'Rubik', sans-serif;
-  font-size: 16px !important;
-  line-height: 1.75;
-  color: var(--text-dark);
-  margin: 0 0 20px 0;
-  text-align: start;
-  max-width: 560px;
-}
-
-.about-contact-profile-section__para:last-of-type {
-  margin-bottom: 36px;
-}
 
 /* ── CREDENTIALS ── */
-.about-contact-profile-section__credentials {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  border-inline-start: 2px solid var(--border-light);
-  padding-inline-start: 24px;
-  margin-top: 8px;
-}
-
-.about-contact-profile-section__cred-item {
-  display: grid;
-  grid-template-columns: 36px 1fr;
-  gap: 14px;
-  align-items: center;
-  direction: rtl;
-}
-
-.about-contact-profile-section__cred-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  background-color: rgba(38, 58, 91, 0.08);
-  border-radius: 2px;
-  color: var(--primary);
-  font-size: 14px;
-  flex-shrink: 0;
-}
-
-.about-contact-profile-section__cred-text {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.about-contact-profile-section__cred-text strong {
-  font-family: 'Rubik', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text-dark);
-  display: block;
-}
-
-.about-contact-profile-section__cred-text span {
-  font-family: 'Rubik', sans-serif;
-  font-size: 13px;
-  color: var(--text-muted);
-  line-height: 1.4;
-}
 
 /* ── PORTRAIT COLUMN (END / Left in RTL) ── */
-.about-contact-profile-section__portrait-col {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
-
-.about-contact-profile-section__portrait-frame {
-  position: relative;
-  width: 100%;
-  max-width: 460px;
-}
-
-.about-contact-profile-section__portrait-accent {
-  position: absolute;
-  top: -16px;
-  inset-inline-end: -16px;
-  width: 100%;
-  height: 100%;
-  border: 2px solid var(--secondary);
-  border-radius: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.35;
-}
-
-.about-contact-profile-section__figure {
-  position: relative;
-  z-index: 1;
-  margin: 0;
-  padding: 0;
-  display: block;
-}
-
-.about-contact-profile-section__portrait-img {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 520 / 640;
-  object-fit: cover;
-  border-radius: 0;
-  box-shadow: 0 24px 60px rgba(24, 20, 16, 0.18);
-  filter: contrast(1.02) brightness(0.98);
-}
-
-.about-contact-profile-section__portrait-badge {
-  position: absolute;
-  bottom: -20px;
-  inset-inline-start: -20px;
-  z-index: 2;
-  background-color: var(--primary);
-  color: var(--text-light);
-  padding: 16px 22px;
-  border-radius: 2px;
-  box-shadow: 0 10px 30px rgba(24, 20, 16, 0.18);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 180px;
-}
-
-.about-contact-profile-section__badge-title {
-  font-family: 'Rubik', sans-serif;
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-light);
-  line-height: 1.2;
-  display: block;
-}
-
-.about-contact-profile-section__badge-sub {
-  font-family: 'Rubik', sans-serif;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  color: var(--secondary);
-  display: block;
-  line-height: 1.4;
-}
 
 /* ── BOTTOM DIVIDER ── */
-.about-contact-profile-divider-wrapper {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 90px;
-  pointer-events: none;
-  z-index: 5;
-}
-
-.about-contact-profile-divider-wrapper svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
 
 /* ── RESPONSIVE: TABLET ── */
-@media (max-width: 1024px) {
-  .about-contact-profile-section__grid {
-    grid-template-columns: 1fr 380px;
-    gap: 48px;
-  }
-
-  .about-contact-profile-section__h1 {
-    font-size: 2.4rem;
-  }
-}
 
 /* ── RESPONSIVE: MOBILE ── */
 @media (max-width: 768px) {
-  .about-contact-profile-section {
-    padding: 100px 16px 110px;
-  }
-
-  .about-contact-profile-section__grid {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-
-  .about-contact-profile-section__h1 {
-    font-size: 2rem;
-  }
-
-  .about-contact-profile-section__h3 {
-    font-size: 1rem;
-    max-width: 100%;
-  }
-
-  .about-contact-profile-section__para {
-    max-width: 100%;
-  }
 
   /* Portrait comes AFTER content on mobile (reversed DOM order via order) */
-  .about-contact-profile-section__content {
-    
-  }
-
-  .about-contact-profile-section__portrait-col {
-    
-    justify-content: center;
-  }
-
-  .about-contact-profile-section__portrait-frame {
-    max-width: 320px;
-    margin: 0 auto;
-  }
-
-  .about-contact-profile-section__portrait-accent {
-    top: -10px;
-    inset-inline-end: -10px;
-  }
-
-  .about-contact-profile-section__portrait-badge {
-    bottom: -14px;
-    inset-inline-start: -10px;
-    padding: 12px 16px;
-    min-width: 150px;
-  }
-
-  .about-contact-profile-section__badge-title {
-    font-size: 15px;
-  }
-
-  .about-contact-profile-section__credentials {
-    padding-inline-start: 16px;
-  }
 }
 /* ZAPPY_POSTGEN_GUARD_RTL_ORDER:אודות וצור קשר-profile — stripped 2 order declaration(s) conflicting with RTL grid */
-
 
 /* about-contact-qualifications */
 .about-contact-qualifications-section {
@@ -9350,13 +9027,10 @@ a.contact-text:hover {
   }
 }
 
-
-
 /* Global font override - exclude icon fonts and special elements */
 *:not(.fas):not(.far):not(.fab):not(.fa):not([class*="fa-"]):not(.iconify):not([class*="icon"]):not(code):not(pre):not(i[class*="fa"]) {
   font-family: 'Rubik', sans-serif !important;
 }
-
 
 /* Logo size constraint - enforce max-height only */
 .logo, img.logo, .logo img, .logo-link img, .nav-brand img {
@@ -9365,7 +9039,6 @@ a.contact-text:hover {
   width: auto !important;
   object-fit: contain !important;
 }
-
 
 /* Hide WhatsApp float button on desktop (mobile-only) */
 @media (min-width: 769px) {
@@ -9376,7 +9049,6 @@ a.contact-text:hover {
     pointer-events: none !important;
   }
 }
-
 
 /* ============================================
    MOBILE RESPONSIVE FIXES (Auto-generated)
@@ -9591,7 +9263,6 @@ a.contact-text:hover {
 
 /* END MOBILE RESPONSIVE FIXES */
 
-
 /* Legal Pages Content Styles */
 
 /* Legal Pages Content Styles */
@@ -9660,7 +9331,6 @@ a.contact-text:hover {
 .legal-page-content .contact-box a:hover {
   opacity: 0.8;
 }
-
 
 /* Cookie Consent Styles */
 
@@ -9758,7 +9428,6 @@ a.contact-text:hover {
   white-space: nowrap !important;
   border: 0 !important;
 }
-
 
 /* Custom Accessibility Toolbar Styling - Zappy Style */
 
@@ -10013,6 +9682,383 @@ body.accessibility-widget-visible ._access-menu {
 }
 .privacy-consent a:hover {
   opacity: 0.75;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   V2 REGENERATED SECTION CSS (אודות וצור קשר-profile)
+   Added: 2026-03-26T12:00:03.025Z
+   ═══════════════════════════════════════════════════════════ */
+.about-contact-profile-section {
+  direction: rtl;
+  background-color: #F1EBDD;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='none' stroke='%23BFB7AA' stroke-width='1' opacity='0.45'%3E%3Cpath d='M6 118 C24 102 42 102 60 118 S96 134 118 118 150 102 158 110'/%3E%3Cpath d='M0 36 C18 20 42 18 66 34 S112 48 136 34 156 18 160 22'/%3E%3Cpath d='M24 148 C38 130 58 130 76 146 S116 158 138 142'/%3E%3C/g%3E%3C/svg%3E");
+  color: var(--text-dark);
+  padding: 80px 24px 80px;
+  position: relative;
+  overflow: visible;
+}
+
+.about-contact-profile-section .profile-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Section Header ── */
+.about-contact-profile-section .profile-section-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.about-contact-profile-section .profile-label-tag {
+  display: inline-block;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(233, 138, 61, 0.1);
+  border: 1px solid rgba(233, 138, 61, 0.3);
+  padding: 5px 14px;
+  margin-bottom: 14px;
+}
+
+.about-contact-profile-section .profile-main-title {
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--primary);
+  line-height: 1.3;
+  margin: 0 0 18px;
+  letter-spacing: -0.01em;
+}
+
+.about-contact-profile-section .profile-title-rule {
+  width: 64px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--secondary));
+  margin: 0 auto;
+}
+
+/* ── Split Layout ── */
+.about-contact-profile-section .profile-split-layout {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 56px;
+  align-items: start;
+  direction: rtl;
+}
+
+/* ── Right Column: Identity ── */
+.about-contact-profile-section .profile-identity-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.about-contact-profile-section .profile-image-frame {
+  position: relative;
+  margin-bottom: 0;
+}
+
+.about-contact-profile-section .profile-image-frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  border: 1px solid var(--border-light);
+  position: relative;
+  z-index: 2;
+}
+
+.about-contact-profile-section .profile-image-accent-bar {
+  position: absolute;
+  inset-inline-end: -10px;
+  bottom: -10px;
+  width: 60%;
+  height: 60%;
+  border: 2px solid var(--accent);
+  opacity: 0.35;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.about-contact-profile-section .profile-identity-card {
+  background: rgba(38, 58, 91, 0.96);
+  border: 1px solid var(--border-dark);
+  padding: 24px 22px;
+  position: relative;
+  z-index: 3;
+  margin-top: -2px;
+}
+
+.about-contact-profile-section .profile-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: var(--text-light);
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+
+.about-contact-profile-section .profile-title-line {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 13px;
+  color: var(--accent);
+  margin: 0 0 18px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.about-contact-profile-section .profile-credentials-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.about-contact-profile-section .profile-credentials-list li {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 13px;
+  color: rgba(238, 241, 236, 0.85);
+  line-height: 1.5;
+}
+
+.about-contact-profile-section .profile-credentials-list li i {
+  color: var(--accent);
+  font-size: 13px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* ── Left Column: Bio ── */
+.about-contact-profile-section .profile-bio-col {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.about-contact-profile-section .profile-bio-block {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.about-contact-profile-section .profile-bio-heading {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: var(--primary);
+  line-height: 1.3;
+  margin: 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.about-contact-profile-section .profile-bio-block p {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 16px;
+  color: var(--text-dark);
+  line-height: 1.75;
+  margin: 0;
+  text-align: right;
+}
+
+/* ── Expertise Grid ── */
+.about-contact-profile-section .profile-expertise-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  direction: rtl;
+}
+
+.about-contact-profile-section .profile-expertise-item {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 12px;
+  align-items: flex-start;
+  background: rgba(241, 235, 221, 0.82);
+  border: 1px solid rgba(216, 206, 188, 0.55);
+  padding: 16px 14px;
+}
+
+.about-contact-profile-section .expertise-icon-wrap {
+  width: 40px;
+  height: 40px;
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.about-contact-profile-section .expertise-icon-wrap i {
+  color: var(--accent);
+  font-size: 15px;
+}
+
+.about-contact-profile-section .expertise-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.about-contact-profile-section .expertise-text strong {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1.3;
+}
+
+.about-contact-profile-section .expertise-text span {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ── CV PDF Block ── */
+.about-contact-profile-section .profile-cv-block {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: rgba(38, 58, 91, 0.05);
+  border: 1px solid var(--border-light);
+  padding: 24px;
+}
+
+.about-contact-profile-section .profile-cv-header {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.about-contact-profile-section .profile-cv-icon {
+  font-size: 28px;
+  color: var(--accent);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.about-contact-profile-section .profile-cv-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+
+.about-contact-profile-section .profile-cv-subtitle {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.about-contact-profile-section .profile-cv-embed-wrapper {
+  width: 100%;
+  border: 1px solid var(--border-light);
+  overflow: hidden;
+  background: #fff;
+}
+
+.about-contact-profile-section .profile-cv-iframe {
+  display: block;
+  width: 100%;
+  height: 520px;
+  border: none;
+}
+
+.about-contact-profile-section .profile-cv-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--primary);
+  color: var(--text-light);
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 13px 24px;
+  border: 1px solid rgba(255, 249, 240, 0.12);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+  align-self: flex-start;
+  letter-spacing: 0.03em;
+}
+
+.about-contact-profile-section .profile-cv-download-btn:hover {
+  background: var(--secondary);
+  color: var(--text-light);
+}
+
+.about-contact-profile-section .profile-cv-download-btn i {
+  font-size: 12px;
+}
+
+/* ── Responsive: Tablet ── */
+@media (max-width: 1024px) {
+  .about-contact-profile-section .profile-split-layout {
+    grid-template-columns: 300px 1fr;
+    gap: 36px;
+  }
+}
+
+/* ── Responsive: Mobile ── */
+@media (max-width: 768px) {
+  .about-contact-profile-section {
+    padding: 60px 16px 60px;
+  }
+
+  .about-contact-profile-section .profile-split-layout {
+    grid-template-columns: 1fr !important;
+    gap: 32px;
+  }
+
+  .about-contact-profile-section .profile-identity-col {
+    max-width: 100%;
+  }
+
+  .about-contact-profile-section .profile-image-frame img {
+    max-height: 360px;
+    object-position: top;
+  }
+
+  .about-contact-profile-section .profile-image-accent-bar {
+    display: none;
+  }
+
+  .about-contact-profile-section .profile-expertise-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .about-contact-profile-section .profile-cv-iframe {
+    height: 360px;
+  }
+
+  .about-contact-profile-section .profile-main-title {
+    font-size: 1.75rem;
+  }
+
+  .about-contact-profile-section .profile-cv-block {
+    padding: 16px;
+  }
+
+  .about-contact-profile-section .profile-cv-download-btn {
+    align-self: stretch;
+    justify-content: center;
+  }
 }
 
 /* ========== RTL MOBILE NAVBAR FIX (zappy-rtl-mobile-fix) ========== */
