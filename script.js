@@ -2006,6 +2006,10 @@ window.onload = function() {
             if (!ch || !ch.tagName) continue;
             var tag = ch.tagName.toLowerCase();
             if (tag === 'script' || tag === 'style') continue;
+            if (ch.getAttribute('aria-hidden') === 'true') continue;
+            if (ch.getAttribute('data-zappy-internal') === 'true') continue;
+            var pos = window.getComputedStyle(ch).position;
+            if (pos === 'absolute' || pos === 'fixed') continue;
             items.push(ch);
           }
           var totalItems = items.length;
@@ -2013,6 +2017,8 @@ window.onload = function() {
 
           var cs = window.getComputedStyle(container);
           if (cs.display !== 'grid') continue;
+          var gta = (cs.gridTemplateAreas || '').trim();
+          if (gta && gta !== 'none') continue;
           var gtc = (cs.gridTemplateColumns || '').trim();
           if (!gtc || gtc === 'none') continue;
           var colWidths = gtc.split(' ').filter(function(v) { return v && parseFloat(v) > 0; });
