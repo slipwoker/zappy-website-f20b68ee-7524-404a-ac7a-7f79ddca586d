@@ -3107,6 +3107,8 @@ window.onload = function() {
       var existingPos = (img.style.position || '').replace(/s*!importants*/g, '').trim();
       var existingW = (img.style.width || '').replace(/s*!importants*/g, '').trim();
       if (existingPos === 'absolute' && existingW.indexOf('%') !== -1) {
+        wrapper.style.setProperty('overflow', 'hidden', 'important');
+        wrapper.style.setProperty('position', 'relative', 'important');
         return;
       }
 
@@ -3167,6 +3169,31 @@ window.onload = function() {
       }
     }
 
+    function restoreWrapperDimensions(wrapper) {
+      var widthMode = wrapper.getAttribute('data-zappy-zoom-wrapper-width-mode') || 'px';
+      if (widthMode === 'full' || widthMode === 'grid-responsive') return;
+
+      var storedW = wrapper.getAttribute('data-zappy-zoom-wrapper-width');
+      var storedH = wrapper.getAttribute('data-zappy-zoom-wrapper-height');
+      if (!storedW && !storedH) return;
+
+      if (widthMode === 'px' && storedW) {
+        var curW = (wrapper.style.width || '').replace(/s*!importants*/g, '').trim();
+        if (!curW || curW === '100%' || curW.indexOf('%') !== -1) {
+          wrapper.style.setProperty('width', storedW, 'important');
+          wrapper.style.setProperty('max-width', '100%', 'important');
+        }
+      }
+      if (storedH) {
+        var curH = (wrapper.style.height || '').replace(/s*!importants*/g, '').trim();
+        if (!curH || curH === 'auto' || curH === '100%' || curH.indexOf('%') !== -1) {
+          wrapper.style.setProperty('height', storedH, 'important');
+        }
+      }
+      wrapper.style.setProperty('overflow', 'hidden', 'important');
+      wrapper.style.setProperty('position', 'relative', 'important');
+    }
+
     function initZoomWrappers() {
       var wrappers = document.querySelectorAll('[data-zappy-zoom-wrapper="true"]');
       for (var i = 0; i < wrappers.length; i++) {
@@ -3174,6 +3201,7 @@ window.onload = function() {
           var img = wrapper.querySelector('img');
           if (!img) return;
           if (wrapper.closest && wrapper.closest('.zappy-carousel-js-init, .zappy-carousel-active')) return;
+          if (window.innerWidth > 768) restoreWrapperDimensions(wrapper);
           if (img.complete && img.naturalWidth > 0) {
             setTimeout(function() { applyZoom(wrapper, img); }, 0);
           } else {
