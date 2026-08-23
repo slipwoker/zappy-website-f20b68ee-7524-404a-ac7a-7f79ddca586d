@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="he" dir="rtl">
-<head>
+<!DOCTYPE html><html lang="he" dir="rtl"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="index, follow">
     <title>חוות דעת מומחה רשלנות רפואית — Eran Talor MD</title>
     <meta name="description" content="ד&quot;ר ערן טל-אור מביא מומחיות רפואית מהשורה הראשונה לעולמות המשפט, החירום והייעוץ. חוות דעת מדויקות, ייעוץ מוכנות לאסונות ורפואת חירום — הכל במקום אחד.">
-    <meta name="keywords" content="חוות דעת מומחה רשלנות רפואית, ייעוץ רפואי חירום ואסונות, ד"ר ערן טל-אור רפואה דחופה, מומחה רפואי משפטי, רפואה ומשפט">
+    <meta name="keywords" content="חוות דעת מומחה רשלנות רפואית, ייעוץ רפואי חירום ואסונות, ד" ר="" ערן="" טל-אור="" רפואה="" דחופה,="" מומחה="" רפואי="" משפטי,="" ומשפט"="">
     
     <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
@@ -161,26 +159,31 @@
       // Track button clicks (counted as actions)
       if (target.tagName === 'BUTTON' || target.closest('button')) {
         var button = target.tagName === 'BUTTON' ? target : target.closest('button');
-        trackEvent('click', {
+        var clickMeta = {
           element: 'button',
           text: button.textContent.trim().substring(0, 100),
           id: button.id || null,
           class: button.className || null
-        });
+        };
+        
+        trackEvent('click', clickMeta);
       }
       
       // Track link clicks (navigation - not counted as actions)
       else if (target.tagName === 'A' || target.closest('a')) {
         var link = target.tagName === 'A' ? target : target.closest('a');
-        trackEvent('navigation', {
+        var navMeta = {
           element: 'link',
           text: link.textContent.trim().substring(0, 100),
           href: link.href,
           external: link.hostname !== window.location.hostname
-        });
+        };
+        
+        trackEvent('navigation', navMeta);
       }
     }, true);
   }
+  
   
   // Track form submissions
   if (config.trackFormSubmissions) {
@@ -218,18 +221,391 @@
 })();
 </script>
 <!-- End Zappy Analytics -->
+<!-- Zappy Marketing Events -->
+<script>
+(function() {
+  'use strict';
+  if (window.zappyFireMarketingEvent) return;
+
+  var ECOM_MODE = "";
+  var IS_CATALOG = false;
+  var IS_FULL = false;
+
+  var ECOM_ALIAS = {
+    begin_checkout: 'checkout_started',
+    purchase: 'checkout_complete',
+    add_to_cart: 'add_to_cart',
+    view_product: 'view_product'
+  };
+
+  function pagePath() {
+    try {
+      if (window.ZAPPY_CONFIG && window.ZAPPY_CONFIG.currentPagePath) {
+        return window.ZAPPY_CONFIG.currentPagePath;
+      }
+    } catch (e) {}
+    try { return window.location.pathname || '/'; } catch (e2) { return '/'; }
+  }
+
+  function normalizeItems(meta) {
+    meta = meta || {};
+    var raw = meta.items || meta.cartItems || meta.cart_items || meta.lineItems || [];
+    if (!Array.isArray(raw)) raw = [];
+    var out = [];
+    for (var i = 0; i < raw.length; i++) {
+      var item = raw[i];
+      if (!item || typeof item !== 'object') continue;
+      var id = String(item.item_id || item.productId || item.product_id || item.id || '').trim();
+      var name = String(item.item_name || item.productName || item.product_name || item.name || '').trim();
+      var price = parseFloat(item.price != null ? item.price : (item.unitPrice != null ? item.unitPrice : 0)) || 0;
+      var quantity = Math.max(1, parseInt(item.quantity != null ? item.quantity : (item.qty != null ? item.qty : 1), 10) || 1);
+      if (!id && !name) continue;
+      out.push({ item_id: id || name, item_name: name || id, price: price, quantity: quantity });
+    }
+    return out;
+  }
+
+  function buildGa4Params(eventId, meta) {
+    meta = meta || {};
+    var items = normalizeItems(meta);
+    var value = parseFloat(meta.value != null ? meta.value : (meta.total != null ? meta.total : 0)) || 0;
+    var currency = String(meta.currency || 'USD').toUpperCase();
+
+    if (eventId === 'checkout_complete') {
+      return {
+        transaction_id: String(meta.transaction_id || meta.orderId || meta.order_id || meta.orderNumber || '') || undefined,
+        value: value,
+        currency: currency,
+        items: items
+      };
+    }
+    if (eventId === 'checkout_started') {
+      return { value: value, currency: currency, items: items };
+    }
+    if (eventId === 'add_to_cart') {
+      var atcItems = items.length ? items : [{
+        item_id: String(meta.productId || meta.product_id || ''),
+        item_name: String(meta.productName || meta.product_name || ''),
+        price: parseFloat(meta.value != null ? meta.value : (meta.price != null ? meta.price : 0)) || 0,
+        quantity: parseInt(meta.quantity != null ? meta.quantity : 1, 10) || 1
+      }].filter(function(x) { return x.item_id || x.item_name; });
+      return {
+        value: value || (atcItems[0] ? atcItems[0].price * atcItems[0].quantity : 0),
+        currency: currency,
+        items: atcItems
+      };
+    }
+    if (eventId === 'view_product') {
+      var vpItems = items.length ? items : [{
+        item_id: String(meta.productId || meta.product_id || ''),
+        item_name: String(meta.productName || meta.product_name || ''),
+        price: parseFloat(meta.price != null ? meta.price : (meta.value != null ? meta.value : 0)) || 0,
+        quantity: 1
+      }].filter(function(x) { return x.item_id || x.item_name; });
+      return {
+        currency: currency,
+        value: value || (vpItems[0] ? vpItems[0].price : 0),
+        items: vpItems
+      };
+    }
+    if (eventId === 'whatsapp_click' || eventId === 'phone_click') {
+      return { method: eventId === 'whatsapp_click' ? 'whatsapp' : 'phone', page_path: meta.pagePath || pagePath() };
+    }
+    if (eventId === 'contact_form_submitted' || eventId === 'product_inquiry') {
+      return { page_path: meta.pagePath || pagePath() };
+    }
+    return meta;
+  }
+
+  function buildMetaParams(eventId, meta) {
+    meta = meta || {};
+    var items = normalizeItems(meta);
+    var value = parseFloat(meta.value != null ? meta.value : (meta.total != null ? meta.total : 0)) || 0;
+    var currency = String(meta.currency || 'USD').toUpperCase();
+    var contentIds = [];
+    var numItems = 0;
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].item_id) contentIds.push(items[i].item_id);
+      numItems += items[i].quantity || 1;
+    }
+
+    if (eventId === 'checkout_complete') {
+      return {
+        value: value,
+        currency: currency,
+        content_ids: contentIds.length ? contentIds : undefined,
+        content_type: 'product',
+        num_items: numItems || undefined,
+        order_id: String(meta.order_id || meta.orderId || meta.transaction_id || meta.orderNumber || '') || undefined
+      };
+    }
+    if (eventId === 'checkout_started') {
+      return {
+        value: value,
+        currency: currency,
+        content_ids: contentIds.length ? contentIds : undefined,
+        content_type: 'product',
+        num_items: numItems || parseInt(meta.itemCount != null ? meta.itemCount : 0, 10) || undefined
+      };
+    }
+    if (eventId === 'add_to_cart') {
+      var id = String(meta.productId || meta.product_id || contentIds[0] || '');
+      return {
+        value: value || (items[0] ? items[0].price * items[0].quantity : 0),
+        currency: currency,
+        content_ids: id ? [id] : (contentIds.length ? contentIds : undefined),
+        content_type: 'product',
+        content_name: meta.productName || meta.product_name || (items[0] && items[0].item_name),
+        num_items: parseInt(meta.quantity != null ? meta.quantity : (numItems || 1), 10) || 1
+      };
+    }
+    if (eventId === 'view_product') {
+      var vid = String(meta.productId || meta.product_id || contentIds[0] || '');
+      return {
+        value: value || parseFloat(meta.price != null ? meta.price : 0) || 0,
+        currency: currency,
+        content_ids: vid ? [vid] : (contentIds.length ? contentIds : undefined),
+        content_type: 'product',
+        content_name: meta.productName || meta.product_name || (items[0] && items[0].item_name)
+      };
+    }
+    if (eventId === 'whatsapp_click' || eventId === 'phone_click') {
+      return {
+        content_name: eventId === 'whatsapp_click' ? 'WhatsApp' : 'Phone',
+        content_category: 'contact'
+      };
+    }
+    if (eventId === 'contact_form_submitted' || eventId === 'product_inquiry') {
+      return {
+        content_name: eventId === 'product_inquiry' ? 'Product inquiry' : 'Contact form',
+        content_category: meta.productName || meta.product_name || undefined
+      };
+    }
+    return meta;
+  }
+
+  var PLATFORM = {
+    whatsapp_click: { ga4: 'contact', meta: 'Contact', gtm: 'whatsapp_click', ecom: false },
+    phone_click: { ga4: 'contact', meta: 'Contact', gtm: 'phone_click', ecom: false },
+    contact_form_submitted: { ga4: 'generate_lead', meta: 'Lead', gtm: 'contact_form_submitted', ecom: false },
+    checkout_started: { ga4: 'begin_checkout', meta: 'InitiateCheckout', gtm: 'begin_checkout', ecom: true },
+    checkout_complete: { ga4: 'purchase', meta: 'Purchase', gtm: 'purchase', ecom: true },
+    product_inquiry: { ga4: 'generate_lead', meta: 'Lead', gtm: 'product_inquiry', ecom: false },
+    add_to_cart: { ga4: 'add_to_cart', meta: 'AddToCart', gtm: 'add_to_cart', ecom: true },
+    view_product: { ga4: 'view_item', meta: 'ViewContent', gtm: 'view_item', ecom: true }
+  };
+
+  function purchaseDedupKey(orderId) {
+    return 'zappy_purchase_fired_' + String(orderId || '');
+  }
+
+  function alreadyFiredPurchase(orderId) {
+    if (!orderId) return false;
+    try {
+      return sessionStorage.getItem(purchaseDedupKey(orderId)) === '1';
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function markPurchaseFired(orderId) {
+    if (!orderId) return;
+    try { sessionStorage.setItem(purchaseDedupKey(orderId), '1'); } catch (e) {}
+  }
+
+  /**
+   * Fire a marketing event to first-party analytics + GA4/GTM/Meta when present.
+   * @param {string} eventName marketing ID or ecommerce alias
+   * @param {object} [metadata]
+   * @param {{ skipFirstParty?: boolean }} [opts]
+   */
+  window.zappyFireMarketingEvent = function(eventName, metadata, opts) {
+    try {
+      opts = opts || {};
+      metadata = metadata || {};
+      var eventId = ECOM_ALIAS[eventName] || eventName;
+      var plat = PLATFORM[eventId];
+      if (!plat) return;
+
+      if (!metadata.pagePath && !metadata.page_path) {
+        metadata.pagePath = pagePath();
+      }
+
+      if (eventId === 'checkout_complete') {
+        var oid = String(metadata.orderId || metadata.order_id || metadata.transaction_id || '');
+        if (oid && alreadyFiredPurchase(oid)) return;
+        if (oid) markPurchaseFired(oid);
+      }
+
+      // First-party (skip when already tracked via zappyTrackEcomAnalytics path
+      // that opts out, or when caller already recorded under a different name)
+      if (!opts.skipFirstParty) {
+        try {
+          if (window.zappyAnalytics && typeof window.zappyAnalytics.track === 'function') {
+            window.zappyAnalytics.track(eventId, metadata);
+          }
+        } catch (e1) {}
+      }
+
+      // GTM / dataLayer — platform-standard ecommerce event names
+      try {
+        window.dataLayer = window.dataLayer || [];
+        if (plat.ecom) {
+          var ga4ForGtm = buildGa4Params(eventId, metadata);
+          var ecommerce = {};
+          if (ga4ForGtm.transaction_id) ecommerce.transaction_id = ga4ForGtm.transaction_id;
+          if (ga4ForGtm.value != null) ecommerce.value = ga4ForGtm.value;
+          if (ga4ForGtm.currency) ecommerce.currency = ga4ForGtm.currency;
+          if (ga4ForGtm.items) ecommerce.items = ga4ForGtm.items;
+          window.dataLayer.push({ event: plat.gtm, ecommerce: ecommerce });
+          // Secondary Zappy-specific trigger for merchants who want it
+          if (eventId === 'checkout_complete' || eventId === 'checkout_started') {
+            window.dataLayer.push({ event: eventId, ecommerce: ecommerce });
+          }
+        } else {
+          var dl = { event: plat.gtm };
+          for (var k in metadata) {
+            if (Object.prototype.hasOwnProperty.call(metadata, k)) dl[k] = metadata[k];
+          }
+          window.dataLayer.push(dl);
+        }
+      } catch (e2) {}
+
+      // GA4 gtag
+      try {
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', plat.ga4, buildGa4Params(eventId, metadata));
+        }
+      } catch (e3) {}
+
+      // Meta Pixel (only when fbq is loaded — consent-gated lazy loader)
+      try {
+        if (typeof window.fbq === 'function') {
+          window.fbq('track', plat.meta, buildMetaParams(eventId, metadata));
+        }
+      } catch (e4) {}
+    } catch (err) {}
+  };
+
+  // ---- Click listeners (capture) ----
+  var recent = Object.create(null);
+  function dedupe(key) {
+    var now = Date.now();
+    if (recent[key] && now - recent[key] < 800) return true;
+    recent[key] = now;
+    return false;
+  }
+
+  function closest(el, selector) {
+    if (!el) return null;
+    if (el.closest) return el.closest(selector);
+    return null;
+  }
+
+  function findAnchor(el) {
+    var node = el;
+    while (node && node !== document) {
+      if (node.tagName === 'A') return node;
+      node = node.parentElement;
+    }
+    return null;
+  }
+
+  function isWhatsAppHref(href) {
+    if (!href) return false;
+    var h = String(href).toLowerCase();
+    return h.indexOf('wa.me/') !== -1 ||
+      h.indexOf('api.whatsapp.com') !== -1 ||
+      h.indexOf('whatsapp.com/send') !== -1 ||
+      h.indexOf('whatsapp:') === 0;
+  }
+
+  document.addEventListener('click', function(e) {
+    try {
+      var target = e.target;
+      if (!target) return;
+
+      // WhatsApp
+      var waFloat = closest(target, '.whatsapp-float, a.whatsapp-float, [data-zappy-whatsapp]');
+      var anchor = findAnchor(target);
+      var href = (anchor && anchor.href) || '';
+      if (waFloat || (anchor && isWhatsAppHref(href))) {
+        if (!dedupe('wa:' + href)) {
+          var waSource = waFloat ? 'float' : 'link';
+          window.zappyFireMarketingEvent('whatsapp_click', {
+            source: waSource,
+            href: href || null,
+            pagePath: pagePath()
+          });
+        }
+        return;
+      }
+
+      // Phone
+      var phoneBtn = closest(target, '.phone-header-btn, .nav-phone-btn, .call-btn, [data-zappy-phone]');
+      var telHref = '';
+      if (anchor && anchor.href && String(anchor.href).toLowerCase().indexOf('tel:') === 0) {
+        telHref = anchor.href;
+      } else if (phoneBtn && phoneBtn.href && String(phoneBtn.href).toLowerCase().indexOf('tel:') === 0) {
+        telHref = phoneBtn.href;
+      }
+      if (phoneBtn || telHref) {
+        var phone = '';
+        if (telHref) {
+          phone = String(telHref).replace(/^tel:/i, '').trim();
+        }
+        if (!dedupe('tel:' + (phone || (phoneBtn && phoneBtn.id) || 'btn'))) {
+          window.zappyFireMarketingEvent('phone_click', {
+            source: phoneBtn ? 'button' : 'link',
+            phone: phone || null,
+            href: telHref || null,
+            pagePath: pagePath()
+          });
+        }
+        return;
+      }
+
+      // Catalog / product inquiry
+      if (IS_CATALOG || IS_FULL) {
+        var inq = closest(target, '.card-inquiry-btn, #zappy-pdp-inquiry-btn, a.inquiry-btn');
+        if (inq) {
+          if (!dedupe('inq:' + (inq.id || inq.className))) {
+            var product = window.currentProduct || null;
+            var productId = (inq.getAttribute && inq.getAttribute('data-product-id')) ||
+              (product && product.id) || null;
+            var productName = (inq.getAttribute && inq.getAttribute('data-product-name')) ||
+              (product && product.name) || null;
+            var channel = 'contact_page';
+            var inqHref = (inq.tagName === 'A' && inq.href) ? inq.href : '';
+            if (inqHref && String(inqHref).toLowerCase().indexOf('mailto:') === 0) channel = 'mailto';
+            window.zappyFireMarketingEvent('product_inquiry', {
+              source: inq.id === 'zappy-pdp-inquiry-btn' ? 'pdp' : 'card',
+              productId: productId,
+              productName: productName,
+              channel: channel,
+              pagePath: pagePath()
+            });
+          }
+        }
+      }
+    } catch (err) {}
+  }, true);
+})();
+</script>
     <meta property="og:title" content="חוות דעת מומחה רשלנות רפואית — Eran Talor MD">
-  <meta property="og:description" content="ד&quot;ר ערן טל-אור מביא מומחיות רפואית מהשורה הראשונה לעולמות המשפט, החירום והייעוץ. חוות דעת מדויקות, ייעוץ מוכנות לאסונות ורפואת חירום — הכל במקום אחד.">
-  <meta property="og:type" content="website">
+    <meta property="og:description" content="ד&quot;ר ערן טל-אור מביא מומחיות רפואית מהשורה הראשונה לעולמות המשפט, החירום והייעוץ. חוות דעת מדויקות, ייעוץ מוכנות לאסונות ורפואת חירום — הכל במקום אחד.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="חוות דעת מומחה רשלנות רפואית — Eran Talor MD">
+    <meta name="twitter:description" content="ד&quot;ר ערן טל-אור מביא מומחיות רפואית מהשורה הראשונה לעולמות המשפט, החירום והייעוץ. חוות דעת מדויקות, ייעוץ מוכנות לאסונות ורפואת חירום — הכל במקום אחד.">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"LocalBusiness","@id":"https://erantalor.com#organization","name":"ד\"ר ערן טל-אור","url":"https://erantalor.com","description":"Dr. Eran Talor is a medical expert offering three distinct professional services: serving as a medical expert witness in court for medical malpractice cases, providing consulting for emergency and disaster preparedness planning, and offering medical advisory services in emergency medicine. His personal professional website targets legal professionals, organizations, and individuals who require high-level medical expertise at the intersection of law, emergency planning, and urgent care.","address":{"@type":"PostalAddress","streetAddress":"האלון 101, מסד, 1499000, ישראל"},"contactPoint":[{"@type":"ContactPoint","contactType":"customer service","email":"work@tal-or.co.il","telephone":"0506267434"}]},{"@type":"WebSite","@id":"https://erantalor.com#website","url":"https://erantalor.com","name":"ד\"ר ערן טל-אור","publisher":{"@id":"https://erantalor.com#organization"}}]}</script>
+    <meta property="og:type" content="website">
   <meta property="og:locale" content="he_IL">
   
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="חוות דעת מומחה רשלנות רפואית — Eran Talor MD">
-  <meta name="twitter:description" content="ד&quot;ר ערן טל-אור מביא מומחיות רפואית מהשורה הראשונה לעולמות המשפט, החירום והייעוץ. חוות דעת מדויקות, ייעוץ מוכנות לאסונות ורפואת חירום — הכל במקום אחד.">
   
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Favicons -->
+  
+  
+  
+  <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
@@ -239,27 +615,82 @@
     <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
     <!-- Cookie Consent -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
-    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+    
     <!-- Mickidum Accessibility Toolbar -->
-    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+    
+    <style id="zappy-critical-above-fold-css">
+html{box-sizing:border-box;-webkit-text-size-adjust:100%}*,*::before,*::after{box-sizing:inherit}body{margin:0;min-width:320px;overflow-x:clip}img,svg,video{max-width:100%;height:auto}main{display:block}.container{width:min(100% - 32px,1200px);margin-inline:auto}.navbar,nav.navbar,header .navbar,header[role="banner"]{position:relative;z-index:1000;width:100%}.nav-container,.navbar .container{display:flex;align-items:center;justify-content:space-between;min-height:64px}.logo,.logo-link img{display:block;width:35px;height:35px;object-fit:contain}.nav-menu,#navMenu{list-style:none;margin:0;padding:0}.navbar a,.nav-menu a,#navMenu a,.navbar .nav-links a{color:inherit;text-decoration:none}.navbar .sub-menu,.nav-menu .sub-menu,#navMenu .sub-menu{display:none}.fa,.fas,.far,.fab,.fa-solid,.fa-regular,.fa-brands{display:inline-block;min-width:1em;text-align:center}html:not(#zappy-noop)[data-zappy-site-type="ecommerce"] .phone-header-btn,html:not(#zappy-noop) .navbar:has(.nav-ecommerce-icons)>.phone-header-btn{display:none!important;visibility:hidden!important;width:0!important;height:0!important;pointer-events:none!important}.zappy-preview-empty-store-cta{display:none!important;visibility:hidden!important;height:0!important;max-height:0!important;overflow:hidden!important;margin:0!important;padding:0!important;border:0!important;box-shadow:none!important}.zappy-catalog-menu{background:var(--surface-color,var(--surface,linear-gradient(135deg,#f8f9fa 0%,#fff 100%)));border-bottom:1px solid var(--border-color,#e5e7eb);padding:0;position:sticky;top:0;z-index:90}.zappy-catalog-menu[dir=rtl],.zappy-catalog-menu.rtl{direction:rtl}.zappy-catalog-menu[dir=ltr],.zappy-catalog-menu.ltr{direction:ltr}.catalog-menu-container{max-width:1440px;margin:0 auto;display:flex;align-items:center;gap:8px;padding:10px 24px;overflow:visible}.catalog-menu-categories,.catalog-menu-list{display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin:0;padding:0;list-style:none}.catalog-menu-item{display:inline-flex;align-items:center;padding:8px 16px;font-size:14px;font-weight:500;color:var(--text-color,var(--text,#374151));text-decoration:none;border-radius:20px;white-space:nowrap}.catalog-menu-all{background:var(--primary-color,var(--primary,#111));color:var(--text-light,#fff)!important}.catalog-menu-parent{position:relative;display:inline-flex;align-items:center}.catalog-menu-trigger{display:inline-flex;align-items:center;gap:6px}.catalog-menu-chevron{flex-shrink:0}.catalog-menu-parent>.sub-menu{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important}.hero-section,.index-hero-section,section[class*="hero"]{position:relative;overflow:hidden}.hero-section,.index-hero-section{min-height:560px}section[data-hero-type*="fullscreen"]{min-height:100vh}.hero-bg-wrapper,.hero-bg-image,section[class*="hero"] [class*="hero-bg"]{position:absolute;inset:0;width:100%;height:100%}.hero-bg-wrapper img,.hero-bg-image img,section[class*="hero"] [data-hero-bg],section[class*="hero"] img[data-hero-background="true"]{width:100%!important;height:100%!important;object-fit:cover!important;display:block}.hero-content,section[class*="hero"] .container{position:relative;z-index:2}@media(max-width:768px){:root{--header-height:72px;--total-header-height:72px;--zappy-mobile-menu-top:72px}html[data-zappy-site-type="ecommerce"] body{padding-top:var(--total-header-height,72px)}html[data-zappy-site-type="ecommerce"] body>nav.navbar,html[data-zappy-site-type="ecommerce"] body>.navbar:not(.zappy-catalog-menu){position:fixed!important;top:0;left:0;right:0;z-index:100000;width:100%;margin-bottom:0}.zappy-catalog-menu{position:fixed;top:var(--header-height,72px);left:0;right:0;z-index:99999}.nav-container,.navbar .container{min-height:60px}.nav-menu,#navMenu{max-width:100vw;overflow-x:hidden}.hero-section,.index-hero-section,section[class*="hero"],section[data-hero-type*="fullscreen"]{min-height:100svh}.hero-bg-wrapper,.hero-bg-image,.hero-scrim{min-height:100svh}}
+:root{--nav-bg:#EEF1EC}.navbar{background-color:#EEF1EC!important}
+
+/* ZAPPY_ANNOUNCEMENT_HEADER_OFFSET_CSS_V3 */
+:root {
+  --zappy-header-stack-height: calc(var(--zappy-announcement-height, 40px) + var(--header-height, 72px));
+}
+body:has(.zappy-announcement-bar) nav.navbar:not(.zappy-catalog-menu),
+body:has(.zappy-announcement-bar) header.navbar,
+body:has(.zappy-announcement-bar) .navbar:not(.zappy-catalog-menu):not(.mobile-search-panel) {
+  top: var(--zappy-announcement-height, 40px) !important;
+}
+
+
+
+/* ZAPPY_CONTENT_ALIGNMENT_FIRST_PAINT_CSS_V1 */
+[data-zappy-content-align] {
+  display: flex !important;
+  flex-direction: column !important;
+}
+[data-zappy-content-align^="top-"] { justify-content: flex-start !important; }
+[data-zappy-content-align^="upper-"],
+[data-zappy-content-align^="center-"],
+[data-zappy-content-align^="lower-"] { justify-content: center !important; }
+[data-zappy-content-align^="bottom-"] { justify-content: flex-end !important; }
+[data-zappy-content-align$="-left"],
+[data-zappy-content-align$="-mid-left"] {
+  align-items: flex-start !important;
+  text-align: start !important;
+}
+[data-zappy-content-align$="-center"] {
+  align-items: center !important;
+  text-align: center !important;
+}
+[data-zappy-content-align$="-right"],
+[data-zappy-content-align$="-mid-right"] {
+  align-items: flex-end !important;
+  text-align: end !important;
+}
+[data-zappy-content-align] [data-zappy-align-target] {
+  margin-left: auto;
+  margin-right: auto;
+}
+[data-zappy-content-align$="-center"] [data-zappy-align-target],
+[data-zappy-content-align$="-center"] [data-zappy-align-target] > * {
+  text-align: center !important;
+}
+
+</style>
     <link rel="stylesheet" href="/styles.css">
+    <script>window.ZAPPY_WEBSITE_ID = "f20b68ee-7524-404a-ac7a-7f79ddca586d"; window.ZAPPY_API_BASE = "https://api.zappy5.com";</script>
+    <link rel="preload" as="image" href="/assets/site-index-hero-image-1.webp" fetchpriority="high">
 
     <style id="zappy-dropdown-submenu-styles">
       /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
       /* Base styles for dropdown submenus - parent must be positioned */
       .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { position: relative; }
       /* Submenu base - hidden by default */
-      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
+      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
       /* CRITICAL: Desktop hover styles to show dropdown */
       .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
       /* Submenu item styling */
       .sub-menu li { list-style: none; margin: 0; padding: 0; }
       .sub-menu a { display: block !important; padding: 10px 16px !important; color: var(--text-dark, #333) !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background-color 0.2s; }
+      .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+      [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 10px !important; padding-right: 28px !important; }
+      .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
       .sub-menu a:hover { background-color: #f5f5f5; }
       /* RTL (Hebrew/Arabic) dropdown positioning */
       [dir="rtl"] .nav-menu .sub-menu, [dir="rtl"] nav .sub-menu, [dir="rtl"] .navbar .sub-menu, html[lang="he"] .nav-menu .sub-menu, html[lang="he"] nav .sub-menu, html[lang="he"] .navbar .sub-menu, html[lang="ar"] .nav-menu .sub-menu, html[lang="ar"] nav .sub-menu, html[lang="ar"] .navbar .sub-menu { left: auto !important; right: 0 !important; }
-      /* Hide empty dropdown menus */
-      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))), .sub-menu:not(:has(li)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      /* Hide empty dropdown menus (exclude catalog sub-menus that use <a> children instead of <li>) */
+      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))):not(:has(> a)), .sub-menu:not(:has(li)):not(:has(> a)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
       /* Desktop: show submenu on Menu Group hover */
       li:has(.menu-group-title):hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
       /* Menu Group title styling */
@@ -268,56 +699,61 @@
       /* ========== MOBILE SUBMENU STYLES ========== */
       @media (max-width: 768px) {
         .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { position: static !important; transform: none !important; box-shadow: none !important; background: transparent !important; max-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; padding: 0 !important; border-radius: 0 !important; }
-        .sub-menu.mobile-expanded { max-height: 500px !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
+        .navbar .sub-menu.mobile-expanded, .nav-menu .sub-menu.mobile-expanded, #navMenu .sub-menu.mobile-expanded { max-height: none !important; overflow-y: visible !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
         [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded { padding: 8px 16px 8px 0 !important; }
         /* Disable hover behavior on mobile */
         .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 0; visibility: hidden; pointer-events: none; }
         .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
         .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { display: flex !important; flex-wrap: wrap !important; align-items: center !important; position: relative !important; min-height: 44px !important; }
         .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a { flex: 1 !important; min-width: 0 !important; }
-        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; min-width: 0 !important; padding: 0 !important; line-height: inherit !important; }
+        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; min-width: 0 !important; display: flex !important; align-items: center !important; padding: 12px 16px !important; min-height: 44px !important; line-height: 1.4 !important; font-weight: 600 !important; box-sizing: border-box !important; }
         .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu, .navbar li:has(.sub-menu) > .sub-menu, #navMenu li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
         .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
         .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: auto !important; background: transparent !important; border: none !important; cursor: pointer !important; color: var(--text-dark) !important; position: static !important; flex-shrink: 0 !important; align-self: stretch !important; z-index: 2 !important; padding: 0 !important; margin: 0 !important; }
         .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
         .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
-        .sub-menu a { padding: 10px 0 !important; display: block !important; color: var(--text-dark) !important; }
+        .sub-menu a { padding: 10px 0 !important; display: block !important; color: var(--text-dark) !important; white-space: normal !important; }
+        .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+        [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 0 !important; padding-right: 28px !important; }
+        .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+        .nav-menu.active, #navMenu.active { max-width: 100vw !important; overflow-x: hidden !important; box-sizing: border-box !important; }
         .navbar .sub-menu li a, nav.navbar .sub-menu li a, .zappy-products-dropdown .sub-menu a { color: var(--text-dark) !important; }
       }
       @media (min-width: 769px) { .mobile-submenu-toggle { display: none !important; } }
     </style>
 
-    <style id="mobile-lang-menu-deployed-css">
-    @media (max-width: 768px) {
-      .lang-switcher,
-      .nav-cta-container .lang-switcher,
-      .nav-container .lang-switcher,
-      .navbar .lang-switcher,
-      .navbar .nav-cta-container .lang-switcher,
-      .nav-icons-left .lang-switcher,
-      .nav-ecommerce-icons .lang-switcher { display: none !important; }
-      .mobile-lang-menu { width: 100%; border-top: 1px solid rgba(128,128,128,0.2); padding: 8px 0 0 0; margin-top: 8px; }
-      .mobile-lang-toggle { display: flex !important; align-items: center; justify-content: space-between; width: 100%; padding: 12px 16px; background: none; border: none; cursor: pointer; font-size: 15px; color: inherit; font-family: inherit; }
-      .mobile-lang-toggle::after { content: ''; display: inline-block; width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); transition: transform 0.3s ease; margin-left: 8px; }
-      .mobile-lang-toggle.expanded::after { transform: rotate(-135deg); }
-      .mobile-lang-options { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
-      .mobile-lang-options.expanded { max-height: 300px; }
-      .mobile-lang-option { display: flex !important; align-items: center; gap: 10px; padding: 10px 24px; text-decoration: none; color: inherit; font-size: 14px; font-family: inherit; }
-      .mobile-lang-option:hover { background: rgba(128,128,128,0.1); }
-      .mobile-lang-option.active { font-weight: 600; opacity: 0.7; pointer-events: none; }
-      .mobile-lang-option img { width: 20px; height: 20px; border-radius: 50%; }
-    }
-    @media (min-width: 769px) {
-      .mobile-lang-menu { display: none !important; }
-    }
-    </style>
-
     <style id="zappy-widget-visibility">
-      #mic-access-tool-general-button, .mic-access-tool-general-button,
-      #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
-      ._access-icon, #mic-access-tool-box, .mic-access-tool-box,
-      #mic-init-access-tool #mic-access-tool-box, div[id*="mic-access-tool-box"], ._access-menu {
-        display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important;
+      html[dir="rtl"] .whatsapp-float { right: 20px !important; left: auto !important; }
+      html[dir="ltr"] .whatsapp-float, html:not([dir]) .whatsapp-float { left: 20px !important; right: auto !important; }
+      html[dir="rtl"] #mic-access-tool-general-button, html[dir="rtl"] .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="rtl"] ._access-icon { left: 20px !important; right: auto !important; }
+      html[dir="ltr"] #mic-access-tool-general-button, html[dir="ltr"] .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="ltr"] ._access-icon,
+      html:not([dir]) #mic-access-tool-general-button, html:not([dir]) .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool #mic-access-tool-general-button,
+      html:not([dir]) ._access-icon { right: 20px !important; left: auto !important; }
+      @media (max-width: 768px) { .whatsapp-float { display: flex !important; } }
+      @media (min-width: 769px) { .whatsapp-float { display: flex !important; } }
+      @media (max-width: 768px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon, #mic-access-tool-box, .mic-access-tool-box,
+        #mic-init-access-tool #mic-access-tool-box, div[id*="mic-access-tool-box"], ._access-menu {
+          display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important;
+        }
+      }
+      @media (min-width: 769px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon, #mic-access-tool-box, .mic-access-tool-box,
+        #mic-init-access-tool #mic-access-tool-box, div[id*="mic-access-tool-box"], ._access-menu {
+          display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important;
+        }
       }
     </style>
 </head>
@@ -325,10 +761,10 @@
 
   <nav class="navbar" dir="rtl">
   <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
-    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <svg style="display:block !important" class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
       <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
     </svg>
-    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;">
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display:none !important">
       <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
     </svg>
   </button>
@@ -342,9 +778,9 @@
   <div class="nav-container">
     <div class="nav-right-group"><div class="nav-brand">
       <a href="/" class="logo-link">
-        <img src="/assets/logo-1774348195734-abe1lj.webp?v=1774348195940-x5j2ps" alt="Eran Talor MD" class="logo">
+        <img src="/assets/logo-1774348195734-abe1lj.webp?v=1774348195940-x5j2ps" alt="Eran Talor MD" class="logo" decoding="async" width="35" height="35">
       </a>
-    </div><ul class="nav-menu" id="navMenu"><li><a href="/medical-expert-opinions">חוות דעת רפואיות</a></li><li><a href="/emergency-disaster-preparedness">ייעוץ מוכנות לחירום ואסונות</a></li><li><a href="/emergency-medicine-advisory">ייעוץ ברפואת חירום</a></li><li><a href="/contact" class="nav-link">יצירת קשר</a></li></ul></div>
+    </div><ul class="nav-menu" id="navMenu"><li><a href="/medical-expert-opinions">חוות דעת רפואיות</a></li><li><a href="/emergency-disaster-preparedness">ייעוץ מוכנות לחירום ואסונות</a></li><li><a href="/emergency-medicine-advisory">ייעוץ ברפואת חירום</a></li><li><a href="/contact" class="nav-link">יצירת קשר</a></li><li><a href="/expert-medical-legal-consulting" class="nav-link">Consulting</a></li></ul></div>
 
     
 
@@ -783,27 +1219,27 @@
 </script>
   
   <main>
-    <section class="index-hero-section" data-layout-spec="בית-hero" dir="rtl" data-hero-type="fullscreen-scrim" id="zappy-section-0" data-zappy-bg-type="image" style="--zappy-bg-overlay: rgba(20, 28, 48, 0.83); --zappy-bg-image: url(&quot;assets/business-general-hero-upload-1774347295103.webp&quot;); background-image: linear-gradient(rgba(20, 28, 48, 0.83), rgba(20, 28, 48, 0.83)), url(&quot;assets/business-general-hero-upload-1774347295103.webp&quot;); background-size: cover; background-position: center; background-repeat: no-repeat; position: relative; overflow: hidden" data-zappy-bg-color="" data-zappy-bg-image="assets/business-general-hero-upload-1774347295103.webp" data-zappy-bg-overlay-color="#141c30" data-zappy-bg-overlay-opacity="83" data-zappy-bg-video-type="" data-zappy-bg-video-url="">
+    <section class="index-hero-section" data-layout-spec="בית-hero" dir="rtl" data-hero-type="fullscreen-scrim" id="zappy-section-0" style="position: relative; overflow: hidden" data-zappy-bg-color="" data-zappy-bg-overlay-color="#141c30" data-zappy-bg-overlay-opacity="83" data-zappy-bg-video-type="" data-zappy-bg-video-url="">
   <!-- Background Image -->
-  <div class="index-hero-bg" style="display: none;" data-zappy-original-bg="hidden">
-    <img data-hero-bg="true" data-placeholder="index-hero-image-1" data-context="Cinematic full-bleed portrait of a distinguished Israeli male physician in his 50s, wearing a dark suit, standing in a dimly lit environment that blends elements of a medical imaging room (subtle radiology scan overlays) and a legal/strategic setting (faint map contour lines, document textures). The mood is authoritative, serious, and editorial. Deep indigo and dark teal color grading. Professional studio lighting with dramatic shadows. The doctor faces slightly toward camera with a calm, commanding presence. Background has subtle topographic map lines and radiology scan ghost imagery merged into the atmosphere." width="1400" height="900" src="/assets/site-index-hero-image-1.webp" alt="ד&quot;ר ערן טלור - מומחה רפואי ומשפטי" data-hero-background="true" data-element-type="image" data-element-id="img-1774343233669-9o1rchk77" class="zappy-editable-image">
+  <div class="index-hero-bg">
+    <img loading="eager" fetchpriority="high" data-hero-bg="true" data-placeholder="index-hero-image-1" data-context="Cinematic full-bleed portrait of a distinguished Israeli male physician in his 50s, wearing a dark suit, standing in a dimly lit environment that blends elements of a medical imaging room (subtle radiology scan overlays) and a legal/strategic setting (faint map contour lines, document textures). The mood is authoritative, serious, and editorial. Deep indigo and dark teal color grading. Professional studio lighting with dramatic shadows. The doctor faces slightly toward camera with a calm, commanding presence. Background has subtle topographic map lines and radiology scan ghost imagery merged into the atmosphere." width="1400" height="900" src="/assets/site-index-hero-image-1.webp" alt="ד&quot;ר ערן טלור - מומחה רפואי ומשפטי" data-hero-background="true" data-element-type="image" data-element-id="img-1774343233669-9o1rchk77" class="zappy-editable-image" style="position: absolute; object-fit: cover; object-position: 50% 50%; max-width: none; max-height: none; margin: 0; inset: 0; width: 100%; height: 100%" decoding="async">
   </div>
 
   <!-- Dark Indigo Scrim Overlay -->
   <div class="index-hero-scrim" aria-hidden="true" data-zappy-gradient-scrim="true" style="opacity: 0; display: none" data-zappy-original-bg="hidden"></div>
 
   <!-- Grain Texture Overlay -->
-  <div class="index-hero-grain" aria-hidden="true"></div>
+  <div class="zappy-hero-overlay" style="position:absolute;inset:0;z-index:1;background:rgba(20, 28, 48, 0.83);pointer-events:none;"></div><div class="index-hero-grain" aria-hidden="true" style="position: relative; z-index: 2"></div>
 
   <!-- Content Overlay Group -->
-  <div class="index-hero-content-wrapper">
+  <div class="index-hero-content-wrapper" style="position: relative; z-index: 2">
     <div class="index-hero-content">
 
       <!-- Eyebrow label -->
       <div class="index-hero-eyebrow">רפואה · משפט · חירום</div>
 
       <!-- H1 Main Headline -->
-      <h1 class="index-hero-h1" >ד"ר ערן טל-אור מומחה ברפואה דחופה והרדמה<br><span class="index-hero-h1-accent">חוות דעת מומחה&nbsp;</span><br><span class="index-hero-h1-accent">ייעוץ למערכות בריאות בחרום</span><br>ורפואה דחופה</h1>
+      <h1 class="index-hero-h1">ד"ר ערן טל-אור מומחה ברפואה דחופה והרדמה<br><span class="index-hero-h1-accent">חוות דעת מומחה&nbsp;</span><br><span class="index-hero-h1-accent">ייעוץ למערכות בריאות בחרום</span><br>ורפואה דחופה</h1>
 
       <!-- H3 Three Pillars -->
       <h3 class="index-hero-h3">חוות דעת לבית משפט ברשלנות רפואית · ייעוץ חירום ואסונות · ייעוץ ברפואה דחופה</h3>
@@ -852,7 +1288,7 @@
       </div><article class="index-services-panel index-services-panel--2" data-grid-item-index="1">
         <div class="index-services-panel-annotation">02 / חירום ואסונות</div>
         <div class="index-services-panel-image-wrap">
-          <div data-zappy-zoom-wrapper="true" data-element-id="img-1774344848397-9imwius2q" data-element-type="image" data-zappy-zoom-wrapper-width="302px" data-zappy-zoom-wrapper-height="204px" data-zappy-zoom-wrapper-width-mode="grid-responsive" style="position: relative !important; overflow: hidden !important; width: 100% !important; max-width: 100% !important; margin-left: auto !important; margin-right: auto !important; height: 0px !important; display: block !important; padding-bottom: 67.5497% !important;" data-zappy-zoom-clip="true" data-zappy-wrapper-margins-applied="true" data-zappy-zoom-aspect-ratio="0.675497"><img data-placeholder="index-services-image-2" data-context="Emergency and disaster preparedness planning session. Large tactical map on a table with strategic markers, crisis management charts, and emergency response documents. Professional consultant in a commanding workspace. Deep teal and indigo palette, editorial professional mood." width="600" height="400" src="/assets/site-index-services-image-2-1774347593843-8poh6p.webp?v=1774347595497" alt="ייעוץ תכנון חירום ואסונות — ד&quot;ר ערן טל-אור" data-element-type="image" data-element-id="img-1774344848397-9imwius2q" class="zappy-editable-image" style="object-position: 50% 50%; display: block !important; object-fit: cover !important; margin: 0px !important; left: -1% !important; top: -6.34187% !important; width: 102% !important; height: 112.684% !important; max-width: none !important; position: absolute !important; max-height: none !important;" data-zappy-zoom="1.02" data-zappy-original-width="302" data-zappy-original-height="204" data-resize-handler-attached="true"></div>
+          <div data-zappy-zoom-wrapper="true" data-element-id="img-1774344848397-9imwius2q" data-element-type="image" data-zappy-zoom-wrapper-width="302px" data-zappy-zoom-wrapper-height="204px" data-zappy-zoom-wrapper-width-mode="grid-responsive" style="position: relative !important; overflow: hidden !important; width: 100% !important; max-width: 100% !important; margin-left: auto !important; margin-right: auto !important; height: 0px !important; display: block !important; padding-bottom: 67.5497% !important;" data-zappy-zoom-clip="true" data-zappy-wrapper-margins-applied="true" data-zappy-zoom-aspect-ratio="0.675497"><img data-placeholder="index-services-image-2" data-context="Emergency and disaster preparedness planning session. Large tactical map on a table with strategic markers, crisis management charts, and emergency response documents. Professional consultant in a commanding workspace. Deep teal and indigo palette, editorial professional mood." width="600" height="400" src="/assets/site-index-services-image-2-1774347593843-8poh6p.webp?v=1774347595497" alt="ייעוץ תכנון חירום ואסונות — ד&quot;ר ערן טל-אור" data-element-type="image" data-element-id="img-1774344848397-9imwius2q" class="zappy-editable-image" style="object-position: 50% 50%; display: block !important; object-fit: cover !important; margin: 0px !important; left: -1% !important; top: -6.34187% !important; width: 102% !important; height: 112.684% !important; max-width: none !important; position: absolute !important; max-height: none !important;" data-zappy-zoom="1.02" data-zappy-original-width="302" data-zappy-original-height="204" loading="lazy" decoding="async" fetchpriority="low"></div>
         </div>
         <div class="index-services-panel-body">
           <div class="index-services-panel-accent-line index-services-panel-accent-line--teal" aria-hidden="true"></div>
@@ -869,7 +1305,7 @@
       </div><article class="index-services-panel index-services-panel--3" data-grid-item-index="3">
         <div class="index-services-panel-annotation">03 / רפואה דחופה</div>
         <div class="index-services-panel-image-wrap">
-          <div data-zappy-zoom-wrapper="true" data-element-id="img-1774344848397-9tglpvpg2" data-element-type="image" data-zappy-zoom-wrapper-width="302px" data-zappy-zoom-wrapper-height="204px" data-zappy-zoom-wrapper-width-mode="grid-responsive" style="position: relative !important; overflow: hidden !important; width: 100% !important; max-width: 100% !important; margin-left: auto !important; margin-right: auto !important; height: 0px !important; display: block !important; padding-bottom: 67.5497% !important;" data-zappy-zoom-clip="true" data-zappy-wrapper-margins-applied="true" class="zappy-resizable-hover" data-zappy-zoom-aspect-ratio="0.675497"><img data-placeholder="index-services-image-3" data-context="Emergency medicine physician in consultation, reviewing patient case files and clinical data in a calm professional setting. Medical charts, diagnostic imaging on a lightboard. Stone and indigo tones. Serious, authoritative, editorial medical aesthetic." width="600" height="400" src="/assets/site-index-services-image-3-1774347649021-ouo7q4.webp?v=1774347650900" alt="ייעוץ רפואי ברפואה דחופה — ד&quot;ר ערן טל-אור" data-element-type="image" data-element-id="img-1774344848397-9tglpvpg2" class="zappy-editable-image" style="object-position: 50% 50%; display: block !important; object-fit: cover !important; margin: 0px !important; left: -1% !important; top: -6.34187% !important; width: 102% !important; height: 112.684% !important; max-width: none !important; position: absolute !important; max-height: none !important;" data-zappy-zoom="1.02" data-zappy-original-width="302" data-zappy-original-height="204" data-resize-handler-attached="true"></div>
+          <div data-zappy-zoom-wrapper="true" data-element-id="img-1774344848397-9tglpvpg2" data-element-type="image" data-zappy-zoom-wrapper-width="302px" data-zappy-zoom-wrapper-height="204px" data-zappy-zoom-wrapper-width-mode="grid-responsive" style="position: relative !important; overflow: hidden !important; width: 100% !important; max-width: 100% !important; margin-left: auto !important; margin-right: auto !important; height: 0px !important; display: block !important; padding-bottom: 67.5497% !important;" data-zappy-zoom-clip="true" data-zappy-wrapper-margins-applied="true" class="zappy-resizable-hover" data-zappy-zoom-aspect-ratio="0.675497"><img data-placeholder="index-services-image-3" data-context="Emergency medicine physician in consultation, reviewing patient case files and clinical data in a calm professional setting. Medical charts, diagnostic imaging on a lightboard. Stone and indigo tones. Serious, authoritative, editorial medical aesthetic." width="600" height="400" src="/assets/site-index-services-image-3-1774347649021-ouo7q4.webp?v=1774347650900" alt="ייעוץ רפואי ברפואה דחופה — ד&quot;ר ערן טל-אור" data-element-type="image" data-element-id="img-1774344848397-9tglpvpg2" class="zappy-editable-image" style="object-position: 50% 50%; display: block !important; object-fit: cover !important; margin: 0px !important; left: -1% !important; top: -6.34187% !important; width: 102% !important; height: 112.684% !important; max-width: none !important; position: absolute !important; max-height: none !important;" data-zappy-zoom="1.02" data-zappy-original-width="302" data-zappy-original-height="204" loading="lazy" decoding="async" fetchpriority="low"></div>
         </div>
         <div class="index-services-panel-body">
           <div class="index-services-panel-accent-line index-services-panel-accent-line--orange" aria-hidden="true"></div>
@@ -880,7 +1316,7 @@
       </article><article class="index-services-panel index-services-panel--1" data-grid-item-index="4">
         <div class="index-services-panel-annotation">01 / חוות דעת</div>
         <div class="index-services-panel-image-wrap">
-          <div data-zappy-zoom-wrapper="true" data-element-id="img-1774344848397-pveiktda3" data-element-type="image" data-zappy-zoom-wrapper-width="302px" data-zappy-zoom-wrapper-height="204px" data-zappy-zoom-wrapper-width-mode="grid-responsive" style="position: relative !important; overflow: hidden !important; width: 100% !important; max-width: 100% !important; margin-left: auto !important; margin-right: auto !important; height: 0px !important; display: block !important; padding-bottom: 67.5497% !important;" data-zappy-zoom-clip="true" data-zappy-wrapper-margins-applied="true" data-zappy-zoom-aspect-ratio="0.675497"><img data-placeholder="index-services-image-1" data-context="Professional medical expert witness reviewing legal documents and medical records in a serious office setting. Stack of court documents, medical imaging scans, and a stethoscope on a dark wood desk. Deep indigo and stone tones. Editorial dossier aesthetic." width="600" height="400" src="/assets/site-index-services-image-1-1774347488306-p10bho.webp?v=1774347490166" alt="חוות דעת מומחה רשלנות רפואית — ד&quot;ר ערן טל-אור" data-element-type="image" data-element-id="img-1774344848397-pveiktda3" class="zappy-editable-image" style="object-position: 50% 50%; display: block !important; object-fit: cover !important; margin: 0px !important; left: -1% !important; top: -6.34187% !important; width: 102% !important; height: 112.684% !important; max-width: none !important; position: absolute !important; max-height: none !important;" data-zappy-zoom="1.02" data-zappy-original-width="302" data-zappy-original-height="204" data-resize-handler-attached="true"></div>
+          <div data-zappy-zoom-wrapper="true" data-element-id="img-1774344848397-pveiktda3" data-element-type="image" data-zappy-zoom-wrapper-width="302px" data-zappy-zoom-wrapper-height="204px" data-zappy-zoom-wrapper-width-mode="grid-responsive" style="position: relative !important; overflow: hidden !important; width: 100% !important; max-width: 100% !important; margin-left: auto !important; margin-right: auto !important; height: 0px !important; display: block !important; padding-bottom: 67.5497% !important;" data-zappy-zoom-clip="true" data-zappy-wrapper-margins-applied="true" data-zappy-zoom-aspect-ratio="0.675497"><img data-placeholder="index-services-image-1" data-context="Professional medical expert witness reviewing legal documents and medical records in a serious office setting. Stack of court documents, medical imaging scans, and a stethoscope on a dark wood desk. Deep indigo and stone tones. Editorial dossier aesthetic." width="600" height="400" src="/assets/site-index-services-image-1-1774347488306-p10bho.webp?v=1774347490166" alt="חוות דעת מומחה רשלנות רפואית — ד&quot;ר ערן טל-אור" data-element-type="image" data-element-id="img-1774344848397-pveiktda3" class="zappy-editable-image" style="object-position: 50% 50%; display: block !important; object-fit: cover !important; margin: 0px !important; left: -1% !important; top: -6.34187% !important; width: 102% !important; height: 112.684% !important; max-width: none !important; position: absolute !important; max-height: none !important;" data-zappy-zoom="1.02" data-zappy-original-width="302" data-zappy-original-height="204" loading="lazy" decoding="async" fetchpriority="low"></div>
         </div>
         <div class="index-services-panel-body">
           <div class="index-services-panel-accent-line" aria-hidden="true"></div>
@@ -978,7 +1414,7 @@
     <!-- Image Column (END = LEFT in RTL) -->
     <div class="index-authority-visual">
       <div class="index-authority-image-wrapper">
-        <div data-zappy-zoom-wrapper="true" data-element-id="img-1774411401654-kfjluz2ye" data-element-type="image" data-zappy-zoom-wrapper-width="460px" data-zappy-zoom-wrapper-height="620px" data-zappy-zoom-wrapper-width-mode="px" style="position: relative !important; overflow: hidden !important; width: 460px !important; max-width: 100% !important; margin-left: auto !important; margin-right: auto !important; height: 620px !important; display: block !important;" data-zappy-zoom-clip="true" data-zappy-wrapper-margins-applied="true"><img data-placeholder="index-authority-image-1" data-context="A serious, authoritative portrait of a male medical doctor in his 40s-50s wearing a white coat, photographed in a clinical or legal setting. The doctor sits at a desk with medical documents, court papers, and a stethoscope visible. Dramatic directional lighting from one side creates strong contrast. The mood is expert, credible, and commanding — evoking a senior physician who serves as both medical expert witness and emergency medicine specialist. Deep indigo/dark background tones with selective warm light on the subject. Editorial documentary style, not promotional." width="540" height="720" src="/assets/site-index-authority-image-1-1774415146814-jiwxib.webp?v=1774415148497" alt="ד&quot;ר ערן טל-אור, מומחה רפואי ועד מומחה בבית משפט" data-element-type="image" data-element-id="img-1774411401654-kfjluz2ye" class="zappy-editable-image" style="object-position: 50% 50%; margin: 0px !important; position: absolute !important; left: -0.274203% !important; top: 0% !important; width: 100.638% !important; height: 100% !important; max-width: none !important; max-height: none !important; display: block; object-fit: cover;" data-zappy-zoom="1" data-zappy-original-width="460" data-zappy-original-height="620"></div>
+        <div data-zappy-zoom-wrapper="true" data-element-id="img-1774411401654-kfjluz2ye" data-element-type="image" data-zappy-zoom-wrapper-width="460px" data-zappy-zoom-wrapper-height="620px" data-zappy-zoom-wrapper-width-mode="px" style="position: relative !important; overflow: hidden !important; width: 460px !important; max-width: 100% !important; margin-left: auto !important; margin-right: auto !important; height: 620px !important; display: block !important;" data-zappy-zoom-clip="true" data-zappy-wrapper-margins-applied="true"><img data-placeholder="index-authority-image-1" data-context="A serious, authoritative portrait of a male medical doctor in his 40s-50s wearing a white coat, photographed in a clinical or legal setting. The doctor sits at a desk with medical documents, court papers, and a stethoscope visible. Dramatic directional lighting from one side creates strong contrast. The mood is expert, credible, and commanding — evoking a senior physician who serves as both medical expert witness and emergency medicine specialist. Deep indigo/dark background tones with selective warm light on the subject. Editorial documentary style, not promotional." width="540" height="720" src="/assets/site-index-authority-image-1-1774415146814-jiwxib.webp?v=1774415148497" alt="ד&quot;ר ערן טל-אור, מומחה רפואי ועד מומחה בבית משפט" data-element-type="image" data-element-id="img-1774411401654-kfjluz2ye" class="zappy-editable-image" style="object-position: 50% 50%; margin: 0px !important; position: absolute !important; left: -0.274203% !important; top: 0% !important; width: 100.638% !important; height: 100% !important; max-width: none !important; max-height: none !important; display: block; object-fit: cover;" data-zappy-zoom="1" data-zappy-original-width="460" data-zappy-original-height="620" loading="lazy" decoding="async" fetchpriority="low"></div>
         <!-- Translucent backplate peeking from end-bottom corner -->
         <div class="index-authority-backplate" aria-hidden="true">
           <div class="index-authority-backplate-inner">
@@ -1162,7 +1598,7 @@
 
         <!-- Column 1: Company Info -->
         <div class="footer-col footer-brand">
-          <img src="/assets/logo-1774348195734-abe1lj.webp?v=1774348195940-x5j2ps" alt="Eran Talor MD" class="logo zappy-editable-image" data-element-type="image" data-element-id="img-1774530881964-oeid1zede" data-resize-handler-attached="true">
+          <img src="/assets/logo-1774348195734-abe1lj.webp?v=1774348195940-x5j2ps" alt="Eran Talor MD" class="logo" data-element-type="image" data-element-id="img-1774530881964-oeid1zede" decoding="async" width="35" height="35">
           <p class="brand-tagline">ד"ר ערן טלור — מומחה ברפואת חירום, חוות דעת רפואיות ומשפטיות, וייעוץ מוכנות לאסונות.</p>
           <div class="brand-accent-line"></div>
           <div class="social-links">
@@ -1204,7 +1640,7 @@
 
         <!-- Column 4: Credentials / CTA -->
         <div class="footer-col footer-cta-col">
-          <h3 class="footer-heading" ><span class="heading-marker"></span>מומחיות</h3>
+          <h3 class="footer-heading"><span class="heading-marker"></span>מומחיות</h3>
           <div class="credentials-list">
             <div class="credential-item">
               <i class="fas fa-heartbeat credential-icon" data-element-type="icon" data-element-id="icon-1774515349411-nrfc2dq9q" data-icon-type="fontawesome" style="cursor: pointer;"></i>רפואת חרום</div>
@@ -1248,6 +1684,10 @@
   <div data-integration="accessibility:toolbar"></div>
 
     <script src="/script.js"></script>
+
+    <script id="zappy-font-awesome-loader">
+(function(){if(window.__zappyFontAwesomeLoader)return;window.__zappyFontAwesomeLoader=true;var href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';function load(){if(document.querySelector('link[href*="font-awesome"][href*="all.min.css"]'))return;var l=document.createElement('link');l.rel='stylesheet';l.href=href;l.crossOrigin='anonymous';l.referrerPolicy='no-referrer';document.head.appendChild(l);}function schedule(){if('requestIdleCallback'in window){requestIdleCallback(load,{timeout:5000});}else{setTimeout(load,3500);}}['pointerdown','keydown','touchstart','mouseover'].forEach(function(evt){window.addEventListener(evt,load,{once:true,passive:true});});schedule();})();
+</script>
 
     <script id="zappy-mobile-submenu-script">
     (function() {
@@ -1300,102 +1740,5 @@
     })();
     </script>
 
-    <script id="zappy-mobile-lang-menu-script">
-    (function() {
-      function initMobileLangMenu() {
-        if (window.innerWidth > 768) {
-          var existingMenu = document.querySelector('.mobile-lang-menu');
-          if (existingMenu) existingMenu.remove();
-          return;
-        }
-        if (document.querySelector('.mobile-lang-menu')) return;
-        var switcher = document.querySelector('.lang-switcher');
-        if (!switcher) return;
-        var dropdown = switcher.querySelector('.lang-switcher-dropdown');
-        if (!dropdown) return;
-        var options = dropdown.querySelectorAll('.lang-option');
-        if (options.length === 0) return;
-        var navMenu = document.getElementById('navMenu') || document.querySelector('.nav-menu') || document.querySelector('nav ul');
-        if (!navMenu) return;
-        var currentLang = document.documentElement.lang || 'en';
-        var langConfigs = {
-          he: {name:'עברית',flag:'https://api.iconify.design/circle-flags/il.svg'},
-          en: {name:'English',flag:'https://api.iconify.design/circle-flags/us.svg'},
-          ar: {name:'العربية',flag:'https://api.iconify.design/circle-flags/sa.svg'},
-          fr: {name:'Français',flag:'https://api.iconify.design/circle-flags/fr.svg'},
-          es: {name:'Español',flag:'https://api.iconify.design/circle-flags/es.svg'},
-          de: {name:'Deutsch',flag:'https://api.iconify.design/circle-flags/de.svg'},
-          ru: {name:'Русский',flag:'https://api.iconify.design/circle-flags/ru.svg'},
-          zh: {name:'中文',flag:'https://api.iconify.design/circle-flags/cn.svg'},
-          ja: {name:'日本語',flag:'https://api.iconify.design/circle-flags/jp.svg'},
-          pt: {name:'Português',flag:'https://api.iconify.design/circle-flags/br.svg'},
-          it: {name:'Italiano',flag:'https://api.iconify.design/circle-flags/it.svg'},
-          ko: {name:'한국어',flag:'https://api.iconify.design/circle-flags/kr.svg'}
-        };
-        var container = document.createElement('div');
-        container.className = 'mobile-lang-menu';
-        var currentConfig = langConfigs[currentLang] || {name:currentLang,flag:''};
-        var toggleBtn = document.createElement('button');
-        toggleBtn.className = 'mobile-lang-toggle';
-        toggleBtn.type = 'button';
-        var currentFlagHtml = currentConfig.flag ? '<img src="' + currentConfig.flag + '" width="20" height="20" alt="" style="border-radius:50%;margin-right:8px;margin-left:8px;">' : '';
-        toggleBtn.innerHTML = currentFlagHtml + currentConfig.name;
-        container.appendChild(toggleBtn);
-        var optionsDiv = document.createElement('div');
-        optionsDiv.className = 'mobile-lang-options';
-        var currentLink = document.createElement('a');
-        currentLink.className = 'mobile-lang-option active';
-        currentLink.href = '#';
-        currentLink.innerHTML = currentFlagHtml + currentConfig.name;
-        optionsDiv.appendChild(currentLink);
-        options.forEach(function(opt) {
-          var link = document.createElement('a');
-          link.className = 'mobile-lang-option';
-          link.href = opt.getAttribute('href');
-          link.innerHTML = opt.innerHTML;
-          optionsDiv.appendChild(link);
-        });
-        container.appendChild(optionsDiv);
-        navMenu.appendChild(container);
-        toggleBtn.addEventListener('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          toggleBtn.classList.toggle('expanded');
-          optionsDiv.classList.toggle('expanded');
-        });
-      }
-      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileLangMenu); }
-      else { initMobileLangMenu(); }
-      window.addEventListener('resize', function() { clearTimeout(window._mlrt); window._mlrt = setTimeout(initMobileLangMenu, 250); });
-    })();
-    </script>
-
-    <script>
-    (function(){
-      if(window.innerWidth>768)return;
-      function fixZW(){
-        document.querySelectorAll('[data-zappy-zoom-wrapper="true"]').forEach(function(w){
-          var cw=w.style.getPropertyValue('width');
-          if(!cw||cw==='100%')return;
-          w.style.setProperty('width','100%','important');
-          w.style.setProperty('max-width','100%','important');
-          w.style.setProperty('height','auto','important');
-          var img=w.querySelector('img');
-          if(img){
-            img.style.setProperty('position','relative','important');
-            img.style.setProperty('width','100%','important');
-            img.style.setProperty('height','auto','important');
-            img.style.setProperty('max-width','100%','important');
-            img.style.setProperty('max-height','400px','important');
-            img.style.setProperty('object-fit','cover','important');
-            img.style.setProperty('left','0','important');
-            img.style.setProperty('top','0','important');
-          }
-        });
-      }
-      if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fixZW);
-      else setTimeout(fixZW,50);
-    })();
-    </script>
-</body>
-</html>
+    
+</body></html>
