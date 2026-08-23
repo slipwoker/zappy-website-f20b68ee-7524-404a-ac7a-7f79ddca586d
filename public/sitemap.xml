@@ -37,6 +37,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://erantalor.com/get-connected</loc>
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://erantalor.com/privacy</loc>
     <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
