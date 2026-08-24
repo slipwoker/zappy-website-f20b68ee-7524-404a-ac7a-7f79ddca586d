@@ -10017,6 +10017,21 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
   min-height: auto !important;
 }
 }
+
+#zappy-section-0 .get-connected-hero-section__title {
+  font-size: 40px !important;
+  line-height: 1.15 !important;
+}
+
+#zappy-section-0 .get-connected-hero-section__subtitle {
+  font-size: 18px !important;
+  line-height: 1.45 !important;
+}
+
+#zappy-section-0 .get-connected-hero-section__text {
+  font-size: 15px !important;
+  margin-bottom: 20px !important;
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
