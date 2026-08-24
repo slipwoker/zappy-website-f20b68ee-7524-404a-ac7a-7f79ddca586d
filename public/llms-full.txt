@@ -4385,19 +4385,19 @@ Emergency Preparedness
 
 
 
-[business_email]
+work@tal-or.co.il
 
 
 
 
 
-[business_phone]
+050-626-7434
 
 
 
 
 
-[business_address]
+HaAlon 101, Masad, 1499000, Israel
 
 
 
