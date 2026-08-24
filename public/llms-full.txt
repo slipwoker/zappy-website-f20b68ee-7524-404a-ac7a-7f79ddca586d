@@ -4238,11 +4238,11 @@ Emergency Preparedness
 ## Professional Contact Channels
 
 
-לשם ניהול יעיל ומדויק של פניות, נבנו שלושה ערוצי התקשרות ראשיים. כל ערוץ מותאם לקהל יעד ייחודי ולסוג השירות הנדרש, תוך שמירה על דיסקרטיות מלאה וזמינות גבוהה.
+To ensure efficient and precise handling of inquiries, we have established three primary contact channels. Each channel is tailored to a specific audience and type of service required, while maintaining full discretion and high availability.
 
 
 
-הערת מערכת: הפניות מנותבות ישירות אל ד"ר טל-אור, ללא מתווכים. זמן מענה ממוצע: 24 שעות בימי עסקים.
+System note: inquiries are routed directly to Dr. Tal-Or, with no intermediaries. Average response time: 24 hours on business days.
 
 
 
@@ -4253,7 +4253,7 @@ Emergency Preparedness
 ### For Attorneys & Law Firms
 
 
-לתיאום פגישת ייעוץ ראשונית, מסירת מסמכים רפואיים, או דיון בתיק פעיל. נא לציין את מספר התיק ומועד הדיון המבוקש.
+To schedule an initial consultation, submit medical documents, or discuss an active case. Please include the case number and the requested hearing date.
 
 
 
@@ -4263,7 +4263,7 @@ Emergency Preparedness
 ### For Organizations & Emergency Agencies
 
 
-לפניות בנושא מוכנות לחירום, תכנון תרחישי אסון, ובניית מערכי רפואה דחופה. נא לצרף תיאור קצר של הארגון והצורך.
+For inquiries regarding emergency preparedness, disaster scenario planning, and building emergency medicine frameworks. Please include a brief description of the organization and the need.
 
 
 
@@ -4273,7 +4273,7 @@ Emergency Preparedness
 ### For Urgent Medical Consultation
 
 
-למטופלים המבקשים חוות דעת נוספת או ייעוץ פרטני בתחום הרפואה הדחופה. נא לתאר את המקרה הרפואי בקצרה.
+For patients seeking a second opinion or individualized consultation in emergency medicine. Please briefly describe the medical case.
 
 
 
@@ -4283,7 +4283,7 @@ Emergency Preparedness
 ### General Inquiries
 
 
-לשאלות מנהלתיות, בקשות להרצאות, פניות אקדמיות או כל נושא אחר שאינו נכלל בקטגוריות האחרות.
+For administrative questions, lecture requests, academic inquiries, or any other matter not covered by the other categories.
 
 
 
