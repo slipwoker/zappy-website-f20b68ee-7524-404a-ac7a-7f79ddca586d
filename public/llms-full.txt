@@ -4128,8 +4128,6 @@ Get Connected
 
 
 
-Our Services
-
 
 
 Medicine · Law · Emergency Preparedness
@@ -4141,9 +4139,12 @@ Medicine · Law · Emergency Preparedness
 
 
 
+
+
+
+Our Services
+
 Contact Us
-
-
 
 Professional clarity at the critical intersection of medicine, the legal process, and crisis preparedness.
 
