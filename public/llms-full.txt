@@ -4129,23 +4129,20 @@ Get Connected
 
 
 
-Medicine · Law · Emergency Preparedness
+רפואה · משפט · היערכות לחירום
 
 
-# Medical precision meets legal sharpness
+# דיוק רפואי לצד חדות משפטית
 
 
-### Dr. Eran Tal-Or provides expert opinions, emergency medicine consulting, and emergency & disaster planning — at the highest standard, for attorneys, organizations, and patients.
+### ד"ר ערן טל-אור מספק חוות דעת מומחה, ייעוץ ברפואת חירום ותכנון היערכות לחירום ואסון — ברמה הגבוהה ביותר, עבור עורכי דין, ארגונים ומטופלים.
 
 
-Professional clarity at the critical intersection of medicine, the legal process, and crisis preparedness.
-
-
-
-Contact Us  Our Services
+בהירות מקצועית בצומת הקריטי שבין רפואה, ההליך המשפטי והיערכות למשבר.
 
 
 
+צרו קשר  השירותים שלנו
 
 
 
@@ -4165,12 +4162,15 @@ Contact Us  Our Services
 
 
 
-Medical Record | Professional Consultation
-
-## Three pillars of expertise, one standard of precision
 
 
-Every service is built on deep clinical experience, sharp legal understanding, and the ability to translate medical complexity into clear, precise, and unambiguous language.
+
+תיק רפואי | ייעוץ מקצועי
+
+## שלושה נדבכי מומחיות, סטנדרט אחד של דיוק
+
+
+כל שירות נבנה על ניסיון קליני עמוק, הבנה משפטית חדה ויכולת לתרגם מורכבות רפואית לשפה ברורה, מדויקת וחד-משמעית.
 
 
 
@@ -4181,12 +4181,12 @@ Every service is built on deep clinical experience, sharp legal understanding, a
 
 01
 
-Expert Opinion
+חוות דעת מומחה
 
-### Medicine & Law
+### רפואה ומשפט
 
 
-Analysis of medical files, expert opinions for courts, and professional representation in medical malpractice matters. Clarity, precision, and reliability for attorneys and courts.
+ניתוח תיקים רפואיים, חוות דעת מומחה לבתי משפט וייצוג מקצועי בסוגיות של רשלנות רפואית. בהירות, דיוק ואמינות עבור עורכי דין ובתי משפט.
 
 
 
@@ -4196,9 +4196,9 @@ Analysis of medical files, expert opinions for courts, and professional represen
 
 02
 
-Emergency Preparedness
+היערכות לחירום
 
-### Disaster & Emergency Consulting
+### ייעוץ לחירום ואסון
 
 
 תכנון והיערכות מערכתית לתרחישי חירום ואסון. ליווי ארגונים בבניית פרוטוקולים, הכשרת צוותים ויצירת מענה רפואי מהיר ויעיל במצבי קיצון.
@@ -4235,55 +4235,55 @@ Emergency Preparedness
 
 
 
-## Professional Contact Channels
+## ערוצי יצירת קשר מקצועיים
 
 
-To ensure efficient and precise handling of inquiries, we have established three primary contact channels. Each channel is tailored to a specific audience and type of service required, while maintaining full discretion and high availability.
-
-
-
-System note: inquiries are routed directly to Dr. Tal-Or, with no intermediaries. Average response time: 24 hours on business days.
+כדי להבטיח טיפול יעיל ומדויק בפניות, הקמנו שלושה ערוצי קשר מרכזיים. כל ערוץ מותאם לקהל ולסוג השירות הנדרש, תוך שמירה על דיסקרטיות מלאה וזמינות גבוהה.
 
 
 
-
-
-
-
-### For Attorneys & Law Firms
-
-
-To schedule an initial consultation, submit medical documents, or discuss an active case. Please include the case number and the requested hearing date.
+הערת מערכת: הפניות מועברות ישירות לד"ר טל-אור, ללא גורמי תיווך. זמן מענה ממוצע: 24 שעות בימי עסקים.
 
 
 
 
 
 
-### For Organizations & Emergency Agencies
+
+### לעורכי דין ומשרדי עורכי דין
 
 
-For inquiries regarding emergency preparedness, disaster scenario planning, and building emergency medicine frameworks. Please include a brief description of the organization and the need.
-
-
-
-
-
-
-### For Urgent Medical Consultation
-
-
-For patients seeking a second opinion or individualized consultation in emergency medicine. Please briefly describe the medical case.
+לתיאום פגישת ייעוץ ראשונית, העברת מסמכים רפואיים או דיון בתיק פעיל. נא לציין את מספר התיק ואת מועד הדיון המבוקש.
 
 
 
 
 
 
-### General Inquiries
+### לארגונים וגופי חירום
 
 
-For administrative questions, lecture requests, academic inquiries, or any other matter not covered by the other categories.
+לפניות בנושא היערכות לחירום, תכנון תרחישי אסון ובניית מערכי רפואת חירום. נא לצרף תיאור קצר של הארגון והצורך.
+
+
+
+
+
+
+### לייעוץ רפואי דחוף
+
+
+למטופלים המבקשים חוות דעת שנייה או ייעוץ פרטני ברפואת חירום. נא לתאר בקצרה את המקרה הרפואי.
+
+
+
+
+
+
+### פניות כלליות
+
+
+לשאלות מנהלתיות, בקשות להרצאות, פניות אקדמיות או כל נושא אחר שאינו נכלל בקטגוריות האחרות.
 
 
 
@@ -4365,7 +4365,7 @@ For administrative questions, lecture requests, academic inquiries, or any other
 
 
 
-Get in Touch
+צרו קשר
 
 
 ## המומחיות שאתם צריכים, בדיוק כשצריך אותה
@@ -4406,7 +4406,7 @@ HaAlon 101, Masad, 1499000, Israel
 
 
 
-View on Map
+הצגה במפה
 
 
 
