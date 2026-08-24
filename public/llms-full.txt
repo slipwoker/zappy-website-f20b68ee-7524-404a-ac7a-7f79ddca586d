@@ -509,14 +509,10 @@ Description: ד&quot;ר ערן טל-אור מביא מומחיות רפואית 
 
 ### מומחיות
 
-
-Emergency Medicine
-
-Emergency Medicine
-
-Emergency Medicine
-
-Emergency Medicine
+רפואה דחופה
+חוות דעת רפואית
+ייעוץ משפטי
+מוכנות לחירום
 
 יצירת קשר
 
@@ -535,7 +531,7 @@ Emergency Medicine
 
 מדיניות פרטיות
 |
-Terms of Use
+תנאי שימוש
 |
 נגישות
 |
@@ -1075,14 +1071,10 @@ Description: חוות דעת מומחה רשלנות רפואית מקצועיו
 
 ### מומחיות
 
-
-Emergency Medicine
-
-Emergency Medicine
-
-Emergency Medicine
-
-Emergency Medicine
+רפואה דחופה
+חוות דעת רפואית
+ייעוץ משפטי
+מוכנות לחירום
 
 יצירת קשר
 
@@ -1101,7 +1093,7 @@ Emergency Medicine
 
 מדיניות פרטיות
 |
-Terms of Use
+תנאי שימוש
 |
 נגישות
 |
@@ -1636,14 +1628,10 @@ Coordination
 
 ### מומחיות
 
-
-Emergency Medicine
-
-Emergency Medicine
-
-Emergency Medicine
-
-Emergency Medicine
+רפואה דחופה
+חוות דעת רפואית
+ייעוץ משפטי
+מוכנות לחירום
 
 יצירת קשר
 
@@ -1662,7 +1650,7 @@ Emergency Medicine
 
 מדיניות פרטיות
 |
-Terms of Use
+תנאי שימוש
 |
 נגישות
 |
@@ -2124,14 +2112,10 @@ Description: ד&quot;ר ערן טל-אור מציע ייעוץ ברפואת חי
 
 ### מומחיות
 
-
-Emergency Medicine
-
-Emergency Medicine
-
-Emergency Medicine
-
-Emergency Medicine
+רפואה דחופה
+חוות דעת רפואית
+ייעוץ משפטי
+מוכנות לחירום
 
 יצירת קשר
 
@@ -2150,7 +2134,7 @@ Emergency Medicine
 
 מדיניות פרטיות
 |
-Terms of Use
+תנאי שימוש
 |
 נגישות
 |
@@ -2651,14 +2635,10 @@ Description: ד&quot;ר ערן טל-אור — רופא, מומחה משפטי �
 
 ### מומחיות
 
-
-Emergency Medicine
-
-Emergency Medicine
-
-Emergency Medicine
-
-Emergency Medicine
+רפואה דחופה
+חוות דעת רפואית
+ייעוץ משפטי
+מוכנות לחירום
 
 יצירת קשר
 
@@ -2677,7 +2657,7 @@ Emergency Medicine
 
 מדיניות פרטיות
 |
-Terms of Use
+תנאי שימוש
 |
 נגישות
 |
@@ -2916,14 +2896,10 @@ Eran Talor MD ("החברה", "אנו", "שלנו") מחויבת להגן על פ
 
 ### מומחיות
 
-
-Emergency Medicine
-
-Emergency Medicine
-
-Emergency Medicine
-
-Emergency Medicine
+רפואה דחופה
+חוות דעת רפואית
+ייעוץ משפטי
+מוכנות לחירום
 
 יצירת קשר
 
@@ -2942,7 +2918,7 @@ Emergency Medicine
 
 מדיניות פרטיות
 |
-Terms of Use
+תנאי שימוש
 |
 נגישות
 |
@@ -3190,14 +3166,10 @@ Eran Talor MD מחויבת להנגיש את השירותים לכלל הציב�
 
 ### מומחיות
 
-
-Emergency Medicine
-
-Emergency Medicine
-
-Emergency Medicine
-
-Emergency Medicine
+רפואה דחופה
+חוות דעת רפואית
+ייעוץ משפטי
+מוכנות לחירום
 
 יצירת קשר
 
@@ -3216,7 +3188,7 @@ Emergency Medicine
 
 מדיניות פרטיות
 |
-Terms of Use
+תנאי שימוש
 |
 נגישות
 |
@@ -3483,14 +3455,10 @@ Eran Talor MD מספקת רפואה ומשפט - חוות דעת מומחה ור
 
 ### מומחיות
 
-
-Emergency Medicine
-
-Emergency Medicine
-
-Emergency Medicine
-
-Emergency Medicine
+רפואה דחופה
+חוות דעת רפואית
+ייעוץ משפטי
+מוכנות לחירום
 
 יצירת קשר
 
@@ -3509,7 +3477,7 @@ Emergency Medicine
 
 מדיניות פרטיות
 |
-Terms of Use
+תנאי שימוש
 |
 נגישות
 |
@@ -3977,14 +3945,10 @@ work@tal-or.co.il
 
 ### מומחיות
 
-
-Emergency Medicine
-
-Emergency Medicine
-
-Emergency Medicine
-
-Emergency Medicine
+רפואה דחופה
+חוות דעת רפואית
+ייעוץ משפטי
+מוכנות לחירום
 
 יצירת קשר
 
@@ -4003,7 +3967,7 @@ Emergency Medicine
 
 מדיניות פרטיות
 |
-Terms of Use
+תנאי שימוש
 |
 נגישות
 |
@@ -4494,14 +4458,10 @@ Send Inquiry
 
 ### מומחיות
 
-
-Emergency Medicine
-
-Emergency Medicine
-
-Emergency Medicine
-
-Emergency Medicine
+רפואה דחופה
+חוות דעת רפואית
+ייעוץ משפטי
+מוכנות לחירום
 
 יצירת קשר
 
@@ -4520,7 +4480,7 @@ Emergency Medicine
 
 מדיניות פרטיות
 |
-Terms of Use
+תנאי שימוש
 |
 נגישות
 |
