@@ -10005,6 +10005,18 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
   flex-direction: column;
   height: 100%;
 }
+
+.get-connected-hero-section {
+  min-height: 52vh !important;
+  padding: 72px 32px 72px !important;
+}
+
+@media (max-width: 767px) {
+.get-connected-hero-section {
+  padding: 56px 16px 56px !important;
+  min-height: auto !important;
+}
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
