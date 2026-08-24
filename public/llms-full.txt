@@ -57,17 +57,17 @@ Description: ד&quot;ר ערן טל-אור מביא מומחיות רפואית 
 
 
 
-- חוות דעת רפואיות
-- ייעוץ מוכנות לחירום ואסונות
-- ייעוץ ברפואת חירום
-- יצירת קשר
+- Medical Expert Opinions
+- Emergency & Disaster Preparedness Consulting
+- Emergency Medicine Consulting
+- Contact
 - Connect
 
 
 
 
 
-מי אני
+Who I Am
 
 
 
@@ -460,7 +460,7 @@ Description: ד&quot;ר ערן טל-אור מביא מומחיות רפואית 
 
 
 
-ד"ר ערן טלור — מומחה ברפואת חירום, חוות דעת רפואיות ומשפטיות, וייעוץ מוכנות לאסונות.
+Dr. Eran Talor — specialist in emergency medicine, medical and legal expert opinions, and disaster preparedness consulting.
 
 
 
@@ -475,12 +475,12 @@ Description: ד&quot;ר ערן טל-אור מביא מומחיות רפואית 
 
 
 
-### תחומי פעילות
+### Areas of Practice
 
 
-- חוות דעת רפואיות
+- Medical Expert Opinions
 
-- ייעוץ מוכנות לחירום ואסונות
+- Emergency & Disaster Preparedness Consulting
 
 - ייעוץ ברפואת חירום
 
@@ -499,7 +499,7 @@ Description: ד&quot;ר ערן טל-אור מביא מומחיות רפואית 
 
 - 0506267434
 
-- האלון 101, מסד, 1499000, ישראל
+- HaAlon 101, Masad, 1499000, Israel
 
 
 
@@ -507,7 +507,7 @@ Description: ד&quot;ר ערן טל-אור מביא מומחיות רפואית 
 
 
 
-### מומחיות
+### Expertise
 
 
 
@@ -520,7 +520,7 @@ Description: ד&quot;ר ערן טל-אור מביא מומחיות רפואית 
 רפואת חרום
 
 
-לתיאום ייעוץ
+Schedule a Consultation
 
 
 
@@ -532,16 +532,16 @@ Description: ד&quot;ר ערן טל-אור מביא מומחיות רפואית 
 
 
 
-© 2026 Eran Talor MD. כל הזכויות שמורות.
+© 2026 Eran Talor MD. All rights reserved.
 
 
-מדיניות פרטיות
+Privacy Policy
 |
-תנאי שימוש
+Terms of Use
 |
-נגישות
+Accessibility
 |
-נוצר באמצעות Zappy
+Created with Zappy
 
 ---
 
@@ -596,17 +596,17 @@ Description: חוות דעת מומחה רשלנות רפואית מקצועיו
 
 
 
-- חוות דעת רפואיות
-- ייעוץ מוכנות לחירום ואסונות
-- ייעוץ ברפואת חירום
-- יצירת קשר
+- Medical Expert Opinions
+- Emergency & Disaster Preparedness Consulting
+- Emergency Medicine Consulting
+- Contact
 - Connect
 
 
 
 
 
-מי אני
+Who I Am
 
 
 
@@ -1028,7 +1028,7 @@ Description: חוות דעת מומחה רשלנות רפואית מקצועיו
 
 
 
-ד"ר ערן טלור — מומחה ברפואת חירום, חוות דעת רפואיות ומשפטיות, וייעוץ מוכנות לאסונות.
+Dr. Eran Talor — specialist in emergency medicine, medical and legal expert opinions, and disaster preparedness consulting.
 
 
 
@@ -1043,12 +1043,12 @@ Description: חוות דעת מומחה רשלנות רפואית מקצועיו
 
 
 
-### תחומי פעילות
+### Areas of Practice
 
 
-- חוות דעת רפואיות
+- Medical Expert Opinions
 
-- ייעוץ מוכנות לחירום ואסונות
+- Emergency & Disaster Preparedness Consulting
 
 - ייעוץ ברפואת חירום
 
@@ -1067,7 +1067,7 @@ Description: חוות דעת מומחה רשלנות רפואית מקצועיו
 
 - 0506267434
 
-- האלון 101, מסד, 1499000, ישראל
+- HaAlon 101, Masad, 1499000, Israel
 
 
 
@@ -1075,7 +1075,7 @@ Description: חוות דעת מומחה רשלנות רפואית מקצועיו
 
 
 
-### מומחיות
+### Expertise
 
 
 
@@ -1088,7 +1088,7 @@ Description: חוות דעת מומחה רשלנות רפואית מקצועיו
 רפואת חרום
 
 
-לתיאום ייעוץ
+Schedule a Consultation
 
 
 
@@ -1100,16 +1100,16 @@ Description: חוות דעת מומחה רשלנות רפואית מקצועיו
 
 
 
-© 2026 Eran Talor MD. כל הזכויות שמורות.
+© 2026 Eran Talor MD. All rights reserved.
 
 
-מדיניות פרטיות
+Privacy Policy
 |
-תנאי שימוש
+Terms of Use
 |
-נגישות
+Accessibility
 |
-נוצר באמצעות Zappy
+Created with Zappy
 
 ---
 
@@ -1164,17 +1164,17 @@ Description: ייעוץ מוכנות לחירום ואסונות לארגוני�
 
 
 
-- חוות דעת רפואיות
-- ייעוץ מוכנות לחירום ואסונות
-- ייעוץ ברפואת חירום
-- יצירת קשר
+- Medical Expert Opinions
+- Emergency & Disaster Preparedness Consulting
+- Emergency Medicine Consulting
+- Contact
 - Connect
 
 
 
 
 
-מי אני
+Who I Am
 
 
 
@@ -1591,7 +1591,7 @@ Coordination
 
 
 
-ד"ר ערן טלור — מומחה ברפואת חירום, חוות דעת רפואיות ומשפטיות, וייעוץ מוכנות לאסונות.
+Dr. Eran Talor — specialist in emergency medicine, medical and legal expert opinions, and disaster preparedness consulting.
 
 
 
@@ -1606,12 +1606,12 @@ Coordination
 
 
 
-### תחומי פעילות
+### Areas of Practice
 
 
-- חוות דעת רפואיות
+- Medical Expert Opinions
 
-- ייעוץ מוכנות לחירום ואסונות
+- Emergency & Disaster Preparedness Consulting
 
 - ייעוץ ברפואת חירום
 
@@ -1630,7 +1630,7 @@ Coordination
 
 - 0506267434
 
-- האלון 101, מסד, 1499000, ישראל
+- HaAlon 101, Masad, 1499000, Israel
 
 
 
@@ -1638,7 +1638,7 @@ Coordination
 
 
 
-### מומחיות
+### Expertise
 
 
 
@@ -1651,7 +1651,7 @@ Coordination
 רפואת חרום
 
 
-לתיאום ייעוץ
+Schedule a Consultation
 
 
 
@@ -1663,16 +1663,16 @@ Coordination
 
 
 
-© 2026 Eran Talor MD. כל הזכויות שמורות.
+© 2026 Eran Talor MD. All rights reserved.
 
 
-מדיניות פרטיות
+Privacy Policy
 |
-תנאי שימוש
+Terms of Use
 |
-נגישות
+Accessibility
 |
-נוצר באמצעות Zappy
+Created with Zappy
 
 ---
 
@@ -1727,17 +1727,17 @@ Description: ד&quot;ר ערן טל-אור מציע ייעוץ ברפואת חי
 
 
 
-- חוות דעת רפואיות
-- ייעוץ מוכנות לחירום ואסונות
-- ייעוץ ברפואת חירום
-- יצירת קשר
+- Medical Expert Opinions
+- Emergency & Disaster Preparedness Consulting
+- Emergency Medicine Consulting
+- Contact
 - Connect
 
 
 
 
 
-מי אני
+Who I Am
 
 
 
@@ -2081,7 +2081,7 @@ Description: ד&quot;ר ערן טל-אור מציע ייעוץ ברפואת חי
 
 
 
-ד"ר ערן טלור — מומחה ברפואת חירום, חוות דעת רפואיות ומשפטיות, וייעוץ מוכנות לאסונות.
+Dr. Eran Talor — specialist in emergency medicine, medical and legal expert opinions, and disaster preparedness consulting.
 
 
 
@@ -2096,12 +2096,12 @@ Description: ד&quot;ר ערן טל-אור מציע ייעוץ ברפואת חי
 
 
 
-### תחומי פעילות
+### Areas of Practice
 
 
-- חוות דעת רפואיות
+- Medical Expert Opinions
 
-- ייעוץ מוכנות לחירום ואסונות
+- Emergency & Disaster Preparedness Consulting
 
 - ייעוץ ברפואת חירום
 
@@ -2120,7 +2120,7 @@ Description: ד&quot;ר ערן טל-אור מציע ייעוץ ברפואת חי
 
 - 0506267434
 
-- האלון 101, מסד, 1499000, ישראל
+- HaAlon 101, Masad, 1499000, Israel
 
 
 
@@ -2128,7 +2128,7 @@ Description: ד&quot;ר ערן טל-אור מציע ייעוץ ברפואת חי
 
 
 
-### מומחיות
+### Expertise
 
 
 
@@ -2141,7 +2141,7 @@ Description: ד&quot;ר ערן טל-אור מציע ייעוץ ברפואת חי
 רפואת חרום
 
 
-לתיאום ייעוץ
+Schedule a Consultation
 
 
 
@@ -2153,16 +2153,16 @@ Description: ד&quot;ר ערן טל-אור מציע ייעוץ ברפואת חי
 
 
 
-© 2026 Eran Talor MD. כל הזכויות שמורות.
+© 2026 Eran Talor MD. All rights reserved.
 
 
-מדיניות פרטיות
+Privacy Policy
 |
-תנאי שימוש
+Terms of Use
 |
-נגישות
+Accessibility
 |
-נוצר באמצעות Zappy
+Created with Zappy
 
 ---
 
@@ -2218,17 +2218,17 @@ Description: ד&quot;ר ערן טל-אור — רופא, מומחה משפטי �
 
 
 
-- חוות דעת רפואיות
-- ייעוץ מוכנות לחירום ואסונות
-- ייעוץ ברפואת חירום
-- יצירת קשר
+- Medical Expert Opinions
+- Emergency & Disaster Preparedness Consulting
+- Emergency Medicine Consulting
+- Contact
 - Connect
 
 
 
 
 
-מי אני
+Who I Am
 
 
 
@@ -2610,7 +2610,7 @@ Description: ד&quot;ר ערן טל-אור — רופא, מומחה משפטי �
 
 
 
-ד"ר ערן טלור — מומחה ברפואת חירום, חוות דעת רפואיות ומשפטיות, וייעוץ מוכנות לאסונות.
+Dr. Eran Talor — specialist in emergency medicine, medical and legal expert opinions, and disaster preparedness consulting.
 
 
 
@@ -2625,12 +2625,12 @@ Description: ד&quot;ר ערן טל-אור — רופא, מומחה משפטי �
 
 
 
-### תחומי פעילות
+### Areas of Practice
 
 
-- חוות דעת רפואיות
+- Medical Expert Opinions
 
-- ייעוץ מוכנות לחירום ואסונות
+- Emergency & Disaster Preparedness Consulting
 
 - ייעוץ ברפואת חירום
 
@@ -2649,7 +2649,7 @@ Description: ד&quot;ר ערן טל-אור — רופא, מומחה משפטי �
 
 - 0506267434
 
-- האלון 101, מסד, 1499000, ישראל
+- HaAlon 101, Masad, 1499000, Israel
 
 
 
@@ -2657,7 +2657,7 @@ Description: ד&quot;ר ערן טל-אור — רופא, מומחה משפטי �
 
 
 
-### מומחיות
+### Expertise
 
 
 
@@ -2670,7 +2670,7 @@ Description: ד&quot;ר ערן טל-אור — רופא, מומחה משפטי �
 רפואת חרום
 
 
-לתיאום ייעוץ
+Schedule a Consultation
 
 
 
@@ -2682,16 +2682,16 @@ Description: ד&quot;ר ערן טל-אור — רופא, מומחה משפטי �
 
 
 
-© 2026 Eran Talor MD. כל הזכויות שמורות.
+© 2026 Eran Talor MD. All rights reserved.
 
 
-מדיניות פרטיות
+Privacy Policy
 |
-תנאי שימוש
+Terms of Use
 |
-נגישות
+Accessibility
 |
-נוצר באמצעות Zappy
+Created with Zappy
 
 ---
 
@@ -2730,17 +2730,17 @@ Description: מדיניות הפרטיות שלנו - כיצד אנו אוספי
 
 
 
-- חוות דעת רפואיות
-- ייעוץ מוכנות לחירום ואסונות
-- ייעוץ ברפואת חירום
-- יצירת קשר
+- Medical Expert Opinions
+- Emergency & Disaster Preparedness Consulting
+- Emergency Medicine Consulting
+- Contact
 - Connect
 
 
 
 
 
-מי אני
+Who I Am
 
 
 
@@ -2877,7 +2877,7 @@ Eran Talor MD ("החברה", "אנו", "שלנו") מחויבת להגן על פ
 
 
 
-ד"ר ערן טלור — מומחה ברפואת חירום, חוות דעת רפואיות ומשפטיות, וייעוץ מוכנות לאסונות.
+Dr. Eran Talor — specialist in emergency medicine, medical and legal expert opinions, and disaster preparedness consulting.
 
 
 
@@ -2892,12 +2892,12 @@ Eran Talor MD ("החברה", "אנו", "שלנו") מחויבת להגן על פ
 
 
 
-### תחומי פעילות
+### Areas of Practice
 
 
-- חוות דעת רפואיות
+- Medical Expert Opinions
 
-- ייעוץ מוכנות לחירום ואסונות
+- Emergency & Disaster Preparedness Consulting
 
 - ייעוץ ברפואת חירום
 
@@ -2916,7 +2916,7 @@ Eran Talor MD ("החברה", "אנו", "שלנו") מחויבת להגן על פ
 
 - 0506267434
 
-- האלון 101, מסד, 1499000, ישראל
+- HaAlon 101, Masad, 1499000, Israel
 
 
 
@@ -2924,7 +2924,7 @@ Eran Talor MD ("החברה", "אנו", "שלנו") מחויבת להגן על פ
 
 
 
-### מומחיות
+### Expertise
 
 
 
@@ -2937,7 +2937,7 @@ Eran Talor MD ("החברה", "אנו", "שלנו") מחויבת להגן על פ
 רפואת חרום
 
 
-לתיאום ייעוץ
+Schedule a Consultation
 
 
 
@@ -2949,16 +2949,16 @@ Eran Talor MD ("החברה", "אנו", "שלנו") מחויבת להגן על פ
 
 
 
-© 2026 Eran Talor MD. כל הזכויות שמורות.
+© 2026 Eran Talor MD. All rights reserved.
 
 
-מדיניות פרטיות
+Privacy Policy
 |
-תנאי שימוש
+Terms of Use
 |
-נגישות
+Accessibility
 |
-נוצר באמצעות Zappy
+Created with Zappy
 
 ---
 
@@ -2997,17 +2997,17 @@ Description: הצהרת הנגישות שלנו - מחויבותנו לנגיש�
 
 
 
-- חוות דעת רפואיות
-- ייעוץ מוכנות לחירום ואסונות
-- ייעוץ ברפואת חירום
-- יצירת קשר
+- Medical Expert Opinions
+- Emergency & Disaster Preparedness Consulting
+- Emergency Medicine Consulting
+- Contact
 - Connect
 
 
 
 
 
-מי אני
+Who I Am
 
 
 
@@ -3153,7 +3153,7 @@ Eran Talor MD מחויבת להנגיש את השירותים לכלל הציב�
 
 
 
-ד"ר ערן טלור — מומחה ברפואת חירום, חוות דעת רפואיות ומשפטיות, וייעוץ מוכנות לאסונות.
+Dr. Eran Talor — specialist in emergency medicine, medical and legal expert opinions, and disaster preparedness consulting.
 
 
 
@@ -3168,12 +3168,12 @@ Eran Talor MD מחויבת להנגיש את השירותים לכלל הציב�
 
 
 
-### תחומי פעילות
+### Areas of Practice
 
 
-- חוות דעת רפואיות
+- Medical Expert Opinions
 
-- ייעוץ מוכנות לחירום ואסונות
+- Emergency & Disaster Preparedness Consulting
 
 - ייעוץ ברפואת חירום
 
@@ -3192,7 +3192,7 @@ Eran Talor MD מחויבת להנגיש את השירותים לכלל הציב�
 
 - 0506267434
 
-- האלון 101, מסד, 1499000, ישראל
+- HaAlon 101, Masad, 1499000, Israel
 
 
 
@@ -3200,7 +3200,7 @@ Eran Talor MD מחויבת להנגיש את השירותים לכלל הציב�
 
 
 
-### מומחיות
+### Expertise
 
 
 
@@ -3213,7 +3213,7 @@ Eran Talor MD מחויבת להנגיש את השירותים לכלל הציב�
 רפואת חרום
 
 
-לתיאום ייעוץ
+Schedule a Consultation
 
 
 
@@ -3225,16 +3225,16 @@ Eran Talor MD מחויבת להנגיש את השירותים לכלל הציב�
 
 
 
-© 2026 Eran Talor MD. כל הזכויות שמורות.
+© 2026 Eran Talor MD. All rights reserved.
 
 
-מדיניות פרטיות
+Privacy Policy
 |
-תנאי שימוש
+Terms of Use
 |
-נגישות
+Accessibility
 |
-נוצר באמצעות Zappy
+Created with Zappy
 
 ---
 
@@ -3273,17 +3273,17 @@ Description: תנאי השימוש באתר - הזכויות והחובות של
 
 
 
-- חוות דעת רפואיות
-- ייעוץ מוכנות לחירום ואסונות
-- ייעוץ ברפואת חירום
-- יצירת קשר
+- Medical Expert Opinions
+- Emergency & Disaster Preparedness Consulting
+- Emergency Medicine Consulting
+- Contact
 - Connect
 
 
 
 
 
-מי אני
+Who I Am
 
 
 
@@ -3448,7 +3448,7 @@ Eran Talor MD מספקת רפואה ומשפט - חוות דעת מומחה ור
 
 
 
-ד"ר ערן טלור — מומחה ברפואת חירום, חוות דעת רפואיות ומשפטיות, וייעוץ מוכנות לאסונות.
+Dr. Eran Talor — specialist in emergency medicine, medical and legal expert opinions, and disaster preparedness consulting.
 
 
 
@@ -3463,12 +3463,12 @@ Eran Talor MD מספקת רפואה ומשפט - חוות דעת מומחה ור
 
 
 
-### תחומי פעילות
+### Areas of Practice
 
 
-- חוות דעת רפואיות
+- Medical Expert Opinions
 
-- ייעוץ מוכנות לחירום ואסונות
+- Emergency & Disaster Preparedness Consulting
 
 - ייעוץ ברפואת חירום
 
@@ -3487,7 +3487,7 @@ Eran Talor MD מספקת רפואה ומשפט - חוות דעת מומחה ור
 
 - 0506267434
 
-- האלון 101, מסד, 1499000, ישראל
+- HaAlon 101, Masad, 1499000, Israel
 
 
 
@@ -3495,7 +3495,7 @@ Eran Talor MD מספקת רפואה ומשפט - חוות דעת מומחה ור
 
 
 
-### מומחיות
+### Expertise
 
 
 
@@ -3508,7 +3508,7 @@ Eran Talor MD מספקת רפואה ומשפט - חוות דעת מומחה ור
 רפואת חרום
 
 
-לתיאום ייעוץ
+Schedule a Consultation
 
 
 
@@ -3520,16 +3520,16 @@ Eran Talor MD מספקת רפואה ומשפט - חוות דעת מומחה ור
 
 
 
-© 2026 Eran Talor MD. כל הזכויות שמורות.
+© 2026 Eran Talor MD. All rights reserved.
 
 
-מדיניות פרטיות
+Privacy Policy
 |
-תנאי שימוש
+Terms of Use
 |
-נגישות
+Accessibility
 |
-נוצר באמצעות Zappy
+Created with Zappy
 
 ---
 
@@ -3600,17 +3600,17 @@ Description: ד"ר ערן טל-אור - יצירת קשר
 
 
 
-- חוות דעת רפואיות
-- ייעוץ מוכנות לחירום ואסונות
-- ייעוץ ברפואת חירום
-- יצירת קשר
+- Medical Expert Opinions
+- Emergency & Disaster Preparedness Consulting
+- Emergency Medicine Consulting
+- Contact
 - Connect
 
 
 
 
 
-מי אני
+Who I Am
 
 
 
@@ -3944,7 +3944,7 @@ work@tal-or.co.il
 
 
 
-ד"ר ערן טלור — מומחה ברפואת חירום, חוות דעת רפואיות ומשפטיות, וייעוץ מוכנות לאסונות.
+Dr. Eran Talor — specialist in emergency medicine, medical and legal expert opinions, and disaster preparedness consulting.
 
 
 
@@ -3959,12 +3959,12 @@ work@tal-or.co.il
 
 
 
-### תחומי פעילות
+### Areas of Practice
 
 
-- חוות דעת רפואיות
+- Medical Expert Opinions
 
-- ייעוץ מוכנות לחירום ואסונות
+- Emergency & Disaster Preparedness Consulting
 
 - ייעוץ ברפואת חירום
 
@@ -3983,7 +3983,7 @@ work@tal-or.co.il
 
 - 0506267434
 
-- האלון 101, מסד, 1499000, ישראל
+- HaAlon 101, Masad, 1499000, Israel
 
 
 
@@ -3991,7 +3991,7 @@ work@tal-or.co.il
 
 
 
-### מומחיות
+### Expertise
 
 
 
@@ -4004,7 +4004,7 @@ work@tal-or.co.il
 רפואת חרום
 
 
-לתיאום ייעוץ
+Schedule a Consultation
 
 
 
@@ -4016,16 +4016,16 @@ work@tal-or.co.il
 
 
 
-© 2026 Eran Talor MD. כל הזכויות שמורות.
+© 2026 Eran Talor MD. All rights reserved.
 
 
-מדיניות פרטיות
+Privacy Policy
 |
-תנאי שימוש
+Terms of Use
 |
-נגישות
+Accessibility
 |
-נוצר באמצעות Zappy
+Created with Zappy
 
 ---
 
@@ -4096,17 +4096,17 @@ Get Connected
 
 
 
-- חוות דעת רפואיות
-- ייעוץ מוכנות לחירום ואסונות
-- ייעוץ ברפואת חירום
-- יצירת קשר
+- Medical Expert Opinions
+- Emergency & Disaster Preparedness Consulting
+- Emergency Medicine Consulting
+- Contact
 - Connect
 
 
 
 
 
-מי אני
+Who I Am
 
 
 
@@ -4463,7 +4463,7 @@ Send Inquiry
 
 
 
-ד"ר ערן טלור — מומחה ברפואת חירום, חוות דעת רפואיות ומשפטיות, וייעוץ מוכנות לאסונות.
+Dr. Eran Talor — specialist in emergency medicine, medical and legal expert opinions, and disaster preparedness consulting.
 
 
 
@@ -4478,12 +4478,12 @@ Send Inquiry
 
 
 
-### תחומי פעילות
+### Areas of Practice
 
 
-- חוות דעת רפואיות
+- Medical Expert Opinions
 
-- ייעוץ מוכנות לחירום ואסונות
+- Emergency & Disaster Preparedness Consulting
 
 - ייעוץ ברפואת חירום
 
@@ -4502,7 +4502,7 @@ Send Inquiry
 
 - 0506267434
 
-- האלון 101, מסד, 1499000, ישראל
+- HaAlon 101, Masad, 1499000, Israel
 
 
 
@@ -4510,7 +4510,7 @@ Send Inquiry
 
 
 
-### מומחיות
+### Expertise
 
 
 
@@ -4523,7 +4523,7 @@ Send Inquiry
 רפואת חרום
 
 
-לתיאום ייעוץ
+Schedule a Consultation
 
 
 
@@ -4535,16 +4535,16 @@ Send Inquiry
 
 
 
-© 2026 Eran Talor MD. כל הזכויות שמורות.
+© 2026 Eran Talor MD. All rights reserved.
 
 
-מדיניות פרטיות
+Privacy Policy
 |
-תנאי שימוש
+Terms of Use
 |
-נגישות
+Accessibility
 |
-נוצר באמצעות Zappy
+Created with Zappy
 
 ---
 
